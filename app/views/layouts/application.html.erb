@@ -13,6 +13,8 @@
 
   <body>
     <main class="container mx-auto mt-28 px-5 flex">
+      <%= render 'shared/alert' %>
+      <%= render 'shared/nav' unless devise_controller? %>
       <%= yield %>
     </main>
   </body>
