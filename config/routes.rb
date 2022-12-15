@@ -3,5 +3,5 @@ Rails.application.routes.draw do
 
   root "posts#index"
 
-  resources :posts
+  resources :posts, except: %i[new edit]
 end
