@@ -26,5 +26,6 @@ class User < ApplicationRecord
 
   has_many :posts
 
-  validates :username, presence: true, uniqueness: true, length: { in: 3..15 }
+  validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..15 }
+  validates :email, presence: true, uniqueness: { case_sensitive: false }
 end
