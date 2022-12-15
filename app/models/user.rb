@@ -25,7 +25,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :posts, dependent: :destroy
+  has_many :friendships, dependent: :destroy
+  has_many :friends, through: :friendships
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..50 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
+
 end
