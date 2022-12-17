@@ -3,7 +3,7 @@
 # Table name: friendships
 #
 #  id         :bigint           not null, primary key
-#  status     :integer          default("pending")
+#  status     :integer          default("pending"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  friend_id  :bigint           not null
@@ -12,8 +12,8 @@
 # Indexes
 #
 #  index_friendships_on_friend_id              (friend_id)
+#  index_friendships_on_friend_id_and_user_id  (friend_id,user_id) UNIQUE
 #  index_friendships_on_user_id                (user_id)
-#  index_friendships_on_user_id_and_friend_id  (user_id,friend_id) UNIQUE
 #
 # Foreign Keys
 #

@@ -25,10 +25,15 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :posts, dependent: :destroy
+
   has_many :friendships, dependent: :destroy
-  has_many :friends, through: :friendships
+  has_many :friends, -> { where(friendships: { status: :accepted }) },
+            through: :friendships,
+            source: :friend
+  has_many :pending_friends, -> { where(friendships: { status: :pending }) },
+            through: :friendships,
+            source: :friend
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..50 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
-
 end
