@@ -1,9 +1,8 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_post, only: %i[destroy update]
 
   def index
-    @feed = current_user.posts
+    @feed = current_user.feed
     @post = current_user.posts.build
   end
 

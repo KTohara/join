@@ -24,8 +24,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :posts, dependent: :destroy
-
+  # FRIENDSHIPS
   has_many :friendships, dependent: :destroy
   has_many :friends, -> { Friendship.accepted },
             through: :friendships,
@@ -34,6 +33,16 @@ class User < ApplicationRecord
             through: :friendships,
             source: :friend
 
+  # POSTS
+  has_many :posts, dependent: :destroy
+  has_many :friends_posts, through: :friends, source: :posts
+
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..50 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
+
+  scope :query, -> search { where('LOWER(username) LIKE ?', "%#{search.downcase}%") }
+
+  def feed
+    friends_posts.or(posts).distinct.order(created_at: :desc)
+  end
 end

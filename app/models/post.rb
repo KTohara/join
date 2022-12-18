@@ -20,4 +20,8 @@ class Post < ApplicationRecord
   belongs_to :user
 
   validates :body, presence: true, length: { maximum: 15_000 }
+
+  def formatted_date
+    created_at.strftime('%B %e')
+  end
 end

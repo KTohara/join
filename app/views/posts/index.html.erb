@@ -1,4 +1,4 @@
-<h1>Post#index</h1>
+<h1>What's on your mind, <%= current_user.username %>?</h1>
 
 <div>
   <%= form_with model: @post do |f| %>
@@ -15,6 +15,11 @@
   <% unless @feed.empty? %>
     <% @feed.each do |post| %>
       <div class="border mt-2" id=<%= dom_id post %>>
+        <span>(Placeholder) React</span>
+        <span>Comment</span>
+        <hr>
+        <%= link_to post.user.username, post.user %>
+        <p><%= post.formatted_date %></p>
         <p><%= post.body %></p>
       </div>
     <% end %>

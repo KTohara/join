@@ -1,0 +1,6 @@
+<div>
+  <%= form_with url: users_path, method: :get do |f| %>
+    <%= f.text_field :query, placeholder: 'Search Users' %>
+    <%= f.submit 'Search' %>
+  <% end %>
+</div>

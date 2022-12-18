@@ -1,0 +1,11 @@
+<h1>Search People</h1>
+
+<%= render 'search' %>
+
+<div>
+  <% @users.each do |user| %>
+    <div class="flex flex-col">
+      <%= link_to user.username, user %>
+    </div>
+  <% end %>
+</div>
