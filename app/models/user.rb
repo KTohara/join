@@ -27,10 +27,10 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
 
   has_many :friendships, dependent: :destroy
-  has_many :friends, -> { where(friendships: { status: :accepted }) },
+  has_many :friends, -> { Friendship.accepted },
             through: :friendships,
             source: :friend
-  has_many :pending_friends, -> { where(friendships: { status: :pending }) },
+  has_many :pending_friends, -> { Friendship.pending },
             through: :friendships,
             source: :friend
 

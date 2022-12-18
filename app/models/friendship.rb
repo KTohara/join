@@ -23,7 +23,7 @@
 class Friendship < ApplicationRecord
   after_create :create_inverse_friendship, if: :persisted?
   after_destroy :destroy_inverse_friendship, if: :destroyed?
-  after_update :update_inverse_status, if: :will_save_change_to_status?
+  after_update :update_inverse_status
 
   enum status: {
     pending: 0,
@@ -34,7 +34,7 @@ class Friendship < ApplicationRecord
   belongs_to :friend, class_name: 'User'
 
   validates :user, presence: true
-  validates :friend, presence: true, uniqueness: { scope: :user }
+  validates :friend, presence: true, uniqueness: { scope: :user_id }
 
   scope :accepted, -> { where(status: :accepted) }
   scope :pending, -> { where(status: :pending) }

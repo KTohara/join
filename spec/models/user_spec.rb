@@ -32,6 +32,7 @@ RSpec.describe User, type: :model do
   describe 'associations' do
     it { should have_many(:posts).dependent(:destroy) }
     it { should have_many(:friendships).dependent(:destroy) }
-    it { should have_many(:friends).through(:friendships) }
+    it { should have_many(:friends).through(:friendships).conditions(status: :accepted) }
+    it { should have_many(:pending_friends).through(:friendships).conditions(status: :pending) }
   end
 end

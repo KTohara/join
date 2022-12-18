@@ -23,7 +23,7 @@
 FactoryBot.define do
   factory :friendship do
     status { 1 }
-    sender { nil }
-    recipient { nil }
+    friend { create(:user) }
+    user { create(:user) }
   end
 end
