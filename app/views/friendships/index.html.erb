@@ -1,0 +1,13 @@
+<h1>Friendship Requests</h1>
+<hr>
+<% @friendship_requests.each do |request| %>
+  <%= render 'friendship_request', user: request.friend %>
+<% end %>
+<br>
+<h1>Friends</h1>
+<hr>
+<div class="flex flex-col">
+  <% @friends.each do |friend| %>
+    <%= link_to friend.username, friend %>
+  <% end %>
+</div>

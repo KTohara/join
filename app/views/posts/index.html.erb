@@ -11,19 +11,4 @@
   <% end %>
 </div>
 
-<div class="flex flex-col">
-  <% unless @feed.empty? %>
-    <% @feed.each do |post| %>
-      <div class="border mt-2" id=<%= dom_id post %>>
-        <span>(Placeholder) React</span>
-        <span>Comment</span>
-        <hr>
-        <%= link_to post.user.username, post.user %>
-        <p><%= post.formatted_date %></p>
-        <p><%= post.body %></p>
-      </div>
-    <% end %>
-  <% else %>
-    <p><%= current_user.username %>, you have no posts yet!</p>
-  <% end %>
-</div>
+<%= render 'posts', feed: @feed %>
