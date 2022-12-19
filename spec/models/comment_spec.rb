@@ -6,7 +6,7 @@
 #  body       :text             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  parent_id  :bigint           not null
+#  parent_id  :bigint
 #  post_id    :bigint           not null
 #  user_id    :bigint           not null
 #
@@ -25,5 +25,16 @@
 require 'rails_helper'
 
 RSpec.describe Comment, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'associations' do
+    it { should belong_to(:user) }
+    it { should belong_to(:post) }
+    it { should belong_to(:parent).class_name('Comment').optional(true) }
+
+    it { should have_many(:comments).with_foreign_key(:parent_id).dependent(:destroy) }
+  end
+
+  describe 'validations' do
+    it { should validate_presence_of(:body) }
+    it { should validate_length_of(:body).is_at_most(8_000) }
+  end
 end

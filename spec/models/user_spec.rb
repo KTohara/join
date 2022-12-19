@@ -41,4 +41,8 @@ RSpec.describe User, type: :model do
     it { should have_many(:friends).through(:friendships).conditions(status: :accepted).source(:friend) }
     it { should have_many(:pending_friends).through(:friendships).conditions(status: [:sent, :received]).source(:friend) }
   end
+
+  describe 'comment associations' do
+    it { should have_many(:comments).dependent(:destroy) }
+  end
 end

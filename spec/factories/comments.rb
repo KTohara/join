@@ -6,7 +6,7 @@
 #  body       :text             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  parent_id  :bigint           not null
+#  parent_id  :bigint
 #  post_id    :bigint           not null
 #  user_id    :bigint           not null
 #

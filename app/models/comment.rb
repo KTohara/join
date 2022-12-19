@@ -6,7 +6,7 @@
 #  body       :text             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  parent_id  :bigint           not null
+#  parent_id  :bigint
 #  post_id    :bigint           not null
 #  user_id    :bigint           not null
 #
@@ -29,5 +29,5 @@ class Comment < ApplicationRecord
 
   has_many :comments, foreign_key: :parent_id, dependent: :destroy
 
-  validates :content, presence: true, length: { maximum: 8_000 }
+  validates :body, presence: true, length: { maximum: 8_000 }
 end

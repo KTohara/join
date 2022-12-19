@@ -18,7 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_19_204036) do
     t.text "body", null: false
     t.bigint "user_id", null: false
     t.bigint "post_id", null: false
-    t.bigint "parent_id", null: false
+    t.bigint "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["parent_id"], name: "index_comments_on_parent_id"
