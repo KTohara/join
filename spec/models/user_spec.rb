@@ -29,10 +29,16 @@ RSpec.describe User, type: :model do
     it { should validate_uniqueness_of(:email).case_insensitive }
   end
 
-  describe 'associations' do
+  describe 'post associations' do
     it { should have_many(:posts).dependent(:destroy) }
+    it { should have_many(:friends_posts).through(:friends).source(:posts) }
+  end
+
+  describe 'friend associations' do
     it { should have_many(:friendships).dependent(:destroy) }
-    it { should have_many(:friends).through(:friendships).conditions(status: :accepted) }
-    it { should have_many(:pending_friends).through(:friendships).conditions(status: :pending) }
+    it { should have_many(:pending_requests).class_name('Friendship') }
+
+    it { should have_many(:friends).through(:friendships).conditions(status: :accepted).source(:friend) }
+    it { should have_many(:pending_friends).through(:friendships).conditions(status: [:sent, :received]).source(:friend) }
   end
 end

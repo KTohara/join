@@ -1,4 +1,8 @@
 class FriendshipsController < ApplicationController
+  def index
+    @friendships = current_user.pending_requests
+  end
+
   def create
     @friendship = current_user.friendships.build(friendship_params)
     return unless @friendship.save

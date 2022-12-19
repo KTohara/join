@@ -26,7 +26,8 @@ class User < ApplicationRecord
 
   # FRIENDSHIPS
   has_many :friendships, dependent: :destroy
-  has_many :pending_requests, -> { Friendship.pending }
+  has_many :pending_requests, -> { Friendship.pending },
+            class_name: 'Friendship'
 
   # FRIENDS
   has_many :friends, -> { Friendship.accepted },

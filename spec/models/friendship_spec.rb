@@ -37,7 +37,7 @@ RSpec.describe Friendship, type: :model do
   end
 
   describe 'enum' do
-    let!(:statuses) { { pending: 0, accepted: 1 } } 
+    let!(:statuses) { { sent: 0, received: 1, accepted: 2 } } 
     it { should define_enum_for(:status).with_values(statuses) }
   end
 

@@ -7,6 +7,13 @@ RSpec.describe "routing", type: :routing do
     end
   end
 
+  describe 'users' do
+    it 'correctly routes all user resources' do
+      expect(get: 'users').to route_to(controller: 'users', action: 'index')
+      expect(get: 'users/1').to route_to(controller: 'users', action: 'show', id: '1')
+    end
+  end
+
   describe 'posts' do
     it 'correctly routes all post resources' do
       expect(get: 'posts').to route_to(controller: 'posts', action: 'index')
@@ -14,6 +21,16 @@ RSpec.describe "routing", type: :routing do
       expect(put: 'posts/1').to route_to(controller: 'posts', action: 'update', id: '1')
       expect(patch: 'posts/1').to route_to(controller: 'posts', action: 'update', id: '1')
       expect(delete: 'posts/1').to route_to(controller: 'posts', action: 'destroy', id: '1')
+    end
+  end
+
+  describe 'friendships' do
+    it 'correctly routes all friendship resources' do
+      expect(get: 'friendships').to route_to(controller: 'friendships', action: 'index')
+      expect(post: 'friendships').to route_to(controller: 'friendships', action: 'create')
+      expect(put: 'friendships/1').to route_to(controller: 'friendships', action: 'update', id: '1')
+      expect(patch: 'friendships/1').to route_to(controller: 'friendships', action: 'update', id: '1')
+      expect(delete: 'friendships/1').to route_to(controller: 'friendships', action: 'destroy', id: '1')
     end
   end
 end
