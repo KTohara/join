@@ -26,6 +26,9 @@ class User < ApplicationRecord
 
   # FRIENDSHIPS
   has_many :friendships, dependent: :destroy
+  has_many :pending_requests, -> { Friendship.pending }
+
+  # FRIENDS
   has_many :friends, -> { Friendship.accepted },
             through: :friendships,
             source: :friend
@@ -44,5 +47,16 @@ class User < ApplicationRecord
 
   def feed
     friends_posts.or(posts).distinct.order(created_at: :desc)
+  end
+
+  def friendship_status(other_user)
+    friendship = find_friendship(other_user)
+    return if friendship.nil?
+
+    friendship.status
+  end
+
+  def find_friendship(other_user)
+    friendships.find_by(friend: other_user)
   end
 end

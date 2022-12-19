@@ -5,6 +5,9 @@
         <%= link_to 'join', root_path %>
       </div>
       <div>
+        <%= link_to "Welcome #{current_user.username}", user_path(current_user) %>
+      </div>
+      <div>
         <%= link_to 'Search People', users_path %>
       </div>
     </div>

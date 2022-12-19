@@ -4,8 +4,9 @@
 
 <div>
   <% @users.each do |user| %>
-    <div class="flex flex-col">
+    <div class="flex gap-x-2">
       <%= link_to user.username, user %>
+      <%= render 'friendships/friendship_request', user: user %>
     </div>
   <% end %>
 </div>

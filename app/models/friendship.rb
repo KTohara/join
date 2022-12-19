@@ -26,8 +26,9 @@ class Friendship < ApplicationRecord
   after_update :update_inverse_status
 
   enum status: {
-    pending: 0,
-    accepted: 1
+    sent: 0,
+    received: 1,
+    accepted: 2
   }
 
   belongs_to :user
@@ -37,10 +38,10 @@ class Friendship < ApplicationRecord
   validates :friend, presence: true, uniqueness: { scope: :user_id }
 
   scope :accepted, -> { where(status: :accepted) }
-  scope :pending, -> { where(status: :pending) }
+  scope :pending, -> { where(status: [:sent, :received]) }
 
   def create_inverse_friendship
-    friend.friendships.create(friend: user)
+    friend.friendships.create(friend: user, status: :received)
   end
 
   def destroy_inverse_friendship

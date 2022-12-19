@@ -1,14 +1,14 @@
 class UsersController < ApplicationController
   def index
+    @users = User.where.not(id: current_user.id)
     if params[:query]
-      @users = User.query(params[:query])
+      @users = @users.query(params[:query])
     else
-      @users = User.all
+      @users
     end
   end
 
   def show
     @user = User.find(params[:id])
   end
-
 end

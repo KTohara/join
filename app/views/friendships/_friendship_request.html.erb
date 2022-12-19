@@ -1,0 +1,12 @@
+<% status = current_user.friendship_status(user) %>
+<% if status == 'accepted' %>
+  <span>(placeholder) Message</span>
+  <%= button_to 'Remove Friend', friendship_path(user), method: :delete, data: { turbo_confirm: 'Are you sure?' } %>
+<% elsif status == 'sent' %>
+  <%= button_to 'Cancel Request', friendship_path(user), params: { request: :cancel }, method: :delete %>
+<% elsif status == 'received' %>
+  <%= button_to 'Accept', friendship_path(user), params: { friendship: { friend_id: user.id, status: :accepted } }, method: :patch %>
+  <%= button_to 'Decline', friendship_path(user), method: :delete, data: { turbo_confirm: 'Are you sure?' } %>
+<% else %>
+  <%= button_to 'Add Friend', friendships_path, params: { friendship: { friend_id: user.id } }, method: :post %>
+<% end %>
