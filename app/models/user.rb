@@ -24,12 +24,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  # FRIENDSHIPS
+  # Friendships
   has_many :friendships, dependent: :destroy
-  has_many :pending_requests, -> { Friendship.pending },
-            class_name: 'Friendship'
+  has_many :pending_requests, -> { Friendship.pending }, class_name: 'Friendship'
 
-  # FRIENDS
+  # Friends
   has_many :friends, -> { Friendship.accepted },
             through: :friendships,
             source: :friend
@@ -37,9 +36,12 @@ class User < ApplicationRecord
             through: :friendships,
             source: :friend
 
-  # POSTS
+  # Posts
   has_many :posts, dependent: :destroy
   has_many :friends_posts, through: :friends, source: :posts
+
+  # Comments
+  has_many :comments, dependent: :destroy
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..50 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
