@@ -1,14 +1,4 @@
 <h1>What's on your mind, <%= current_user.username %>?</h1>
 
-<div>
-  <%= form_with model: @post do |f| %>
-    <div>
-      <%= f.text_field :body %>
-    </div>
-    <div>
-      <%= f.submit %>
-    </div>
-  <% end %>
-</div>
-
+<%= render 'post_form', post: @post %>
 <%= render 'posts', feed: @feed %>

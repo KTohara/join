@@ -5,12 +5,22 @@
       <p><%= post.formatted_date %></p>
       <p><%= post.body %></p>
       <hr>
-      <span>(PH) React</span>
-      <span>Reply</span>
-      <span>Delete</span>
+      <div class="flex gap-x-2">
+        <div>
+          <i class="far fa-thumbs-up"></i>
+        </div>
+        <div>
+          <i class="far fa-pen-to-square"></i>
+        </div>
+        <div>
+          <%= button_to post, method: :delete do %>
+            <i class="far fa-trash-can"></i>
+          <% end %>
+        </div>
+      </div>
       <hr>
-      <span><%= pluralize(post.comments.count + post.comments.map(&:comments).count, 'Comment') %></span>
-      <%= render 'comments/comments', comments: post.comments.includes([:user, :comments]) %>
+      <span><%= pluralize(post.comments.count, 'Comment') %></span>
+      <%= render 'comments/comments', comments: post.comments.includes([:user, :commentable]) %>
       <%= render 'comments/comment_form', commentable: post, comment: Comment.new %>
     </div>
   <% end %>

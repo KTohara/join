@@ -1,6 +1,6 @@
 <%= form_with model: [commentable, comment] do |f| %>
   <div>
-    <%= f.text_area :body, placeholder: 'Add comment...' %>
+    <%= f.text_field :body, placeholder: 'Add comment...' %>
   </div>
   <div>
     <%= f.submit 'Add Comment'%>

@@ -5,10 +5,17 @@
   </div>
   <hr>
   <div>
-    <span>(PH) React</span>
-    <span>Reply</span>
-    <span>Edit</span>
-    <span>Delete</span>
+    <div>
+      <i class="far fa-thumbs-up"></i>
+    </div>
+
+    <%= render 'comments/comment_form', commentable: comment, comment: Comment.new %>
+    <div>
+      <i class="far fa-pen-to-square"></i>
+    </div>
+    <%= button_to post_comment_path(comment.commentable, comment), method: :delete do %>
+      <i class="far fa-trash-can"></i>
+    <% end %>
   </div>
   <hr>
 </div>

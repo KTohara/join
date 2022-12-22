@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :set_commentable, only: %i[new create update destroy]
+  before_action :set_commentable, only: %i[new create update]
 
   def new
     @comment = @commentable.comments.build(comment_params)
@@ -21,7 +21,9 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-
+    @comment = Comment.find(params[:id])
+    @comment.destroy
+    redirect_to posts_url, notice: 'Comment deleted'
   end
 
   private
@@ -38,6 +40,7 @@ class CommentsController < ApplicationController
     end
 
     def set_comment
-      Comment.find(params[:comment_id])
+      comment = Comment.find(params[:comment_id])
+      comment.commentable_type == 'Comment' ? comment.commentable : comment
     end
 end

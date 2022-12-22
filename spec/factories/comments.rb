@@ -12,12 +12,11 @@
 #
 # Indexes
 #
-#  index_comments_on_commentable_id  (commentable_id)
-#  index_comments_on_user_id         (user_id)
+#  index_comments_on_commentable_type_and_commentable_id  (commentable_type,commentable_id)
+#  index_comments_on_user_id                              (user_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (commentable_id => comments.id)
 #  fk_rails_...  (user_id => users.id)
 #
 FactoryBot.define do
