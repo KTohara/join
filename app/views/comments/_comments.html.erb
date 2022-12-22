@@ -1,0 +1,11 @@
+<div>
+  <% comments.each do |comment| %>
+    <%= render 'comments/comment', comment: comment %>
+
+    <% if comment.comments.exists? %>
+      <div class="ml-5">
+        <%= render 'comments/comments', comments: comment.comments %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

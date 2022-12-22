@@ -49,7 +49,7 @@ class User < ApplicationRecord
   scope :query, -> search { where('LOWER(username) LIKE ?', "%#{search.downcase}%") }
 
   def feed
-    friends_posts.or(posts).distinct.order(created_at: :desc)
+    friends_posts.or(posts).includes(:user).distinct.order(created_at: :desc)
   end
 
   def friendship_status(other_user)

@@ -1,8 +1,12 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[destroy update]
+  before_action :set_post, only: %i[edit update destroy]
 
   def index
     @feed = current_user.feed
+    @post = current_user.posts.build
+  end
+
+  def new
     @post = current_user.posts.build
   end
 
@@ -14,19 +18,26 @@ class PostsController < ApplicationController
     else
       @posts = current_user.posts
       flash.now[:alert] = 'Something went wrong with your post!'
-      render :index, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity
     end
+  end
+
+  def edit
   end
 
   def update
     if @post.update(post_params)
       redirect_to posts_url, status: :ok
+    else
+      @posts = current_user.posts
+      flash.now[:alert] = 'Something went wrong with your post!'
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @post.destroy
-    redirect_to posts_url, status: :ok
+    redirect_to posts_url, status: :ok, notice: 'Post deleted'
   end
 
   private

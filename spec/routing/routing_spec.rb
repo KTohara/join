@@ -40,7 +40,6 @@ RSpec.describe "routing", type: :routing do
       expect(patch: 'posts/1/comments/1').to route_to(controller: 'comments', action: 'update', post_id: '1', id: '1')
       expect(put: 'posts/1/comments/1').to route_to(controller: 'comments', action: 'update', post_id: '1', id: '1')
       expect(delete: 'posts/1/comments/1').to route_to(controller: 'comments', action: 'destroy', post_id: '1', id: '1')
-
     end
   end
 end
