@@ -1,21 +1,28 @@
+<% nesting = local_assigns.fetch(:nesting, 1) %>
+<% max_nesting = local_assigns[:max_nesting] %>
+
 <div class="ml-5 mb-3">
   <div>
     <%= comment.user.username %> commented:
-    <%= comment.body %>
+    <%= simple_format(comment.body) %>
   </div>
   <hr>
   <div>
     <div>
       <i class="far fa-thumbs-up"></i>
     </div>
-
-    <%= render 'comments/comment_form', commentable: comment, comment: Comment.new %>
+    <%= render 'comments/form',
+      commentable: comment.commentable,
+      parent_id: find_parent_comment_id(comment, nesting, max_nesting),
+      target: 'reply.form'
+    %>
     <div>
       <i class="far fa-pen-to-square"></i>
     </div>
-    <%= button_to post_comment_path(comment.commentable, comment), method: :delete do %>
+    <%= button_to [comment.commentable, comment], method: :delete do %>
       <i class="far fa-trash-can"></i>
     <% end %>
   </div>
   <hr>
+  <%= render comment.comments, nesting: nesting + 1, max_nesting: local_assigns[:max_nesting] %>
 </div>

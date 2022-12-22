@@ -36,10 +36,10 @@ RSpec.describe "routing", type: :routing do
 
   describe 'comments' do
     it 'correctly routes all comment routes' do
-      expect(post: 'posts/1/comments').to route_to(controller: 'comments', action: 'create', post_id: '1')
-      expect(patch: 'posts/1/comments/1').to route_to(controller: 'comments', action: 'update', post_id: '1', id: '1')
-      expect(put: 'posts/1/comments/1').to route_to(controller: 'comments', action: 'update', post_id: '1', id: '1')
-      expect(delete: 'posts/1/comments/1').to route_to(controller: 'comments', action: 'destroy', post_id: '1', id: '1')
+      expect(post: 'posts/1/comments').to route_to(controller: 'posts/comments', action: 'create', post_id: '1')
+      expect(patch: 'posts/1/comments/1').to route_to(controller: 'posts/comments', action: 'update', post_id: '1', id: '1')
+      expect(put: 'posts/1/comments/1').to route_to(controller: 'posts/comments', action: 'update', post_id: '1', id: '1')
+      expect(delete: 'posts/1/comments/1').to route_to(controller: 'posts/comments', action: 'destroy', post_id: '1', id: '1')
     end
   end
 end

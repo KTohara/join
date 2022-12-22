@@ -1,0 +1,10 @@
+<%= form_with model: [commentable, Comment.new], local: true, html: { class: local_assigns[:class], data: { target: local_assigns[:target] } } do |f| %>
+  <%= f.hidden_field :parent_id, value: local_assigns[:parent_id] %>
+  <div>
+    <%= f.text_field :body, placeholder: 'Add comment...' %>
+  </div>
+  <div>
+    <i class='fas fa-circle-chevron-right'></i>
+    <%= f.submit 'Add Comment'%>
+  </div>
+<% end %>

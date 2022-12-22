@@ -1,4 +1,4 @@
 <h1>What's on your mind, <%= current_user.username %>?</h1>
 
-<%= render 'post_form', post: @post %>
-<%= render 'posts', feed: @feed %>
+<%= render 'posts/form', post: @post %>
+<%= render 'posts/posts', feed: @feed %>

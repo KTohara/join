@@ -19,9 +19,9 @@
         </div>
       </div>
       <hr>
-      <span><%= pluralize(post.comments.count, 'Comment') %></span>
-      <%= render 'comments/comments', comments: post.comments.includes([:user, :commentable]) %>
-      <%= render 'comments/comment_form', commentable: post, comment: Comment.new %>
+      <span><%= pluralize(post.comments.map(&:comments).count, 'Comment') %></span>
+      <%= render post.comments, max_nesting: 2 %>
+      <%= render 'comments/form', commentable: post %>
     </div>
   <% end %>
 </div>

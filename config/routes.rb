@@ -4,12 +4,9 @@ Rails.application.routes.draw do
   root 'posts#index'
 
   resources :posts do
-    resources :comments, only: %i[new create update destroy]
+    resources :comments, only: %i[create update destroy], module: :posts
   end
 
-  resources :comments do
-    resources :comments, only: %i[new create update destroy]
-  end
   resources :friendships, only: %i[index create update destroy]
   resources :users, only: %i[index show]
 end
