@@ -35,11 +35,11 @@ class PostsController < ApplicationController
 
   private
 
-    def post_params
-      params.require(:post).permit(:body)
-    end
+  def post_params
+    params.require(:post).permit(:body)
+  end
 
-    def set_post
-      @post = Post.find_by(id: params[:id])
-    end
+  def set_post
+    @post = Post.find_by(id: params[:id])
+  end
 end

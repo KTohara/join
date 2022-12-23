@@ -30,11 +30,11 @@ class User < ApplicationRecord
 
   # Friends
   has_many :friends, -> { Friendship.accepted },
-            through: :friendships,
-            source: :friend
+           through: :friendships,
+           source: :friend
   has_many :pending_friends, -> { Friendship.pending },
-            through: :friendships,
-            source: :friend
+           through: :friendships,
+           source: :friend
 
   # Posts
   has_many :posts, dependent: :destroy
@@ -46,7 +46,7 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..50 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
 
-  scope :query, -> search { where('LOWER(username) LIKE ?', "%#{search.downcase}%") }
+  scope :query, ->(search) { where('LOWER(username) LIKE ?', "%#{search.downcase}%") }
 
   def feed
     friends_posts.or(posts).includes([:user]).distinct.order(created_at: :desc)

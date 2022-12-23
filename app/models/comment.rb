@@ -42,13 +42,6 @@ class Comment < ApplicationRecord
 
   def decrement_count
     parent = commentable
-    parent.decrement!(:comment_count) unless parent.comment_count < 0
-  end
-
-  def counter_loop
-    parent = commentable
-    while parent.is_a?(Comment)
-      parent = parent.commentable
-    end
+    parent.decrement!(:comment_count) unless parent.comment_count.negative?
   end
 end

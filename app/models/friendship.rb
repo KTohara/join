@@ -38,7 +38,7 @@ class Friendship < ApplicationRecord
   validates :friend, presence: true, uniqueness: { scope: :user_id }
 
   scope :accepted, -> { where(status: :accepted) }
-  scope :pending, -> { where(status: [:sent, :received]) }
+  scope :pending, -> { where(status: %i[sent received]) }
 
   def create_inverse_friendship
     friend.friendships.create(friend: user, status: :received)
@@ -46,11 +46,11 @@ class Friendship < ApplicationRecord
 
   def destroy_inverse_friendship
     friendship = friend.friendships.find_by(friend: user)
-    friendship.destroy if friendship
+    friendship.&destroy
   end
 
   def update_inverse_status
     friendship = friend.friendships.find_by(friend: user)
-    friendship.update_column(:status, status) if friendship
+    friendship.&update_column(:status, status)
   end
 end

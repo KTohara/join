@@ -10,9 +10,7 @@ class CommentsController < ApplicationController
     end
   end
 
-  def update
-
-  end
+  def update; end
 
   def destroy
     @comment = @commentable.comments.find(params[:id])
@@ -22,7 +20,7 @@ class CommentsController < ApplicationController
 
   private
 
-    def comment_params
-      params.require(:comment).permit(:body, :parent_id)
-    end
+  def comment_params
+    params.require(:comment).permit(:body, :parent_id)
+  end
 end

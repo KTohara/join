@@ -8,7 +8,7 @@ class FriendshipsController < ApplicationController
     @friendship = current_user.friendships.build(friendship_params)
     return unless @friendship.save
 
-    flash[:notice] = "Friendship request sent"
+    flash[:notice] = 'Friendship request sent'
     redirect_back fallback_location: users_path
   end
 
@@ -30,7 +30,7 @@ class FriendshipsController < ApplicationController
 
   private
 
-    def friendship_params
-      params.require(:friendship).permit(:user_id, :friend_id, :status)
-    end
+  def friendship_params
+    params.require(:friendship).permit(:user_id, :friend_id, :status)
+  end
 end
