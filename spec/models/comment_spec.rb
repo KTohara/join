@@ -28,16 +28,7 @@ RSpec.describe Comment, type: :model do
     it { should belong_to(:user) }
     it { should belong_to(:commentable) }
     it { should belong_to(:parent).optional(true).class_name('Comment') }
-
-    let!(:user_one) { create(:user) }
-    let!(:user_two) { create(:user) }
-    let!(:post) { user_one.posts.create(body: 'a post!') }
-    let!(:comment) { post.comments.create(body: 'a comment!', user: user_two) }
-    let!(:comment_reply) { comment.comments.create(body: 'a reply to the comment!', user: user_one) }
-
-    it 'is expected to have many comments' do
-      expect(comment.comments).to include(comment_reply)
-    end
+    it { should have_many(:comments).class_name('Comment').with_foreign_key(:parent_id).dependent(:destroy) }
   end
 
   describe 'validations' do

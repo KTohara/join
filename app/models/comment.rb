@@ -25,15 +25,12 @@ class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :commentable, polymorphic: true
   belongs_to :parent, optional: true, class_name: 'Comment'
+  has_many :comments, class_name: 'Comment', foreign_key: :parent_id, dependent: :destroy
 
   validates :body, presence: true, length: { maximum: 8_000 }
 
   after_create :increment_count
   after_destroy :decrement_count
-
-  def comments
-    Comment.where(commentable: commentable, parent_id: id)
-  end
 
   def increment_count
     parent = commentable
