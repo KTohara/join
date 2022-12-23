@@ -25,7 +25,7 @@ class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :commentable, polymorphic: true
   belongs_to :parent, optional: true, class_name: 'Comment'
-  has_many :comments, -> { includes([:user, :commentable]) },
+  has_many :comments, -> { includes(%i[user commentable comments]) },
            class_name: 'Comment',
            foreign_key: :parent_id,
            dependent: :destroy

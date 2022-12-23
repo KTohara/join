@@ -20,11 +20,13 @@
 class Post < ApplicationRecord
   belongs_to :user
 
-  has_many :comments, -> { includes([:user, :commentable]) },
+  has_many :comments, -> { Post.parent_comments },
            as: :commentable,
            dependent: :destroy
 
   validates :body, presence: true, length: { maximum: 15_000 }
+
+  scope :parent_comments, -> { Comment.includes([:user, :comments]).where(parent: nil) }
 
   def formatted_date
     created_at.strftime('%B %e')

@@ -24,7 +24,7 @@
     <% end %>
   </div>
   <hr>
-  <%= render comment.comments.includes([:user, :commentable]),
+  <%= render comment.comments,
     nesting: nesting + 1,
     max_nesting: max_nesting
   %>
