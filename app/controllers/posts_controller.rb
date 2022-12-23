@@ -4,7 +4,6 @@ class PostsController < ApplicationController
   def index
     @feed = current_user.feed
     @post = current_user.posts.build
-    @comments = Comment.new
   end
 
   def create

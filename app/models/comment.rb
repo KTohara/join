@@ -28,7 +28,27 @@ class Comment < ApplicationRecord
 
   validates :body, presence: true, length: { maximum: 8_000 }
 
+  after_create :increment_count
+  after_destroy :decrement_count
+
   def comments
     Comment.where(commentable: commentable, parent_id: id)
+  end
+
+  def increment_count
+    parent = commentable
+    parent.increment!(:comment_count)
+  end
+
+  def decrement_count
+    parent = commentable
+    parent.decrement!(:comment_count) unless parent.comment_count < 0
+  end
+
+  def counter_loop
+    parent = commentable
+    while parent.is_a?(Comment)
+      parent = parent.commentable
+    end
   end
 end
