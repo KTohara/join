@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[update destroy]
 
   def index
-    @feed = current_user.feed
+    @posts = current_user.feed
     @post = current_user.posts.build
   end
 

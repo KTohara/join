@@ -22,6 +22,9 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Comment < ApplicationRecord
+  include ActionView::RecordIdentifier
+  include ActionView::Helpers
+
   belongs_to :user
   belongs_to :commentable, polymorphic: true
   belongs_to :parent, optional: true, class_name: 'Comment'
@@ -32,16 +35,43 @@ class Comment < ApplicationRecord
 
   validates :body, presence: true, length: { maximum: 8_000 }
 
-  after_create :increment_count
-  after_destroy :decrement_count
-
-  def increment_count
-    parent = commentable
-    parent.increment!(:comment_count)
+  after_create_commit do
+    broadcast_add_comment
+    increment_comment_count
   end
 
-  def decrement_count
+  after_destroy_commit do
+    broadcast_delete_comment
+    decrement_comment_count
+  end
+
+  private
+
+  def increment_comment_count
+    parent = commentable
+    parent.increment!(:comment_count)
+    broadcast_update_comment_count
+  end
+
+  def decrement_comment_count
     parent = commentable
     parent.decrement!(:comment_count) unless parent.comment_count.negative?
+    broadcast_update_comment_count
+  end
+
+  def broadcast_add_comment
+    broadcast_append_to(:parent_comments, target: "#{dom_id(commentable)}_comments")
+  end
+
+  def broadcast_delete_comment
+    broadcast_remove_to(self)
+  end
+
+  def broadcast_update_comment_count
+    broadcast_update_to(
+      :comment_count,
+      target: dom_id(commentable, :comment_count),
+      content: pluralize(commentable.comment_count, 'Comment')
+    )
   end
 end

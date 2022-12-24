@@ -1,5 +1,5 @@
 <div class="flex flex-col">
-  <% feed.each do |post| %>
+  <% posts.each do |post| %>
     <div class="border mt-2" id=<%= dom_id post %>>
       <%= link_to post.user.username, post.user %>
       <p><%= post.formatted_date %></p>
@@ -8,20 +8,37 @@
       <div class="flex gap-x-2">
         <div>
           <i class="far fa-thumbs-up"></i>
+          <span>Like</span>
         </div>
         <div>
-          <i class="far fa-pen-to-square"></i>
+          <i class="fa-regular fa-comment-dots"></i>
+          <span>Reply</span>
+        </div>
+        <div>
+          <i class="fa-regular fa-pen-to-square"></i>
+          <span>Edit</span>
         </div>
         <div>
           <%= button_to post, method: :delete do %>
             <i class="far fa-trash-can"></i>
+            <span>Delete</span>
           <% end %>
         </div>
       </div>
       <hr>
-      <span><%= pluralize(post.comment_count, 'Comment') %></span>
-      <%= render post.comments.where(parent_id: nil), max_nesting: 2 %>
-      <%= render 'comments/form', commentable: post %>
+      
+      <%= turbo_stream_from :parent_comments %>
+      <%= turbo_stream_from :comment_count %>
+
+      <%= tag.div id: dom_id(post, :comment_count) do %>
+        <span><%= pluralize(post.comment_count, 'Comment') %></span>
+      <% end %>
+
+      <%= tag.div id: "#{dom_id(post)}_comments" do %>
+        <%= render post.comments.where(parent_id: nil), max_nesting: 2 %>
+      <% end %>
+      
+      <%= render 'comments/form', commentable: post, comment: Comment.new %>
     </div>
   <% end %>
 </div>

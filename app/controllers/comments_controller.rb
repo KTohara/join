@@ -1,12 +1,17 @@
 class CommentsController < ApplicationController
+  include ActionView::RecordIdentifier
+
   def create
     @comment = @commentable.comments.new(comment_params)
     @comment.user = current_user
-    if @comment.save
-      redirect_to posts_path, notice: 'Comment successful!'
-    else
-      flash[:alert] = 'Something went wrong with your comment!'
-      redirect_to posts_path, status: :unprocessable_entity
+
+    respond_to do |format|
+      if @comment.save
+        format.turbo_stream
+        format.html { redirect_to posts_path, notice: 'Comment successful!' }
+      else
+        format.html { redirect_to posts_path, alert: 'Something went wrong with your comment!' }
+      end
     end
   end
 
@@ -15,7 +20,10 @@ class CommentsController < ApplicationController
   def destroy
     @comment = @commentable.comments.find(params[:id])
     @comment.destroy
-    redirect_to posts_path, notice: 'Comment deleted'
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to posts_path, notice: 'Comment deleted' }
+    end
   end
 
   private

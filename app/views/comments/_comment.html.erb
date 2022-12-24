@@ -1,31 +1,25 @@
-<% nesting = local_assigns.fetch(:nesting, 1) %>
-<% max_nesting = local_assigns[:max_nesting] %>
-
-<div class="ml-5 mb-3">
-  <div>
-    <%= comment.user.username %> commented:
-    <%= simple_format(comment.body) %>
-  </div>
-  <hr>
-  <div>
+<%= turbo_frame_tag comment do %>
+  <div class="ml-5 mb-3">
     <div>
-      <i class="far fa-thumbs-up"></i>
+      <%= comment.user.username %> commented:
+      <%= simple_format(comment.body) %>
     </div>
-    <%= render 'comments/form',
-      commentable: comment.commentable,
-      parent_id: find_parent_comment_id(comment, nesting, max_nesting),
-      target: 'reply.form'
-    %>
-    <div>
-      <i class="far fa-pen-to-square"></i>
+    <hr>
+    <div class="flex gap-x-2">
+      <div>
+        <i class="fa-regular fa-comment-dots"></i>
+        <span>Reply</span>
+      </div>
+      <div>
+        <i class="fa-regular fa-pen-to-square"></i>
+        <span>Edit</span>
+      </div>
+      <div>
+        <%= button_to [comment.commentable, comment], method: :delete do %>
+          <i class="far fa-trash-can"></i>
+          <span>Delete</span>
+        <% end %>
+      </div>
     </div>
-    <%= button_to [comment.commentable, comment], method: :delete do %>
-      <i class="far fa-trash-can"></i>
-    <% end %>
   </div>
-  <hr>
-  <%= render comment.comments,
-    nesting: nesting + 1,
-    max_nesting: max_nesting
-  %>
-</div>
+<% end %>

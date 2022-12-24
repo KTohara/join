@@ -1,4 +1,13 @@
-<%= form_with model: [commentable, Comment.new], local: true, html: { class: local_assigns[:class], data: { target: local_assigns[:target] } } do |f| %>
+<%# model = [local_assigns[:commentable], comment].compact %>
+
+<%= form_with model: [commentable, comment], id: dom_id_for_records(commentable, comment) do |f| %>
+  <% if f.object.errors.any? %>
+    <div>
+      <% f.object.errors.full_messages.each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+    </div>
+  <% end %>
   <%= f.hidden_field :parent_id, value: local_assigns[:parent_id] %>
   <div>
     <%= f.text_field :body, placeholder: 'Add comment...' %>
