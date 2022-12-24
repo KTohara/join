@@ -51,7 +51,7 @@ class User < ApplicationRecord
   def feed
     friends_posts
       .or(posts)
-      .includes([:user, :comments])
+      .includes(:user)
       .order(created_at: :desc)
       .distinct
   end
