@@ -14,7 +14,9 @@
 
   <body>
     <%= render 'shared/nav' unless devise_controller? %>
-    <%= render 'shared/alert' %>
+    <div id="alert">
+      <%= render 'shared/alert' %>
+    </div>
     <main class="container mx-auto mt-10 px-5">
       <%= yield %>
     </main>

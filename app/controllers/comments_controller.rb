@@ -7,7 +7,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        format.turbo_stream
+        format.turbo_stream { flash.now[:notice] = 'Comment successful!' }
         format.html { redirect_to posts_path, notice: 'Comment successful!' }
       else
         format.html { redirect_to posts_path, alert: 'Something went wrong with your comment!' }
@@ -21,8 +21,8 @@ class CommentsController < ApplicationController
     @comment = @commentable.comments.find(params[:id])
     @comment.destroy
     respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to posts_path, notice: 'Comment deleted' }
+      format.turbo_stream { flash.now[:alert] = 'Comment deleted' }
+      format.html { redirect_to posts_path, alert: 'Comment deleted' }
     end
   end
 

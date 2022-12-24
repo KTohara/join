@@ -1,8 +1,7 @@
 <% comment = Comment.new %>
 
-<%= turbo_stream.update dom_id(@comment.commentable, :comment_count) do %>
-  <%= pluralize(@comment.commentable.comment_count, 'Comment') %>
-<% end %>
 <%= turbo_stream.replace dom_id_for_records(@commentable, comment) do %>
   <%= render "comments/form", commentable: @commentable, comment: comment %>
 <% end %>
+
+<%= turbo_stream.prepend 'alert', partial: 'shared/alert' %>
