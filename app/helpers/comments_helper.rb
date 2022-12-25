@@ -11,9 +11,14 @@ module CommentsHelper
     end
   end
 
-  def dom_id_for_records(*records, prefix: nil)
-    records.map do |record|
-      dom_id(record, prefix)
+  # renames id to post_commentable type (comment, comment_nested etc)
+  # examples:
+  # post_4_comment_10
+  # post_3_new_comment
+  # post_5_comment_nested_2
+  def dom_id_for_comments(*comment_type, prefix: nil)
+    comment_type.map do |type|
+      dom_id(type, prefix)
     end.join('_')
   end
 end

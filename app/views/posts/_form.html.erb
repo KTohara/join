@@ -1,7 +1,7 @@
 <div>
   <%= form_with model: post do |f| %>
-    <div>
-      <%= f.text_field :body %>
+    <div data-controller="form">
+      <%= f.text_area :body, placeholder: "What's on your mind?", data: { action: 'input->form#resize', target: 'form.input' }%>
     </div>
     <div>
       <%= f.submit %>

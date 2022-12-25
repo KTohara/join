@@ -1,6 +1,6 @@
 <%# model = [local_assigns[:commentable], comment].compact %>
 
-<%= form_with model: [commentable, comment], id: dom_id_for_records(commentable, comment) do |f| %>
+<%= form_with model: [commentable, comment], id: dom_id_for_comments(commentable, comment) do |f| %>
   <% if f.object.errors.any? %>
     <div>
       <% f.object.errors.full_messages.each do |message| %>
@@ -8,12 +8,27 @@
       <% end %>
     </div>
   <% end %>
+  
   <%= f.hidden_field :parent_id, value: local_assigns[:parent_id] %>
-  <div>
-    <%= f.text_field :body, placeholder: 'Add comment...' %>
-  </div>
-  <div>
-    <i class='fas fa-circle-chevron-right'></i>
-    <%= f.submit 'Add Comment'%>
+  
+  <div class="flex items-center gap-x-2">
+    <div data-controller="form">
+      <%= f.text_area :body, placeholder: 'Add comment...',
+        data: { action: 'input->form#resize', target: 'form.input' } %>
+    </div>
+
+    <div>
+      <%= f.button nil do %>
+        <i class="fas fa-circle-chevron-right"></i>
+        <span>Submit</span>
+      <% end %>
+
+      <% if f.object.persisted? %>
+        <%= button_to posts_path, method: :patch do %>
+          <i class="fas fa-rotate-left"></i>
+          <span>Cancel</span>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 <% end %>

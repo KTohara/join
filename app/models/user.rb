@@ -57,13 +57,9 @@ class User < ApplicationRecord
   end
 
   def friendship_status(other_user)
-    friendship = find_friendship(other_user)
+    friendship = friendships.find_by(friend: other_user)
     return if friendship.nil?
 
     friendship.status
-  end
-
-  def find_friendship(other_user)
-    friendships.find_by(friend: other_user)
   end
 end

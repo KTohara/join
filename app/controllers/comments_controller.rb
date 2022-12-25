@@ -1,6 +1,8 @@
 class CommentsController < ApplicationController
   include ActionView::RecordIdentifier
 
+  before_action :set_comment, only: %i[edit update]
+
   def create
     @comment = @commentable.comments.new(comment_params)
     @comment.user = current_user
@@ -15,7 +17,15 @@ class CommentsController < ApplicationController
     end
   end
 
-  def update; end
+  def edit; end
+
+  def update
+    if @comment.update(comment_params)
+      redirect_to posts_path
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
 
   def destroy
     @comment = @commentable.comments.find(params[:id])
@@ -30,5 +40,9 @@ class CommentsController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:body, :parent_id)
+  end
+
+  def set_comment
+    @comment = current_user.comments.find(params[:id])
   end
 end

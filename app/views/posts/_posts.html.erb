@@ -30,11 +30,11 @@
       <%= turbo_stream_from :parent_comments %>
       <%= turbo_stream_from :comment_count %>
 
-      <%= tag.div id: dom_id(post, :comment_count) do %>
+      <%= turbo_frame_tag dom_id(post, :comment_count) do %>
         <span><%= pluralize(post.comment_count, 'Comment') %></span>
       <% end %>
 
-      <%= tag.div id: "#{dom_id(post)}_comments" do %>
+      <%= turbo_frame_tag "#{dom_id(post)}_comments" do %>
         <%= render post.comments.where(parent_id: nil), max_nesting: 2 %>
       <% end %>
       

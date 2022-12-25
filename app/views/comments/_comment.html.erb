@@ -3,7 +3,9 @@
   <div class="ml-5 mb-3">
     <div>
       <%= comment.user.username %> commented:
-      <%= simple_format(comment.body) %>
+      <%= turbo_frame_tag "#{dom_id(comment)}_body" do %>
+        <%= simple_format(comment.body) %>
+      <% end %>
     </div>
     <hr>
     <div class="flex gap-x-2">
@@ -12,8 +14,10 @@
         <span>Reply</span>
       </div>
       <div>
-        <i class="fa-regular fa-pen-to-square"></i>
-        <span>Edit</span>
+        <%= link_to edit_post_comment_path(comment.commentable, comment) do %>
+          <i class="fa-regular fa-pen-to-square"></i>
+          <span>Edit</span>
+        <% end %>
       </div>
       <div>
         <%= button_to [comment.commentable, comment], method: :delete do %>
