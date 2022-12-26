@@ -1,17 +1,23 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["input"];
+  static targets = ["input", "button"];
 
   connect() {
-      console.log('form-textarea controller connected...');
-      this.inputTarget.style.resize = 'none';
-      this.inputTarget.style.minHeight = `${this.inputTarget.scrollHeight}px`;
-      this.inputTarget.style.overflow = 'hidden';
+    this.inputTarget.style.resize = 'none';
+    this.inputTarget.style.minHeight = `${this.inputTarget.scrollHeight}px`;
+    this.inputTarget.style.overflow = 'hidden';
+    this.buttonTarget.disabled = true;
   }
 
-  resize(event){
-      event.target.style.height = '5px';
-      event.target.style.height =  `${event.target.scrollHeight}px`;
+  resize(event) {
+    event.target.style.height = '5px';
+    event.target.style.height =  `${event.target.scrollHeight}px`;
+  }
+
+  is_empty() {
+    let disableStatus = true;
+    if (this.inputTarget.value.length == 0) disableStatus = false;
+    this.buttonTarget.disabled = !disableStatus
   }
 }

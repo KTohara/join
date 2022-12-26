@@ -16,7 +16,7 @@ module CommentsHelper
   # post_4_comment_10
   # post_3_new_comment
   # post_5_comment_nested_2
-  def dom_id_for_comments(*comment_type, prefix: nil)
+  def dom_id_for_comment(*comment_type, prefix: nil)
     comment_type.map do |type|
       dom_id(type, prefix)
     end.join('_')

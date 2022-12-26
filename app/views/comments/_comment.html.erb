@@ -3,9 +3,7 @@
   <div class="ml-5 mb-3">
     <div>
       <%= comment.user.username %> commented:
-      <%= turbo_frame_tag "#{dom_id(comment)}_body" do %>
-        <%= simple_format(comment.body) %>
-      <% end %>
+      <%= simple_format(comment.body) %>
     </div>
     <hr>
     <div class="flex gap-x-2">

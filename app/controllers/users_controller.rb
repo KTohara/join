@@ -10,6 +10,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @feed = @user.feed
+    @posts = @user.feed
   end
 end

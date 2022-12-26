@@ -46,11 +46,11 @@ class Friendship < ApplicationRecord
 
   def destroy_inverse_friendship
     friendship = friend.friendships.find_by(friend: user)
-    friendship.&destroy
+    friendship&.destroy
   end
 
   def update_inverse_status
     friendship = friend.friendships.find_by(friend: user)
-    friendship.&update_column(:status, status)
+    friendship&.update_column(:status, status)
   end
 end

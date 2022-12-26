@@ -1,10 +1,32 @@
 <div>
   <%= form_with model: post do |f| %>
-    <div data-controller="form">
-      <%= f.text_area :body, placeholder: "What's on your mind?", data: { action: 'input->form#resize', target: 'form.input' }%>
-    </div>
+    <% if f.object.errors.any? %>
     <div>
-      <%= f.submit %>
+      <% f.object.errors.full_messages.each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+    </div>
+  <% end %>
+  
+    <div data-controller="form">
+      <div>
+        <%= f.text_area :body,
+          placeholder: "What's on your mind?",
+          # required: true,
+          data: { action: 'form#resize keyup->form#is_empty', form_target: 'input' } %>
+      </div>
+      <div>
+        <%= f.button nil, data: { form_target: 'button' } do %>
+          <i class="fas fa-circle-chevron-right"></i>
+          <span><%= submit_button_text %></span>
+        <% end %>
+        <% if f.object.persisted? %>
+          <%= link_to posts_path do %>
+            <i class="fas fa-rotate-left"></i>
+            <span>Cancel</span>
+          <% end %>
+        <% end %>
+      </div>
     </div>
   <% end %>
 </div>

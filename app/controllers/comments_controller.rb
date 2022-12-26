@@ -1,6 +1,5 @@
 class CommentsController < ApplicationController
   include ActionView::RecordIdentifier
-
   before_action :set_comment, only: %i[edit update]
 
   def create
@@ -20,10 +19,14 @@ class CommentsController < ApplicationController
   def edit; end
 
   def update
-    if @comment.update(comment_params)
-      redirect_to posts_path
-    else
-      render :edit, status: :unprocessable_entity
+    @comment = @commentable.comments.find(params[:id])
+    respond_to do |format|
+      if @comment.update(comment_params)
+        format.turbo_stream { flash.now[:notice] = 'Comment updated!' }
+        format.html { redirect_to posts_path, notice: 'Comment successful!' }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+      end
     end
   end
 

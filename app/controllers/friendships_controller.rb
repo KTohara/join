@@ -22,7 +22,7 @@ class FriendshipsController < ApplicationController
 
   def destroy
     @friendship = Friendship.find_by(friend_id: params[:id])
-    @friendship.destroy
+    return unless @friendship.destroy
     flash_msg = params[:request] == 'cancel' ? 'Request cancelled' : "#{@friendship.friend.username} removed as friend"
 
     redirect_back fallback_location: users_path, alert: flash_msg

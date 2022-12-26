@@ -1,0 +1,5 @@
+<%= turbo_stream.replace @comment do %>
+  <%= render 'comments/comment', comment: @comment %>
+<% end %>
+
+<%= turbo_stream.prepend 'alert', partial: 'shared/alert' %>

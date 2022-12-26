@@ -1,6 +1,6 @@
 <%# model = [local_assigns[:commentable], comment].compact %>
 
-<%= form_with model: [commentable, comment], id: dom_id_for_comments(commentable, comment) do |f| %>
+<%= form_with model: [commentable, comment], id: dom_id_for_comment(commentable, comment) do |f| %>
   <% if f.object.errors.any? %>
     <div>
       <% f.object.errors.full_messages.each do |message| %>
@@ -11,20 +11,23 @@
   
   <%= f.hidden_field :parent_id, value: local_assigns[:parent_id] %>
   
-  <div class="flex items-center gap-x-2">
-    <div data-controller="form">
-      <%= f.text_area :body, placeholder: 'Add comment...',
-        data: { action: 'input->form#resize', target: 'form.input' } %>
+  <div class="flex items-center gap-x-2" data-controller="form">
+    <div>
+      <%= f.text_area :body,
+        placeholder: 'Write a comment...',
+        data: { action: 'input->form#resize input->form#is_empty', form_target: 'input' } %>
     </div>
 
     <div>
-      <%= f.button nil do %>
-        <i class="fas fa-circle-chevron-right"></i>
-        <span>Submit</span>
-      <% end %>
+      <div>
+        <%= f.button nil, data: { form_target: 'button' } do %>
+          <i class="fas fa-circle-chevron-right"></i>
+          <span>Submit</span>
+        <% end %>
+      </div>
 
       <% if f.object.persisted? %>
-        <%= button_to posts_path, method: :patch do %>
+        <%= link_to posts_path do %>
           <i class="fas fa-rotate-left"></i>
           <span>Cancel</span>
         <% end %>
