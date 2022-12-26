@@ -7,7 +7,7 @@ export default class extends Controller {
     this.inputTarget.style.resize = 'none';
     this.inputTarget.style.minHeight = `${this.inputTarget.scrollHeight}px`;
     this.inputTarget.style.overflow = 'hidden';
-    this.buttonTarget.disabled = true;
+    if (this.inputTarget.value.length == 0) this.buttonTarget.disabled = true;
   }
 
   resize(event) {
