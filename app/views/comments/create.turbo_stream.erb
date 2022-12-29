@@ -1,7 +1,0 @@
-<% comment = Comment.new %>
-
-<%= turbo_stream.replace dom_id_for_comment(@commentable, comment) do %>
-  <%= render "comments/form", commentable: @commentable, comment: comment %>
-<% end %>
-
-<%= turbo_stream.prepend 'alert', partial: 'shared/alert' %>

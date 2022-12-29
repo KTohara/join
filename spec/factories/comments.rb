@@ -5,6 +5,7 @@
 #  id               :bigint           not null, primary key
 #  body             :text             not null
 #  commentable_type :string
+#  nesting          :integer          default(1)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  commentable_id   :bigint

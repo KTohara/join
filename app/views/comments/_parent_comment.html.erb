@@ -1,0 +1,19 @@
+<%= turbo_stream_from comment, :comments %>
+<div class=<%= local_assigns[:class]%>
+  id="<%= dom_id(comment, :parent) %>"
+  data-controller="comment-reply">
+
+  <%= render comment %>
+
+  <div id="<%= dom_id(comment, :comments) %>">
+    <%= render 'comments/form',
+      commentable: comment,
+      comment: Comment.new,
+      data: { comment_reply_target: 'form' },
+      class: 'hidden' %>
+    <%= render partial: 'comments/parent_comment',
+      collection: comment.comments,
+      as: :comment,
+      locals: { class: 'ml-5' } %>
+  </div>
+</div>

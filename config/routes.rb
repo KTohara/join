@@ -3,8 +3,12 @@ Rails.application.routes.draw do
 
   root 'posts#index'
 
-  resources :posts do
-    resources :comments, only: %i[edit create update destroy], module: :posts
+  resources :posts, except: [:new] do
+    resources :comments, only: %i[create], module: :posts
+  end
+  
+  resources :comments, only: %i[edit update destroy] do
+    resources :comments, only: %i[create], module: :comments
   end
 
   resources :friendships, only: %i[index create update destroy]

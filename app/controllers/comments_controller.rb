@@ -1,28 +1,18 @@
 class CommentsController < ApplicationController
-  include ActionView::RecordIdentifier
-  before_action :set_comment, only: %i[edit update]
-
-  def create
-    @comment = @commentable.comments.new(comment_params)
-    @comment.user = current_user
-
-    respond_to do |format|
-      if @comment.save
-        format.turbo_stream { flash.now[:notice] = 'Comment successful!' }
-        format.html { redirect_to posts_path, notice: 'Comment successful!' }
-      else
-        format.html { redirect_to posts_path, alert: 'Something went wrong with your comment!' }
-      end
-    end
-  end
+  before_action :set_comment, only: %i[edit update destroy]
 
   def edit; end
 
   def update
-    @comment = @commentable.comments.find(params[:id])
     respond_to do |format|
       if @comment.update(comment_params)
-        format.turbo_stream { flash.now[:notice] = 'Comment updated!' }
+        format.turbo_stream do
+          flash.now[:notice] = 'Comment updated!'
+          render turbo_stream: [
+            turbo_stream.replace(@comment, partial: 'comments/comment', locals: { comment: @comment }),
+            turbo_stream.prepend('alert', partial: 'shared/alert')
+          ]
+        end
         format.html { redirect_to posts_path, notice: 'Comment successful!' }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -31,10 +21,12 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment = @commentable.comments.find(params[:id])
     @comment.destroy
     respond_to do |format|
-      format.turbo_stream { flash.now[:alert] = 'Comment deleted' }
+      format.turbo_stream do
+        flash.now[:alert] = 'Comment deleted'
+        render turbo_stream: turbo_stream.prepend('alert', partial: 'shared/alert')
+      end
       format.html { redirect_to posts_path, alert: 'Comment deleted' }
     end
   end
@@ -42,10 +34,10 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:body, :parent_id)
+    params.require(:comment).permit(:body)
   end
 
   def set_comment
-    @comment = current_user.comments.find(params[:id])
+    @comment = Comment.find(params[:id])
   end
 end

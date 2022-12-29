@@ -12,7 +12,6 @@
       <div>
         <%= f.text_area :body,
           placeholder: "What's on your mind?",
-          # required: true,
           data: { action: 'form#resize keyup->form#is_empty', form_target: 'input' } %>
       </div>
       <div>

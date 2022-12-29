@@ -1,6 +1,10 @@
-<%# model = [local_assigns[:commentable], comment].compact %>
+<% model = [local_assigns[:commentable], comment].compact %>
 
-<%= form_with model: [commentable, comment], id: dom_id_for_comment(commentable, comment) do |f| %>
+<%= form_with model: model,
+  id: dom_id_for_comment(*model),
+  data: local_assigns[:data],
+  class: local_assigns[:class] do |f| %>
+  
   <% if f.object.errors.any? %>
     <div>
       <% f.object.errors.full_messages.each do |message| %>
@@ -8,8 +12,6 @@
       <% end %>
     </div>
   <% end %>
-  
-  <%= f.hidden_field :parent_id, value: local_assigns[:parent_id] %>
   
   <div class="flex items-center gap-x-2" data-controller="form">
     <div>
@@ -19,12 +21,10 @@
     </div>
 
     <div>
-      <div>
-        <%= f.button nil, data: { form_target: 'button' } do %>
-          <i class="fas fa-circle-chevron-right"></i>
-          <span>Submit</span>
-        <% end %>
-      </div>
+      <%= f.button nil, data: { form_target: 'button' } do %>
+        <i class="fas fa-circle-chevron-right"></i>
+        <span>Submit</span>
+      <% end %>
 
       <% if f.object.persisted? %>
         <%= link_to posts_path do %>

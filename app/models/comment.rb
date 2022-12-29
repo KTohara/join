@@ -5,6 +5,7 @@
 #  id               :bigint           not null, primary key
 #  body             :text             not null
 #  commentable_type :string
+#  nesting          :integer          default(1)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  commentable_id   :bigint
@@ -23,29 +24,53 @@
 #
 class Comment < ApplicationRecord
   include ActionView::RecordIdentifier
-  include ActionView::Helpers
+  include ActionView::Helpers::TextHelper
+
+  MAX_NESTING_LEVEL = 2
 
   belongs_to :user
   belongs_to :commentable, polymorphic: true
   belongs_to :parent, optional: true, class_name: 'Comment'
-  has_many :comments, -> { includes(%i[user commentable comments]).order(created_at: :desc) },
+  has_many :comments, -> { includes(%i[user commentable comments]) },
            class_name: 'Comment',
            foreign_key: :parent_id,
            dependent: :destroy
 
   validates :body, presence: true, length: { maximum: 8_000 }
+  validates :nesting, presence: true
 
   after_create_commit do
-    broadcast_add_comment
-    increment_comment_count
+    broadcast_append_to(
+      [commentable, :comments],
+      target: dom_id(parent || commentable, :comments),
+      partial: 'comments/parent_comment',
+      locals: { class: 'ml-5' }
+      # current_user: current_user
+    )
+    # increment_comment_count
   end
 
   after_destroy_commit do
-    broadcast_delete_comment
+    broadcast_remove_to(self)
     decrement_comment_count
   end
 
+  def set_nesting(parent_comment)
+    return nesting if parent_comment.nil?
+
+    self.parent = if Comment.max_nesting > parent_comment.nesting
+      parent_comment
+    else
+      parent_comment.parent
+    end
+    parent.nesting + 1
+  end
+
   private
+
+  def self.max_nesting
+    MAX_NESTING_LEVEL
+  end
 
   def increment_comment_count
     parent = commentable
@@ -55,20 +80,14 @@ class Comment < ApplicationRecord
 
   def decrement_comment_count
     parent = commentable
-    parent.decrement!(:comment_count) unless parent.comment_count.negative?
+    return if parent.comment_count.zero?
+
+    parent.decrement!(:comment_count)
     broadcast_update_comment_count
   end
 
-  def broadcast_add_comment
-    broadcast_append_later_to(:parent_comments, target: "#{dom_id(commentable)}_comments")
-  end
-
-  def broadcast_delete_comment
-    broadcast_remove_to(self)
-  end
-
   def broadcast_update_comment_count
-    broadcast_update_later_to(
+    broadcast_update_to(
       :comment_count,
       target: dom_id(commentable, :comment_count),
       content: pluralize(commentable.comment_count, 'Comment')

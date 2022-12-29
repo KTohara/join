@@ -11,11 +11,7 @@ module CommentsHelper
     end
   end
 
-  # renames id to post_commentable type (comment, comment_nested etc)
-  # examples:
-  # post_4_comment_10
-  # post_3_new_comment
-  # post_5_comment_nested_2
+  # renames id to its proper dom_id type (comment, parent_comment etc)
   def dom_id_for_comment(*comment_type, prefix: nil)
     comment_type.map do |type|
       dom_id(type, prefix)
