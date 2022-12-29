@@ -43,7 +43,5 @@
       as: :comment %>
   </div>
 
-  <%#= turbo_frame_tag 'new_nested_comment' %>
-
   <%= render 'comments/form', commentable: post, comment: Comment.new %>
 </div>

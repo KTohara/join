@@ -6,4 +6,12 @@ module PostsHelper
       'Save'
     end
   end
+
+  def form_placeholder_message
+    if @user.present? && @user != current_user
+      "Post something to #{@user.username}"
+    else
+      "What's on your mind?"
+    end
+  end
 end

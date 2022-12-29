@@ -37,7 +37,7 @@ class User < ApplicationRecord
            source: :friend
 
   # Posts
-  has_many :posts, dependent: :destroy
+  has_many :posts, -> { includes(:user) }, dependent: :destroy
   has_many :friends_posts, through: :friends, source: :posts
 
   # Comments
@@ -49,11 +49,7 @@ class User < ApplicationRecord
   scope :query, ->(search) { where('LOWER(username) LIKE ?', "%#{search.downcase}%") }
 
   def feed
-    friends_posts
-      .or(posts)
-      .includes(:user)
-      .order(created_at: :desc)
-      .distinct
+    friends_posts + posts
   end
 
   def friendship_status(other_user)

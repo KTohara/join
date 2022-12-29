@@ -11,7 +11,7 @@
     <div data-controller="form">
       <div>
         <%= f.text_area :body,
-          placeholder: "What's on your mind?",
+          placeholder: form_placeholder_message,
           data: { action: 'form#resize keyup->form#is_empty', form_target: 'input' } %>
       </div>
       <div>
