@@ -43,6 +43,9 @@ class User < ApplicationRecord
   # Comments
   has_many :comments, dependent: :destroy
 
+  # Likes
+  has_many :likes, dependent: :destroy
+
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..50 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
 

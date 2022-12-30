@@ -31,16 +31,19 @@ class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :commentable, polymorphic: true
   belongs_to :parent, optional: true, class_name: 'Comment'
+
   has_many :comments, -> { includes(%i[user comments]) },
            class_name: 'Comment',
            foreign_key: :parent_id,
            dependent: :destroy
 
+  has_many :likes, as: :likeable, dependent: :destroy
+
   validates :body, presence: true, length: { in: 2..8_000 }
   validates :nesting, presence: true
 
   after_create_commit do
-    broadcast_append_to(
+    broadcast_append_later_to(
       [commentable, :comments],
       target: dom_id(parent || commentable, :comments),
       partial: 'comments/parent_comment'
@@ -85,7 +88,7 @@ class Comment < ApplicationRecord
   end
 
   def broadcast_update_comment_count
-    broadcast_update_to(
+    broadcast_update_later_to(
       :comment_count,
       target: dom_id(commentable, :comment_count),
       content: pluralize(commentable.comment_count, 'Comment')

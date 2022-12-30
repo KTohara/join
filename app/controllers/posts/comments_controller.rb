@@ -1,10 +1,12 @@
-class Posts::CommentsController < CommentsController
-  include Commentable
-  before_action :set_commentable
+module Posts
+  class CommentsController < CommentsController
+    include Commentable
+    before_action :set_commentable
 
-  private
+    private
 
-  def set_commentable
-    @commentable = Post.find(params[:post_id])
+    def set_commentable
+      @commentable = Post.find(params[:post_id])
+    end
   end
 end

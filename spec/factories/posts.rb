@@ -22,7 +22,8 @@
 #
 FactoryBot.define do
   factory :post do
-    body { "MyString" }
-    user { nil }
+    body { Faker::Quote.yoda }
+    user { create(:user) }
+    author { create(:user) }
   end
 end

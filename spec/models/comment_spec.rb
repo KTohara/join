@@ -30,6 +30,7 @@ RSpec.describe Comment, type: :model do
     it { should belong_to(:commentable) }
     it { should belong_to(:parent).optional(true).class_name('Comment') }
     it { should have_many(:comments).class_name('Comment').with_foreign_key(:parent_id).dependent(:destroy) }
+    it { should have_many(:likes).dependent(:destroy) }
   end
 
   describe 'validations' do

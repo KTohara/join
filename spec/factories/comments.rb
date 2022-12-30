@@ -24,9 +24,9 @@
 #
 FactoryBot.define do
   factory :comment do
-    body { "MyText" }
-    user { nil }
-    post { nil }
-    parent { nil }
+    body { Faker::TvShows::Simpsons.quote }
+    user { create(:user) }
+    post { create(:post) }
+    parent { create(:user) }
   end
 end

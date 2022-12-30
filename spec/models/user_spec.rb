@@ -45,4 +45,8 @@ RSpec.describe User, type: :model do
   describe 'comment associations' do
     it { should have_many(:comments).dependent(:destroy) }
   end
+
+  describe 'like associations' do
+    it { should have_many(:likes).dependent(:destroy) }
+  end
 end

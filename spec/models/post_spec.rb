@@ -30,6 +30,8 @@ RSpec.describe Post, type: :model do
 
   describe 'assocations' do
     it { should belong_to(:user) }
+    it { should belong_to(:author).class_name('User') }
     it { should have_many(:comments).dependent(:destroy) }
+    it { should have_many(:likes).dependent(:destroy) }
   end
 end
