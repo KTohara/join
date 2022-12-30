@@ -1,6 +1,6 @@
 module PostsHelper
   def submit_button_text
-    if action_name == 'index'
+    if action_name == 'index' || action_name == 'show'
       'Post'
     else
       'Save'

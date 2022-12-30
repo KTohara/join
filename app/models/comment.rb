@@ -36,18 +36,16 @@ class Comment < ApplicationRecord
            foreign_key: :parent_id,
            dependent: :destroy
 
-  validates :body, presence: true, length: { maximum: 8_000 }
+  validates :body, presence: true, length: { in: 2..8_000 }
   validates :nesting, presence: true
 
   after_create_commit do
     broadcast_append_to(
       [commentable, :comments],
       target: dom_id(parent || commentable, :comments),
-      partial: 'comments/parent_comment',
-      locals: { class: 'ml-5' }
-      # current_user: current_user
+      partial: 'comments/parent_comment'
     )
-    # increment_comment_count
+    increment_comment_count
   end
 
   after_destroy_commit do

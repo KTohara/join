@@ -1,5 +1,5 @@
 <%= turbo_stream_from comment, :comments %>
-<div class=<%= local_assigns[:class]%>
+<div class="pl-5"
   id="<%= dom_id(comment, :parent) %>"
   data-controller="comment-reply">
 
@@ -13,7 +13,6 @@
       class: 'hidden' %>
     <%= render partial: 'comments/parent_comment',
       collection: comment.comments,
-      as: :comment,
-      locals: { class: 'ml-5' } %>
+      as: :comment %>
   </div>
 </div>

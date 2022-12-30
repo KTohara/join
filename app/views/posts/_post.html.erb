@@ -1,6 +1,6 @@
 <div class="border mt-2" id=<%= dom_id(post) %>>
   <div>
-    <%= link_to post.user.username, post.user %> posted on
+    <%= link_to post.author.username, post.user %> posted on
     <span><%= post.formatted_date %>:</span>
     <p><%= post.body %></p>
   </div>

@@ -1,13 +1,15 @@
 <div>
   <%= form_with model: post do |f| %>
+    <%= f.hidden_field :author_id, value: current_user.id %>
+    <%= f.hidden_field :user_id, value: user.id if local_assigns[:user] %>
     <% if f.object.errors.any? %>
     <div>
       <% f.object.errors.full_messages.each do |message| %>
         <div><%= message %></div>
       <% end %>
     </div>
-  <% end %>
-  
+    <% end %>
+
     <div data-controller="form">
       <div>
         <%= f.text_area :body,

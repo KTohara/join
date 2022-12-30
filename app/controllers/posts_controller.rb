@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[edit update destroy]
+  before_action :set_new_post, only: %i[create]
 
   def index
     @posts = current_user.feed
@@ -7,8 +8,6 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = current_user.posts.build(post_params)
-
     if @post.save
       redirect_to posts_url, notice: 'Post successful!'
     else
@@ -38,10 +37,18 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:body)
+    params.require(:post).permit(:body, :author_id, :user_id)
   end
 
   def set_post
     @post = Post.find(params[:id])
+  end
+
+  def set_new_post
+    if params[:post][:user_id]
+      @user = User.find(params[:post][:user_id])
+      return @post = @user.posts.build(post_params)
+    end
+    @post = current_user.posts.build(post_params)
   end
 end

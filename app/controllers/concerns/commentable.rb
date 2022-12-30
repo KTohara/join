@@ -46,7 +46,7 @@ module Commentable
       turbo_stream.replace(
         dom_id_for_comment(@parent, comment),
         partial: 'comments/form',
-        locals: { commentable: @parent, comment: comment, data: { comment_reply_target: :form}, class: 'hidden' }
+        locals: { commentable: @parent, comment: comment, data: { comment_reply_target: :form }, class: 'hidden' }
       ),
       turbo_stream.prepend('alert', partial: 'shared/alert')
     ]
