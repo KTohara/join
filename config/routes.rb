@@ -13,7 +13,6 @@ Rails.application.routes.draw do
     resources :comments, only: %i[create], module: :comments
   end
 
-
   resources :friendships, only: %i[index create update destroy]
   resources :users, only: %i[index show]
 end

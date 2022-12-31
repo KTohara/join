@@ -3,7 +3,7 @@
   id="<%= dom_id(comment, :parent) %>"
   data-controller="comment-reply">
 
-  <%= render comment %>
+  <%= render comment, current_user: current_user %>
 
   <div id="<%= dom_id(comment, :comments) %>">
     <%= render 'comments/form',
@@ -13,6 +13,7 @@
       class: 'hidden' %>
     <%= render partial: 'comments/parent_comment',
       collection: comment.comments,
-      as: :comment %>
+      as: :comment,
+      locals: { current_user: current_user } %>
   </div>
 </div>

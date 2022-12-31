@@ -5,15 +5,13 @@
     <p><%= post.body %></p>
   </div>
   <hr>
-  <div class="flex gap-x-2">
-    <div>
-      <i class="far fa-thumbs-up"></i>
-      <span>Like</span>
-    </div>
 
-    <div>
-      <i class="fa-regular fa-comment-dots"></i>
-      <span>Reply</span>
+  <div class="flex gap-x-2">
+    <div class="flex gap-x-2">
+      <%= turbo_stream_from post, :like_button, class: 'hidden' %>
+      <%= render 'likes/like_button', likeable: post, current_user: current_user %>
+      <%= turbo_stream_from post, :like_count, class: 'hidden' %>
+      <%= render 'likes/like_counter', likeable: post %>
     </div>
     
     <div>
@@ -22,6 +20,7 @@
         <span>Edit</span>
       <% end %>
     </div>
+
     <div>
       <%= button_to post, method: :delete do %>
         <i class="far fa-trash-can"></i>
@@ -31,16 +30,15 @@
   </div>
   <hr>
 
-  <%= turbo_stream_from :comment_count %>
-  <div id="<%= dom_id(post, :comment_count) %>">
-    <span><%= pluralize(post.comment_count, 'Comment') %></span>
-  </div>
+  <%= turbo_stream_from post, :comment_count %>
+  <%= render 'posts/comment_counter', post: post %>
 
   <%= turbo_stream_from post, :comments %>
   <div id="<%= dom_id(post, :comments) %>">
     <%= render partial: 'comments/parent_comment',
       collection: post.comments.where(parent_id: nil),
-      as: :comment %>
+      as: :comment,
+      locals: { current_user: current_user } %>
   </div>
 
   <%= render 'comments/form', commentable: post, comment: Comment.new %>

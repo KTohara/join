@@ -9,7 +9,7 @@ class PostsController < ApplicationController
 
   def create
     if @post.save
-      redirect_to posts_url, notice: 'Post successful!'
+      redirect_back fallback_location: posts_url, notice: 'Post successful!'
     else
       @posts = current_user.feed
       flash.now[:alert] = 'Something went wrong with your post!'

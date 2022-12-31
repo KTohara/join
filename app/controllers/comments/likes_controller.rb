@@ -1,5 +1,5 @@
 module Comments
-  class LikesController < ApplicationController
+  class LikesController < LikesController
     before_action :set_likeable
   
     private

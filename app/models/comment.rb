@@ -5,6 +5,7 @@
 #  id               :bigint           not null, primary key
 #  body             :text             not null
 #  commentable_type :string
+#  like_count       :integer          default(0)
 #  nesting          :integer          default(1)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -29,7 +30,7 @@ class Comment < ApplicationRecord
   MAX_NESTING_LEVEL = 2
 
   belongs_to :user
-  belongs_to :commentable, polymorphic: true
+  belongs_to :commentable, polymorphic: true, counter_cache: :comment_count
   belongs_to :parent, optional: true, class_name: 'Comment'
 
   has_many :comments, -> { includes(%i[user comments]) },
@@ -43,17 +44,13 @@ class Comment < ApplicationRecord
   validates :nesting, presence: true
 
   after_create_commit do
-    broadcast_append_later_to(
-      [commentable, :comments],
-      target: dom_id(parent || commentable, :comments),
-      partial: 'comments/parent_comment'
-    )
-    increment_comment_count
+    broadcast_create_to_comment
+    broadcast_update_to_comment_count
   end
 
   after_destroy_commit do
     broadcast_remove_to(self)
-    decrement_comment_count
+    broadcast_update_to_comment_count
   end
 
   def set_nesting(parent_comment)
@@ -73,25 +70,21 @@ class Comment < ApplicationRecord
     MAX_NESTING_LEVEL
   end
 
-  def increment_comment_count
-    parent = commentable
-    parent.increment!(:comment_count)
-    broadcast_update_comment_count
+  def broadcast_create_to_comment
+    broadcast_append_later_to(
+      [commentable, :comments],
+      target: dom_id(parent || commentable, :comments),
+      partial: 'comments/parent_comment',
+      locals: { current_user: (parent || commentable).user }
+    )
   end
 
-  def decrement_comment_count
-    parent = commentable
-    return if parent.comment_count.zero?
-
-    parent.decrement!(:comment_count)
-    broadcast_update_comment_count
-  end
-
-  def broadcast_update_comment_count
-    broadcast_update_later_to(
-      :comment_count,
+  def broadcast_update_to_comment_count
+    broadcast_replace_to(
+      [commentable, :comment_count],
       target: dom_id(commentable, :comment_count),
-      content: pluralize(commentable.comment_count, 'Comment')
+      partial: 'posts/comment_counter',
+      locals: { post: commentable }
     )
   end
 end

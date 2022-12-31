@@ -1,5 +1,5 @@
 module Comments
-  class CommentsController < ApplicationController
+  class CommentsController < CommentsController
     include Commentable
     before_action :set_commentable
 

@@ -45,6 +45,8 @@ class User < ApplicationRecord
 
   # Likes
   has_many :likes, dependent: :destroy
+  has_many :liked_posts, through: :likes, source: :likeable, source_type: 'Post'
+  has_many :liked_comments, through: :likes, source: :likeable, source_type: 'Comment'
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..50 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
@@ -60,5 +62,13 @@ class User < ApplicationRecord
     return if friendship.nil?
 
     friendship.status
+  end
+
+  def liked?(likeable_object)
+    likeable_object.likes.pluck(:user_id).include?(self.id)
+  end
+
+  def find_like(likeable_object)
+    likes.find_by(likeable_id: likeable_object.id)
   end
 end

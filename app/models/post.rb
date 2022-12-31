@@ -5,6 +5,7 @@
 #  id            :bigint           not null, primary key
 #  body          :text             not null
 #  comment_count :integer          default(0)
+#  like_count    :integer          default(0)
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  author_id     :bigint

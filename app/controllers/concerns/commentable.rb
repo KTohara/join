@@ -1,11 +1,6 @@
 module Commentable
-  extend ActiveSupport::Concern
   include ActionView::RecordIdentifier
   include CommentsHelper
-
-  included do
-    before_action :authenticate_user!
-  end
 
   def create
     @comment = @commentable.comments.new(comment_params)
