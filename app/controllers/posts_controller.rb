@@ -20,12 +20,17 @@ class PostsController < ApplicationController
   def edit; end
 
   def update
-    if @post.update(post_params)
-      redirect_to posts_url
-    else
-      @posts = current_user.feed
-      flash[:alert] = 'Something went wrong with your post!'
-      render :index, status: :unprocessable_entity
+    respond_to do |format|
+      if @post.update(post_params)
+        flash.now[:alert] = 'Post has been updated'
+        format.turbo_stream { turbo_replace_post_body }
+        format.html { redirect_back fallback_location: posts_url }
+      else
+        @posts = current_user.feed
+        flash.now[:alert] = 'Something went wrong with your post!'
+        format.turbo_stream { turbo_replace_post_body }
+        format.html { render :index, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -50,5 +55,12 @@ class PostsController < ApplicationController
       return @post = @user.posts.build(post_params)
     end
     @post = current_user.posts.build(post_params)
+  end
+
+  def turbo_replace_post_body
+    render turbo_stream: [
+      turbo_stream.replace("post_body_#{@post.id}", partial: 'posts/post_body', locals: { post: @post, current_user: current_user }),
+      turbo_stream.prepend('alert', partial: 'shared/alert')
+    ]
   end
 end

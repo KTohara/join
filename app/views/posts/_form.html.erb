@@ -1,33 +1,31 @@
-<div>
-  <%= form_with model: post do |f| %>
-    <%= f.hidden_field :author_id, value: current_user.id %>
-    <%= f.hidden_field :user_id, value: user.id if local_assigns[:user] %>
-    <% if f.object.errors.any? %>
+<%= form_with model: post do |f| %>
+  <%= f.hidden_field :author_id, value: current_user.id %>
+  <%= f.hidden_field :user_id, value: user.id if local_assigns[:user] %>
+  <% if f.object.errors.any? %>
     <div>
       <% f.object.errors.full_messages.each do |message| %>
         <div><%= message %></div>
       <% end %>
     </div>
-    <% end %>
-
-    <div data-controller="form">
-      <div>
-        <%= f.text_area :body,
-          placeholder: form_placeholder_message,
-          data: { action: 'form#resize keyup->form#is_empty', form_target: 'input' } %>
-      </div>
-      <div>
-        <%= f.button nil, data: { form_target: 'button' } do %>
-          <i class="fas fa-circle-chevron-right"></i>
-          <span><%= submit_button_text %></span>
-        <% end %>
-        <% if f.object.persisted? %>
-          <%= link_to posts_path do %>
-            <i class="fas fa-rotate-left"></i>
-            <span>Cancel</span>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
   <% end %>
-</div>
+
+  <div data-controller="form">
+    <div>
+      <%= f.text_area :body,
+        placeholder: form_placeholder_message,
+        data: { action: 'form#resize keyup->form#is_empty', form_target: 'input' } %>
+    </div>
+    <div>
+      <%= f.button nil, data: { form_target: 'button' } do %>
+        <i class="fas fa-circle-chevron-right"></i>
+        <span><%= submit_button_text %></span>
+      <% end %>
+      <% if f.object.persisted? %>
+        <%= link_to posts_path do %>
+          <i class="fas fa-rotate-left"></i>
+          <span>Cancel</span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -40,7 +40,7 @@ class Comment < ApplicationRecord
 
   has_many :likes, as: :likeable, dependent: :destroy
 
-  validates :body, presence: true, length: { in: 2..8_000 }
+  validates :body, presence: true, length: { maximum: 8_000 }
   validates :nesting, presence: true
 
   after_create_commit do
