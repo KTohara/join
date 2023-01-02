@@ -1,7 +1,8 @@
 module Commentable
   include ActionView::RecordIdentifier
   include CommentsHelper
-
+  include Notifiable
+  
   def create
     @comment = @commentable.comments.new(comment_params)
     @comment.user = current_user
@@ -9,6 +10,8 @@ module Commentable
     
     respond_to do |format|
       if @comment.save
+        send_commentable_notification(@commentable, @parent)
+
         format.turbo_stream do
           flash.now[:notice] = comment_flash_message
           turbo_replace_saved_comment_form

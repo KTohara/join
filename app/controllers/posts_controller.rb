@@ -1,11 +1,14 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: %i[edit update destroy]
+  before_action :set_post, only: %i[show edit update destroy]
   before_action :set_new_post, only: %i[create]
-
+  before_action :remove_notification, only: :show, if: :notified?
+  
   def index
     @posts = current_user.feed
-    @post = current_user.posts.build
+    @new_post = current_user.posts.build
   end
+
+  def show; end
 
   def create
     if @post.save
@@ -62,5 +65,16 @@ class PostsController < ApplicationController
       turbo_stream.replace("post_body_#{@post.id}", partial: 'posts/post_body', locals: { post: @post, current_user: current_user }),
       turbo_stream.prepend('alert', partial: 'shared/alert')
     ]
+  end
+
+  def notified?
+    params[:read] == 'true'
+  end
+
+  def remove_notification
+
+    @notification = Notification.find(params[:id])
+    debugger
+    # @notification.destroy
   end
 end

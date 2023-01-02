@@ -1,0 +1,19 @@
+<li>
+  <div class="flex justify-between">
+    <%= link_to link_for_notifiable_type(notification) do %>
+      <span class="text-xs">
+        <%= notification.message %> msg: <%= notification.notifiable.body %>
+      </span>
+    <% end %>
+    <%= button_to notification, method: :delete do %>
+      <i class="fa-regular fa-circle-xmark text-red-400 text-xs"></i>
+    <% end %>
+  </div>
+
+  <% if notification.notifiable_type == 'Friendship' %>
+    <div class="flex gap-x-2">
+      <%= button_to 'Accept', friendship_path(user), params: { friendship: { friend_id: user.id, status: :accepted } }, method: :patch %>
+      <%= button_to 'Decline', friendship_path(user), method: :delete, data: { turbo_confirm: 'Are you sure?' } %>
+    </div>
+  <% end %>
+</li>

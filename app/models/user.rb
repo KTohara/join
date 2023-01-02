@@ -45,8 +45,11 @@ class User < ApplicationRecord
 
   # Likes
   has_many :likes, dependent: :destroy
-  has_many :liked_posts, through: :likes, source: :likeable, source_type: 'Post'
-  has_many :liked_comments, through: :likes, source: :likeable, source_type: 'Comment'
+  # has_many :liked_posts, through: :likes, source: :likeable, source_type: 'Post'
+  # has_many :liked_comments, through: :likes, source: :likeable, source_type: 'Comment'
+
+  # Notifications
+  has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..50 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
@@ -72,5 +75,9 @@ class User < ApplicationRecord
 
   def find_like(likeable_object)
     likes.find_by(likeable_id: likeable_object.id)
+  end
+
+  def unread_notifications
+    notifications.where(read: false)
   end
 end

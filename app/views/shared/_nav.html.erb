@@ -12,6 +12,10 @@
       </div>
     </div>
     <div class="flex w-[80%] items-center justify-center gap-x-5">
+      <%= turbo_frame_tag :notifications, data: { controller: 'notifications' } do %>
+        <%= render 'notifications/button' %>
+      <% end %>
+        <%#= render 'notifications/notifications' %>
       <div>
         <%= link_to 'Posts', posts_path %>
       </div>

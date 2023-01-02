@@ -1,7 +1,5 @@
 <%= turbo_stream_from comment, :comments %>
-<div class="pl-5"
-  id="<%= dom_id(comment, :parent) %>"
-  data-controller="comment-reply">
+<div class="pl-5" data-controller="comment-reply">
 
   <%= render comment, current_user: current_user %>
 
