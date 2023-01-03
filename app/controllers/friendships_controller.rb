@@ -1,4 +1,6 @@
 class FriendshipsController < ApplicationController
+  include Notifiable
+  
   def index
     @friends = current_user.friends
     @friendship_requests = current_user.pending_requests

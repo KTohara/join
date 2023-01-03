@@ -26,4 +26,12 @@ module Notifiable
     recipient = notifiable.user
     recipient.notifications.create(notifiable: notifiable, sender: current_user)
   end
+
+  def mark_notification_as_read
+    notification = Notification.find(params[:notification_id])
+    return unless notification.present? || notification.recipient == current_user
+
+    notification.update(read: true)
+    redirect_back fallback_location: posts_path
+  end
 end

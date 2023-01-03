@@ -13,8 +13,10 @@ Rails.application.routes.draw do
     resources :comments, only: %i[create], module: :comments
   end
 
-  resources :notifications, only: [:index, :destroy] do
+  resources :notifications, only: :destroy do
     delete :clear_all, on: :collection
+    get :read, on: :collection
+    get :unread, on: :collection
   end
 
   resources :friendships, only: %i[index create update destroy]

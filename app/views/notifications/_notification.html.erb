@@ -1,6 +1,6 @@
 <li>
   <div class="flex justify-between">
-    <%= link_to link_for_notifiable_type(notification) do %>
+    <%= link_to notifiable_link_type(notification) do %>
       <span class="text-xs">
         <%= notification.message %> msg: <%= notification.notifiable.body %>
       </span>

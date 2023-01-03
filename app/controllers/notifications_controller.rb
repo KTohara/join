@@ -1,18 +1,28 @@
 class NotificationsController < ApplicationController
-  def index
-    notifications = current_user.unread_notifications.order(created_at: :desc).limit(10)
-    @unread = notifications.unread
-    @read = notifications.read
+  before_action :set_notifications, only: %i[unread read clear_all]
+
+  def unread
+    @notifications = @notifications.unread.limit(10)
+  end
+
+  def read
+    @notifications = @notifications.read.limit(10)
   end
 
   def destroy
     @notification = Notification.find(params[:id])
-    # @notification.destroy
+    @notification.destroy
     redirect_back fallback_location: posts_path
   end
 
   def clear_all
-    # @unread.destroy_all
+    @notifications.destroy_all
     redirect_back fallback_location: posts_path
+  end
+
+  private
+
+  def set_notifications
+    @notifications = current_user.notifications.order(created_at: :desc)
   end
 end
