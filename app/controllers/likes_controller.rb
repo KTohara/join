@@ -1,4 +1,5 @@
 class LikesController < ApplicationController
+  include Notifiable
 
   def create
     @like = @likeable.likes.build(user: current_user)

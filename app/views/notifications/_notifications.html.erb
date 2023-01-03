@@ -2,18 +2,16 @@
   <div data-controller="dropdown" id="sorted_notifications">
     <%= render 'notifications/button' %>
     <ul class="absolute top-12 right-2 w-64 px-4 py-2 border-2 rounded-md bg-white hover:cursor-default" data-dropdown-target="popup">
+      <div class="flex justify-between my-2 gap-x-2 text-[13px]">
+        <div class="flex gap-x-2">
+          <%= button_to 'Unread', unread_notifications_path, method: :get %>
+          <%= button_to 'Read', read_notifications_path, method: :get %>
+        </div>
+        <%= button_to 'Clear All', clear_all_notifications_path, method: :delete %>
+      </div>
+      <hr class="mb-2">
       <% if notifications.present? %>
-        <div class="flex justify-between mt-2 gap-x-2 text-[13px]">
-          <div class="flex gap-x-2">
-            <%= button_to 'Unread', unread_notifications_path, method: :get %>
-            <%= button_to 'Read', read_notifications_path, method: :get %>
-          </div>
-          <%= button_to 'Clear All', clear_all_notifications_path, method: :delete %>
-        </div>
-
-        <div class="mt-2">
-          <%= render notifications %>
-        </div>
+        <%= render notifications %>
       <% else %>
         <li class="text-xs text-center">No notifications</li>
       <% end%>

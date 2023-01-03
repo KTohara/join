@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "post_body_#{post.id}" do %>
   <div>
-    <%= link_to post.author.username, post.user %> posted on
+    <%= link_to post.author.username, post.author, data: { turbo_frame: '_top' } %> posted on
     <span><%= post.formatted_date %>:</span>
     <p><%= post.body %></p>
   </div>
