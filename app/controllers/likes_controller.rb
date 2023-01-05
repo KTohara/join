@@ -1,6 +1,8 @@
 class LikesController < ApplicationController
   include Notifiable
 
+  after_action -> { send_like_notification(@likeable, "liked your #{@likeable.class.name.downcase}") }, only: :create
+
   def create
     @like = @likeable.likes.build(user: current_user)
     @like.save
@@ -32,5 +34,12 @@ class LikesController < ApplicationController
       ),
       turbo_stream.prepend('alert', partial: 'shared/alert')
     ]
+  end
+
+  def send_like_notification(liked_object, message)
+    recipient = liked_object.class == Post ? liked_object.author : liked_object.user
+    debugger
+    return if recipient == current_user
+    send_notification(recipient: recipient, notifiable: liked_object, message: message)
   end
 end
