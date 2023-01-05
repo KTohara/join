@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_31_214656) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_04_175233) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -54,11 +54,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_31_214656) do
   create_table "notifications", force: :cascade do |t|
     t.bigint "recipient_id", null: false
     t.bigint "sender_id", null: false
-    t.string "notifiable_type"
-    t.bigint "notifiable_id"
+    t.string "notifiable_type", null: false
+    t.bigint "notifiable_id", null: false
     t.boolean "read", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "message", null: false
     t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable"
     t.index ["recipient_id"], name: "index_notifications_on_recipient_id"
     t.index ["sender_id"], name: "index_notifications_on_sender_id"

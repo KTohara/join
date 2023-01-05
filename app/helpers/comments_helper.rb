@@ -5,4 +5,12 @@ module CommentsHelper
       dom_id(type, prefix)
     end.join('_')
   end
+
+  def comment_flash_message
+    if params[:controller] == 'comments/comments'
+      'Reply successful!'
+    else # 'comments'
+      'Comment successful!'
+    end
+  end
 end

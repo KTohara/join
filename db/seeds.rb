@@ -12,7 +12,8 @@ muenster = User.create(username: 'Muenster', email: 'muenster@example.com', pass
 aleks = User.create(username: 'Aleks', email: 'aleks@example.com', password: 'password')
 
 jesus.friends << [rhubarb, muenster]
+jesus.friendships.update(status: 'accepted')
 
-jesus.posts.build(body: 'test post').save
-muenster.posts.build(body: 'another post').save
-rhubarb.posts.build(body: 'meow meow').save
+jesus.posts.create(body: 'test post', author: jesus)
+muenster.posts.create(body: 'another post', author: muenster)
+rhubarb.posts.create(body: 'meow meow', author: rhubarb)
