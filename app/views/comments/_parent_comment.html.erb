@@ -10,7 +10,7 @@
       data: { comment_reply_target: 'form' },
       class: 'hidden' %>
     <%= render partial: 'comments/parent_comment',
-      collection: comment.comments.includes(:commentable),
+      collection: comment.comments,
       as: :comment,
       locals: { current_user: current_user } %>
   </div>

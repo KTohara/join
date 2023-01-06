@@ -21,10 +21,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Friendship < ApplicationRecord
-  after_create :create_inverse_friendship, if: :persisted?
-  after_destroy :destroy_inverse_friendship, if: :destroyed?
-  after_update :update_inverse_status
-
   enum status: {
     sent: 0,
     received: 1,
@@ -39,8 +35,16 @@ class Friendship < ApplicationRecord
   validates :user, presence: true
   validates :friend, presence: true, uniqueness: { scope: :user_id }
 
+  after_create :create_inverse_friendship, if: -> { persisted? && inverse_not_created }
+  after_destroy :destroy_inverse_friendship, if: :destroyed?
+  after_update :update_inverse_status
+
   scope :accepted, -> { where(status: :accepted) }
   scope :pending, -> { where(status: %i[sent received]) }
+
+  def inverse_not_created
+    Friendship.find_by(user: friend, friend: user).nil?
+  end
 
   def create_inverse_friendship
     friend.friendships.create(friend: user, status: :received)
@@ -52,6 +56,7 @@ class Friendship < ApplicationRecord
   end
 
   def update_inverse_status
+    debugger
     friendship = friend.friendships.find_by(friend: user)
     friendship&.update_column(:status, status)
   end

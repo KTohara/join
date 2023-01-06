@@ -1,10 +1,7 @@
 <div class="relative">
   <%= button_to unread_notifications_path, method: :get, data: { action: close_window('dropdown'), dropdown_target: 'button' } do %>
     <i class="fa-solid fa-bell"></i>
-    <% if current_user.unread_notifications.count > 0 %>
-      <span class="absolute w-5 bottom-2 left-3 border-2 border-white bg-red-500 rounded-full text-[10px] text-white text-center align-middle">
-        <%= current_user.unread_notifications.count >= 99 ? '99+' : current_user.unread_notifications.count %>
-      </span>
-    <% end %>
+    <%= turbo_stream_from current_user.id, :notification_count %>
+    <%= render 'notifications/notification_counter', notification_count: current_user.unread_notifications.count %>
   <% end %>
 </div>

@@ -31,26 +31,24 @@ class Notification < ApplicationRecord
   scope :read, ->{ where(read: true) }
   scope :unread, ->{ where(read: false) }
 
+  after_create_commit do
+    update_notification_count
+  end
+
+  after_destroy_commit do
+    update_notification_count
+  end
+
   def notification_message
     "#{sender.username.humanize} #{message}"
   end
 
+  private
 
-
-  # def notifiable_message_type
-  #   case notifiable_type
-  #   when 'Post'
-  #     'commented on your post'
-  #   when 'Comment'
-  #     'replied to your comment'
-  #   when 'Friendship'
-  #     friendship_message_type
-  #   when 'Like'
-  #     "liked your #{notifiable.likeable_type.downcase}"
-  #   end
-  # end
-
-  # def friendship_message_type
-  #   notifiable.sent? ? 'sent you a friend request' : 'accepted your friend request'
-  # end
+  def update_notification_count
+    broadcast_replace_to [recipient.id, :notification_count],
+      target: 'notification_count',
+      partial: 'notifications/notification_counter',
+      locals: { notification_count: recipient.unread_notifications.count }
+  end
 end

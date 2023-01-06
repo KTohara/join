@@ -9,11 +9,4 @@
       <i class="fa-regular fa-circle-xmark text-red-400 text-xs"></i>
     <% end %>
   </div>
-
-  <% if notification.notifiable_type == 'Friendship' %>
-    <div class="flex gap-x-2">
-      <%= button_to 'Accept', friendship_path(notification.recipient), params: { friendship: { status: :accepted } }, method: :patch %>
-      <%= button_to 'Decline', friendship_path(notification.recipient), method: :delete, data: { turbo_confirm: 'Are you sure?' } %>
-    </div>
-  <% end %>
 </li>

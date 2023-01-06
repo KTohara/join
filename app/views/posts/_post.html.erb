@@ -8,7 +8,7 @@
   <%= turbo_stream_from post, :comments %>
   <div id="<%= dom_id(post, :comments) %>">
     <%= render partial: 'comments/parent_comment',
-      collection: post.comments.includes([:user, :commentable]).where(parent_id: nil),
+      collection: post.comments.where(parent_id: nil),
       as: :comment,
       locals: { current_user: current_user } %>
   </div>

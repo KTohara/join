@@ -25,6 +25,8 @@ class Like < ApplicationRecord
   belongs_to :user
   belongs_to :likeable, polymorphic: true, counter_cache: :like_count
 
+  has_many :notifications, as: :notifiable, dependent: :destroy
+
   validates :user, presence: true, uniqueness: { scope: %i[likeable_id likeable_type] }
 
   after_create_commit do

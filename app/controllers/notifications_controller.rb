@@ -23,6 +23,6 @@ class NotificationsController < ApplicationController
   private
 
   def set_notifications
-    @notifications = current_user.notifications.order(created_at: :desc)
+    @notifications = current_user.notifications.includes([:notifiable, :sender]).order(created_at: :desc)
   end
 end

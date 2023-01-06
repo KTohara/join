@@ -45,8 +45,6 @@ class User < ApplicationRecord
 
   # Likes
   has_many :likes, dependent: :destroy
-  # has_many :liked_posts, through: :likes, source: :likeable, source_type: 'Post'
-  # has_many :liked_comments, through: :likes, source: :likeable, source_type: 'Comment'
 
   # Notifications
   has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
