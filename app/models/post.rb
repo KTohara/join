@@ -25,10 +25,11 @@ class Post < ApplicationRecord
   belongs_to :user
   belongs_to :author, class_name: 'User'
 
-  has_many :comments, -> { includes(:user, :comments, :commentable) }, as: :commentable, dependent: :destroy
+  has_many :comments, -> {includes(:user, :comments, :commentable).order(created_at: :desc) },
+           as: :commentable,
+           dependent: :destroy
 
   has_many :likes, as: :likeable, dependent: :destroy
-  # has_many :notifications, as: :notifiable, dependent: :destroy
 
   validates :body, presence: true, length: { maximum: 15_000 }
 

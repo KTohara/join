@@ -28,8 +28,8 @@ class Notification < ApplicationRecord
   belongs_to :recipient, class_name: 'User'
   belongs_to :sender, class_name: 'User'
 
-  scope :read, ->{ where(read: true) }
-  scope :unread, ->{ where(read: false) }
+  scope :read, -> { where(read: true) }
+  scope :unread, -> { where(read: false) }
 
   after_create_commit do
     update_notification_count

@@ -53,7 +53,10 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..50 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
 
-  scope :query, ->(search) { where('LOWER(username) LIKE ?', "%#{search.downcase}%") }
+  def self.search_by_user(params, current_user)
+    users = where.not(id: current_user.id)
+    params[:q].blank? ? users : users.where('username ILIKE ?', "%#{sanitize_sql_like(params[:q])}%")
+  end
 
   def feed
     friend_ids = "SELECT friend_id FROM friendships WHERE (user_id = :user_id AND status = '2')"

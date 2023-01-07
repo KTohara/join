@@ -9,7 +9,7 @@ class LikesController < ApplicationController
     respond_to do |format|
       flash.now[:notice] = 'You liked the thing!'
       format.turbo_stream { turbo_update_like_button }
-      format.html { redirect_back fallback_location: posts_path, notice: 'You liked the thing!' }
+      format.html { redirect_back fallback_location: posts_path, notice: 'liked the thing!' }
     end
   end
 

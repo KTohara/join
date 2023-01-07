@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="form"
 export default class extends Controller {
-  static targets = ["input", "button"];
+  static targets = ['input', 'button'];
 
   connect() {
     this.inputTarget.style.resize = 'none';
@@ -13,12 +13,12 @@ export default class extends Controller {
 
   resize(event) {
     event.target.style.height = '5px';
-    event.target.style.height =  `${event.target.scrollHeight}px`;
+    event.target.style.height = `${event.target.scrollHeight}px`;
   }
 
   is_empty() {
     let disableStatus = true;
     if (this.inputTarget.value.length == 0) disableStatus = false;
-    this.buttonTarget.disabled = !disableStatus
+    this.buttonTarget.disabled = !disableStatus;
   }
 }

@@ -1,16 +1,19 @@
 class UsersController < ApplicationController
+  before_action :turbo_frame_request_variant, only: :index
+
   def index
-    @users = User.where.not(id: current_user.id)
-    if params[:query]
-      @users = @users.query(params[:query])
-    else
-      @users
-    end
+    @users = User.search_by_user(params, current_user)
   end
 
   def show
     @user = User.find(params[:id])
     @posts = Post.where(user_id: @user).order(created_at: :desc)
     @post = @user.posts.build
+  end
+
+  private
+
+  def turbo_frame_request_variant
+    request.variant = :turbo_frame if turbo_frame_request?
   end
 end

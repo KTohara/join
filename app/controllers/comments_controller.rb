@@ -13,7 +13,7 @@ class CommentsController < ApplicationController
             turbo_stream.prepend('alert', partial: 'shared/alert')
           ]
         end
-        format.html { redirect_to posts_path, notice: 'Comment successful!' }
+        format.html { redirect_to posts_path, notice: 'Comment updated!' }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end

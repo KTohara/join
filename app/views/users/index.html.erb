@@ -1,9 +1,11 @@
 <h1>Search People</h1>
+<%= form_with url: users_path, method: :get, data: { controller: 'search', turbo_frame: 'users', turbo_action: 'advance', search_target: 'form' } do |f| %>
+  <%= f.text_field :q, placeholder: 'Search Users...', data: { action: 'input->search#submit' } %>
+  <%= f.submit 'Search', name: nil %>
+<% end %>
 
-<%= render 'search' %>
-
-<div>
+<%= turbo_frame_tag 'users' do %>
   <% @users.each do |user| %>
     <%= render 'friendships/friendship_request', user: user %>
   <% end %>
-</div>
+<% end %>

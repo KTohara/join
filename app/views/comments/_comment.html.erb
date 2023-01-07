@@ -6,7 +6,6 @@
   </div>
 
   <div class="flex gap-x-2 mb-2">
-    <%= turbo_stream_from comment, :like_button, class: 'hidden' %>
     <%= render 'likes/like_button', likeable: comment, current_user: current_user %>
     <%= turbo_stream_from comment, :like_count, class: 'hidden' %>
     <%= render 'likes/like_counter', likeable: comment %>

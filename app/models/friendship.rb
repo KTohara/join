@@ -56,7 +56,6 @@ class Friendship < ApplicationRecord
   end
 
   def update_inverse_status
-    debugger
     friendship = friend.friendships.find_by(friend: user)
     friendship&.update_column(:status, status)
   end
