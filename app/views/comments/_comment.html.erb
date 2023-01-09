@@ -1,6 +1,6 @@
 <%= turbo_frame_tag comment do %>
   <div>
-    <%= comment.user.username %> commented:
+    <%= link_to comment.user.username, user_path(comment.user) %> commented:
     <%= comment.body %>
   </div>
 
