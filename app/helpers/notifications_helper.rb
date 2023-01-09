@@ -1,6 +1,7 @@
 module NotificationsHelper
   def notifiable_link_type(notification)
     notifiable = notification.notifiable
+    
     case notifiable.class.name
     when 'Post'
       post_path(notifiable, notification_id: notification.id)

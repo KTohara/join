@@ -1,7 +1,10 @@
 <%= turbo_stream_from comment, :comments %>
-<div class="pl-5" data-controller="comment-reply">
+<%= turbo_stream_from comment, :buttons %>
+<%= turbo_stream_from comment, :like_count, class: 'hidden' %>
+<%= turbo_stream_from comment %>
 
-  <%= render comment, current_user: current_user %>
+<div class="<%= nesting_padding(comment.nesting) %>" data-controller="comment-reply">
+  <%= render comment, user: user %>
 
   <div id="<%= dom_id(comment, :comments) %>">
     <%= render 'comments/form',
@@ -12,6 +15,7 @@
     <%= render partial: 'comments/parent_comment',
       collection: comment.comments,
       as: :comment,
-      locals: { current_user: current_user } %>
+      locals: { user: user } %>
   </div>
 </div>
+

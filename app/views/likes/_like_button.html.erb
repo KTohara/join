@@ -1,10 +1,10 @@
 <div class="flex" id="<%= dom_id(likeable, :like_button) %>">
-  <% if current_user.liked?(likeable) == false %>
+  <% if user.liked?(likeable) == false %>
     <%= button_to [likeable, Like.new], method: :post do %>
       <i class="far fa-thumbs-up"></i>
     <% end %>
   <% else %>
-    <%= button_to [likeable, current_user.find_like(likeable)], method: :delete do %>
+    <%= button_to [likeable, user.find_like(likeable)], method: :delete do %>
       <i class="far fa-thumbs-up text-blue-500"></i>
     <% end %>
   <% end %>

@@ -1,5 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
+// auto grow/shrinks the comment/post form as user inputs text
+// used in any _form partial
+
 // Connects to data-controller="form"
 export default class extends Controller {
   static targets = ['input', 'button'];

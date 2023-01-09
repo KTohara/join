@@ -1,7 +1,7 @@
 <h1>Friendship Requests</h1>
 <hr>
 <% @friendship_requests.each do |request| %>
-  <%= render 'friendship_request', user: request.friend %>
+  <%= render 'friendship_request', person: request.friend %>
 <% end %>
 <br>
 <h1>Friends</h1>

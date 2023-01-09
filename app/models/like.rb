@@ -43,9 +43,6 @@ class Like < ApplicationRecord
     broadcast_replace_to [likeable, :like_count],
       target: dom_id(likeable, :like_count),
       partial: 'likes/like_counter',
-      locals: {
-        current_user: likeable.user,
-        likeable: likeable,
-      }
+      locals: { likeable: likeable }
   end
 end

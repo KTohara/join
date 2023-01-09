@@ -1,25 +1,33 @@
 <%= turbo_frame_tag "post_body_#{post.id}" do %>
   <div>
-    <%= link_to post.author.username, post.author, data: { turbo_frame: '_top' } %> posted on
+    <% if post.author == post.user %>
+      <%= link_to post.author.username, post.author, data: { turbo_frame: '_top' } %> posted on
+    <% else %>
+      <%= link_to post.author.username, post.author, data: { turbo_frame: '_top' } %>
+      <i class="fa-solid fa-play h-[11px] text-slate-500"></i>
+      <%= link_to post.user.username, post.user, data: { turbo_frame: '_top' } %> posted on
+    <% end %>
     <span><%= post.formatted_date %>:</span>
     <p><%= post.body %></p>
   </div>
   <hr>
 
   <div class="flex gap-x-2">
-    <%= turbo_stream_from post, :like_button, class: 'hidden' %>
-    <%= render 'likes/like_button', likeable: post, current_user: current_user %>
-    <%= turbo_stream_from post, :like_count, class: 'hidden' %>
-    <%= render 'likes/like_counter', likeable: post %>
+    <%= render 'likes/like_button', likeable: post, user: current_user %>
+    <%= render 'likes/like_counter', likeable: post, user: current_user %>
     
-    <%= button_to edit_post_path(post), method: :get do %>
-      <i class="fa-regular fa-pen-to-square"></i>
-      <span>Edit</span>
+    <% if post.author == current_user %>
+      <%= button_to edit_post_path(post), method: :get do %>
+        <i class="fa-regular fa-pen-to-square"></i>
+        <span>Edit</span>
+      <% end %>
     <% end %>
 
-    <%= button_to post, method: :delete do %>
-      <i class="far fa-trash-can"></i>
-      <span>Delete</span>
+    <% if post.user == current_user || post.author == current_user %>
+      <%= button_to post, method: :delete do %>
+        <i class="far fa-trash-can"></i>
+        <span>Delete</span>
+      <% end %>
     <% end %>
   </div>
 <% end %>

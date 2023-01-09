@@ -40,8 +40,8 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post.destroy
-    redirect_to posts_url, alert: 'Post deleted!'
+    flash[:alert] = @post&.destroy ? 'Post deleted!' : 'Post not found'
+    redirect_to posts_url
   end
 
   private
@@ -51,7 +51,7 @@ class PostsController < ApplicationController
   end
 
   def set_post
-    @post = Post.find(params[:id])
+    @post = Post.find_by(id: params[:id])
   end
 
   def set_new_post
@@ -64,7 +64,7 @@ class PostsController < ApplicationController
 
   def turbo_replace_post_body
     render turbo_stream: [
-      turbo_stream.replace("post_body_#{@post.id}", partial: 'posts/post_body', locals: { post: @post, current_user: current_user }),
+      turbo_stream.replace("post_body_#{@post.id}", partial: 'posts/post_body', locals: { post: @post, user: current_user }),
       turbo_stream.prepend('alert', partial: 'shared/alert')
     ]
   end

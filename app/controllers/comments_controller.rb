@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
         format.turbo_stream do
           flash.now[:notice] = 'Comment updated!'
           render turbo_stream: [
-            turbo_stream.replace(@comment, partial: 'comments/comment', locals: { comment: @comment }),
+            turbo_stream.replace(@comment, partial: 'comments/comment', locals: { comment: @comment, user: current_user }),
             turbo_stream.prepend('alert', partial: 'shared/alert')
           ]
         end

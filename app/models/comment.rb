@@ -33,7 +33,7 @@ class Comment < ApplicationRecord
   belongs_to :commentable, polymorphic: true, counter_cache: :comment_count
   belongs_to :parent, optional: true, class_name: 'Comment'
 
-  has_many :comments, -> { includes(%i[user comments commentable]).order(created_at: :desc) },
+  has_many :comments, -> { includes(%i[user comments commentable]) },
            class_name: 'Comment',
            foreign_key: :parent_id,
            dependent: :destroy
@@ -72,20 +72,16 @@ class Comment < ApplicationRecord
   end
 
   def broadcast_create_to_comment
-    broadcast_append_later_to(
-      [commentable, :comments],
+    broadcast_append_later_to [commentable, :comments],
       target: dom_id(parent || commentable, :comments),
       partial: 'comments/parent_comment',
-      locals: { current_user: (parent || commentable).user }
-    )
+      locals: { user: (parent || commentable).user }
   end
 
   def broadcast_update_to_comment_count
-    broadcast_replace_to(
-      [commentable, :comment_count],
+    broadcast_replace_to [commentable, :comment_count],
       target: dom_id(commentable, :comment_count),
       partial: 'posts/comment_counter',
       locals: { post: commentable }
-    )
   end
 end

@@ -13,4 +13,9 @@ module CommentsHelper
       'Comment successful!'
     end
   end
+
+  def nesting_padding(nesting)
+    return if nesting == 1
+    "pl-5"
+  end
 end

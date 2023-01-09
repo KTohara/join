@@ -1,31 +1,31 @@
-<%= turbo_stream_from comment %>
 <%= turbo_frame_tag comment do %>
   <div>
     <%= comment.user.username %> commented:
     <%= comment.body %>
   </div>
 
-  <div class="flex gap-x-2 mb-2">
-    <%= render 'likes/like_button', likeable: comment, current_user: current_user %>
-    <%= turbo_stream_from comment, :like_count, class: 'hidden' %>
+  <div class="flex gap-x-2 mb-2" data-controller="object-author"
+    data-object-author-commenter-id-value="<%= comment.user_id %>"
+    data-object-author-poster-id-value="<%= comment.commentable.user_id %>">
+
+    <%= render 'likes/like_button', likeable: comment, user: user %>
     <%= render 'likes/like_counter', likeable: comment %>
-    <button data-action="click->comment-reply#toggle">
+    <button data-action="click->comment-reply#toggle click->comment-reply#show" data-comment-reply-target="reply">
       <i class="fa-regular fa-comment-dots"></i>
       <span>Reply</span>
     </button>
 
-    <% if comment.user == current_user %>
+    <div class="hidden" data-object-author-target="editButton">
       <%= button_to edit_comment_path(comment), method: :get do %>
         <i class="fa-regular fa-pen-to-square"></i>
         <span>Edit</span>
       <% end %>
-    <% end %>
-
-    <% if comment.user == current_user || comment.commentable.user == current_user %>
+    </div>
+    <div class="hidden" data-object-author-target="deleteButton">
       <%= button_to comment_path(comment), method: :delete do %>
         <i class="far fa-trash-can"></i>
         <span>Delete</span>
       <% end %>
-    <% end %>
+    </div>
   </div>
 <% end %>

@@ -30,7 +30,7 @@ class LikesController < ApplicationController
       turbo_stream.replace(
         helpers.dom_id(@likeable, :like_button),
         partial: 'likes/like_button',
-        locals: { likeable: @likeable, current_user: current_user }
+        locals: { likeable: @likeable, user: current_user }
       ),
       turbo_stream.prepend('alert', partial: 'shared/alert')
     ]

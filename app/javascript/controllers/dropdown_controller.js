@@ -1,5 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
+// closes dropdowns for when a user clicks the notification button, or outside the window
+// used in shared/nav notifications/_notifications, _button
+
 // Connects to data-controller="dropdown"
 export default class extends Controller {
   static targets = ['popup', 'button'];

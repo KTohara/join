@@ -1,5 +1,6 @@
+<%= turbo_stream_from post, :like_count, class: 'hidden' %>
 <div class="border mt-2" id=<%= dom_id(post) %>>
-  <%= render 'posts/post_body', post: post, current_user: current_user %>
+  <%= render 'posts/post_body', post: post %>
   <hr>
 
   <%= turbo_stream_from post, :comment_count %>
@@ -10,7 +11,7 @@
     <%= render partial: 'comments/parent_comment',
       collection: post.comments.where(parent_id: nil),
       as: :comment,
-      locals: { current_user: current_user } %>
+      locals: { user: user } %>
   </div>
 
   <%= render 'comments/form', commentable: post, comment: Comment.new %>

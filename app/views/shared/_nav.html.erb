@@ -1,4 +1,4 @@
-<nav id="nav" class="">
+<nav id="nav">
   <div class="flex items-center">
     <div class="flex w-[20%] items-center gap-x-5">
       <div>
@@ -31,7 +31,7 @@
         <%= link_to 'Log Out', destroy_user_session_path, data: { turbo_method: :delete } %>
       </div>
     
-      <%= turbo_frame_tag :notifications, data: { controller: 'notifications' } do %>
+      <%= turbo_frame_tag :notifications do %>
         <%= render 'notifications/button' %>
       <% end %>
     </div>
