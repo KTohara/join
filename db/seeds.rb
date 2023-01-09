@@ -17,3 +17,9 @@ jesus.friendships.update(status: 'accepted')
 jesus.posts.create(body: 'test post', author: jesus)
 muenster.posts.create(body: 'another post', author: muenster)
 rhubarb.posts.create(body: 'meow meow', author: rhubarb)
+
+users = [jesus, rhubarb, muenster, aleks]
+
+100.times do
+  Post.create(body: Faker::Movies::StarWars.quote, user: users.sample, author: users.sample)
+end
