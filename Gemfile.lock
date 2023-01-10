@@ -260,7 +260,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   letter_opener
-  pagy
+  pagy (~> 6.0.0)
   pg (~> 1.1)
   pry-rails
   puma (~> 5.0)

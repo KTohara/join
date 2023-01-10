@@ -7,12 +7,18 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @posts = Post.includes([:user, :author]).where(user_id: @user).order(created_at: :desc)
+    @pagy, @posts = pagy_countless(@user.posts.order(created_at: :desc), items: 5)
     @post = @user.posts.build
+
+    respond_to do |format|
+      format.html # for regular get request
+      format.turbo_stream # for pagy post request
+    end
   end
 
   private
 
+  # auto look for turbo frame for user search in #index
   def turbo_frame_request_variant
     request.variant = :turbo_frame if turbo_frame_request?
   end

@@ -1,0 +1,9 @@
+<%= turbo_stream.append 'posts' do %>
+  <%= render @posts, user: @user %>
+<% end %>
+
+<%= turbo_stream.update 'pagination_button' do %>
+   <% if @pagy.next.present? %>
+    <%= button_to 'Load more...', pagy_url_for(@pagy, @pagy.next) %>
+  <% end %>
+<% end %>

@@ -37,7 +37,7 @@ class User < ApplicationRecord
            source: :friend
 
   # Posts
-  has_many :posts, dependent: :destroy
+  has_many :posts, -> { includes(%i[user author]) }, dependent: :destroy
   has_many :friends_posts, through: :friends, source: :posts
 
   # Comments

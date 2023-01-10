@@ -81,4 +81,4 @@ end
 gem 'devise'
 gem 'faker'
 gem 'figaro'
-gem 'pagy'
+gem 'pagy', '~> 6.0.0'

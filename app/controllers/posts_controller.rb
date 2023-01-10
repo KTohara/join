@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   before_action :mark_notification_as_read, only: :show
   
   def index
-    @posts = current_user.feed
+    @pagy, @posts = pagy(current_user.feed)
     @new_post = current_user.posts.build
   end
 
