@@ -3,6 +3,7 @@ class UsersController < ApplicationController
 
   def index
     @users = User.search_by_user(params, current_user)
+
   end
 
   def show

@@ -1,3 +1,9 @@
 <%= render 'posts/form', post: @new_post %>
-<%= render @posts, user: current_user %>
-<%== pagy_nav(@pagy) %>
+
+<%= turbo_frame_tag "posts_page_#{@pagy.page}" do %>
+  <%= render @posts, user: current_user %>
+
+  <% if @pagy.next.present? %>
+    <%= render 'posts/infinite_scroll', user: current_user %>
+  <% end %>
+<% end %>

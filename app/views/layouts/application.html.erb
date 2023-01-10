@@ -12,7 +12,7 @@
     <%= javascript_include_tag "https://kit.fontawesome.com/6191f9c23a.js", crossorigin: 'anonymous', defer: 'defer' %>
   </head>
 
-  <body>
+  <body class="bg-stone-100">
     <%= render 'shared/nav' unless devise_controller? %>
     <div id="alert">
       <%= render 'shared/alert' %>

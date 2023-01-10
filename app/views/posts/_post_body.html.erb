@@ -1,19 +1,21 @@
-<%= turbo_frame_tag "post_body_#{post.id}" do %>
-  <div>
+  <div class="mb-2">
     <% if post.author == post.user %>
       <%= link_to post.author.username, post.author, data: { turbo_frame: '_top' } %> posted on
     <% else %>
       <%= link_to post.author.username, post.author, data: { turbo_frame: '_top' } %>
-      <i class="fa-solid fa-play h-[11px] text-slate-500"></i>
+      <i class="fa-solid fa-play h-[11px] text-stone-400"></i>
       <%= link_to post.user.username, post.user, data: { turbo_frame: '_top' } %> posted on
     <% end %>
     <span><%= post.formatted_date %>:</span>
-    <p><%= post.body %></p>
   </div>
+
+  <%= turbo_frame_tag "post_body_#{post.id}" do %>
+    <p><%= post.body %></p>
   <hr>
 
   <div class="flex gap-x-2">
     <%= render 'likes/like_button', likeable: post, user: current_user %>
+    <%= turbo_stream_from post, :like_count, class: 'hidden' %>
     <%= render 'likes/like_counter', likeable: post, user: current_user %>
     
     <% if post.author == current_user %>

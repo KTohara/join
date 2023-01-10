@@ -1,5 +1,4 @@
-<%= turbo_stream_from post, :like_count, class: 'hidden' %>
-<div class="border mt-2" id=<%= dom_id(post) %>>
+<div class="border rounded-xl mt-2 p-5 bg-white drop-shadow-sm" id=<%= dom_id(post) %>>
   <%= render 'posts/post_body', post: post %>
   <hr>
 

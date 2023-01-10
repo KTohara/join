@@ -13,15 +13,16 @@
     </div>
   <% end %>
   
-  <div class="flex items-center gap-x-2" data-controller="form">
+  <div class="flex flex-col content-start gap-x-2" data-controller="form">
     <div>
       <%= f.text_area :body,
         placeholder: 'Write a comment...',
-        data: { action: 'input->form#resize input->form#is_empty', form_target: 'input' } %>
+        data: { action: 'input->form#resize input->form#is_empty', form_target: 'input' },
+        class: 'w-full h-4 border-none bg-stone-100 rounded-2xl text-sm' %>
     </div>
 
     <div>
-      <%= f.button nil, data: { form_target: 'button' } do %>
+      <%= f.button nil, data: { form_target: 'button' }, class: 'border rounded-full w-fit px-3' do %>
         <i class="fas fa-circle-chevron-right"></i>
         <span>Submit</span>
       <% end %>
