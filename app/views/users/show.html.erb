@@ -2,11 +2,10 @@
 <h1>Profile splash goes here</h1>
 <%= render 'posts/form', post: @post, user: @user %>
 
-<div id="posts">
-  <%= render partial: 'posts/post', collection: @posts, locals: { user: current_user } %>
-</div>
+<%= turbo_frame_tag "posts_page_#{@pagy.page}" do %>
+  <%= render @posts, user: current_user %>
 
-<%#== pagy_next_link(@pagy, text: 'More...', link_extra: 'id="next_link"')  %>
-<div id="pagination_button">
-  <%= button_to 'Load more...', pagy_url_for(@pagy, @pagy.next) %>
-</div>
+  <% if @pagy.next.present? %>
+    <%= render 'posts/infinite_scroll', user: current_user %>
+  <% end %>
+<% end %>
