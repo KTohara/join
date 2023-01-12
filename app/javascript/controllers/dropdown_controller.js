@@ -1,7 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
-// closes dropdowns for when a user clicks the notification button, or outside the window
-// used in shared/nav notifications/_notifications, _button
+// closes dropdowns for when a user clicks the right button, or outside the window
+// used in:
+  // shared/nav notifications/_notifications, _button
+  // comments/parent, comment, _form
 
 // Connects to data-controller="dropdown"
 export default class extends Controller {
@@ -10,15 +12,37 @@ export default class extends Controller {
   // connect() {
   //   console.log('connected to dropdown')
   // }
+  
+  toggle(event) {
+    event.preventDefault();
+
+    if (this.buttonTarget.getAttribute('aria-expanded') == 'false') {
+      this.open();
+    } else {
+      this.close(null);
+    }
+  }
+
+  open() {
+    this.buttonTarget.setAttribute('aria-expanded', 'true');
+    this.popupTarget.classList.remove('hidden');
+
+    if (this.popupTarget.id.includes('new_comment')) {
+      this.popupTarget.classList.add('pl-5');
+    }
+  }
 
   close(event) {
-    let popup = this.popupTarget;
-    let button = this.buttonTarget;
-    let popup_is_hidden = popup.classList.contains('hidden');
+    if (event && (this.popupTarget.contains(event.target) || this.buttonTarget.contains(event.target))) {
+      return;
+    }
 
-    if (popup_is_hidden || popup.contains(event.target)) return;
-    if (button.contains(event.target)) event.preventDefault();
-      
-    popup.classList.add('hidden')
+    this.buttonTarget.setAttribute('aria-expanded', 'false');
+    this.popupTarget.classList.add('hidden');
+
+    if (this.popupTarget.id.includes('new_comment')) {
+      this.popupTarget.classList.remove('pl-5');
+    }
   }
+
 }

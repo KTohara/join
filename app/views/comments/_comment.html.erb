@@ -10,13 +10,14 @@
 
     <%= render 'likes/like_button', likeable: comment, user: user %>
     <%= render 'likes/like_counter', likeable: comment %>
-    <button data-action="click->comment-reply#toggle click->comment-reply#show" data-comment-reply-target="reply">
+
+    <button data-action="<%= toggle_popup('dropdown') %>" data-dropdown-target="button" aria-expanded="false">
       <i class="fa-regular fa-comment-dots"></i>
       <span>Reply</span>
     </button>
 
     <div class="hidden" data-object-author-target="editButton">
-      <%= button_to edit_comment_path(comment), method: :get do %>
+      <%= button_to edit_comment_path(comment), method: :get, data: { action: 'click@window->dropdown#close touchend@window->dropdown#close', dropdown_target: "button" }, aria: { expanded: 'false' } do %>
         <i class="fa-regular fa-pen-to-square"></i>
         <span>Edit</span>
       <% end %>

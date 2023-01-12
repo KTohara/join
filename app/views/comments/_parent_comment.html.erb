@@ -1,16 +1,16 @@
-<%= turbo_stream_from comment, :comments %>
-<%= turbo_stream_from comment, :buttons %>
+<%= turbo_stream_from comment, :comments, class: 'hidden' %>
+<%= turbo_stream_from comment, :buttons, class: 'hidden' %>
 <%= turbo_stream_from comment, :like_count, class: 'hidden' %>
 <%= turbo_stream_from comment %>
 
-<div class="<%= nesting_padding(comment.nesting) %>" data-controller="comment-reply">
+<div class="<%= nesting_padding(comment.nesting) %>" data-controller="dropdown">
   <%= render comment, user: user %>
 
   <div id="<%= dom_id(comment, :comments) %>">
     <%= render 'comments/form',
       commentable: comment,
       comment: Comment.new,
-      data: { comment_reply_target: 'form' },
+      data: { dropdown_target: 'popup' },
       class: 'hidden' %>
     <%= render partial: 'comments/parent_comment',
       collection: comment.comments,

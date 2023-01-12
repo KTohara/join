@@ -25,7 +25,7 @@ class Post < ApplicationRecord
   belongs_to :user
   belongs_to :author, class_name: 'User'
 
-  has_many :comments, -> { includes(%i[user comments]) },
+  has_many :comments, -> { includes(%i[user comments commentable]) },
            as: :commentable,
            dependent: :destroy
 

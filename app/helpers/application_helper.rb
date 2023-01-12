@@ -1,7 +1,7 @@
 module ApplicationHelper
   include Pagy::Frontend
 
-  def close_window(js_controller)
-    "click->#{js_controller}#close click@window->#{js_controller}#close touchend@window->#{js_controller}#close"
+  def toggle_popup(stimulus_controller)
+    "click->#{stimulus_controller}#toggle click@window->#{stimulus_controller}#close touchend@window->#{stimulus_controller}#close"
   end
 end

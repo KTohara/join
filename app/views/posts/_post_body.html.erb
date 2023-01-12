@@ -1,3 +1,4 @@
+<%= turbo_frame_tag "post_body_#{post.id}" do %>
   <div class="mb-2">
     <% if post.author == post.user %>
       <%= link_to post.author.username, post.author, data: { turbo_frame: '_top' } %> posted on
@@ -9,8 +10,7 @@
     <span><%= post.formatted_date %>:</span>
   </div>
 
-  <%= turbo_frame_tag "post_body_#{post.id}" do %>
-    <p><%= post.body %></p>
+  <p><%= post.body %></p>
   <hr>
 
   <div class="flex gap-x-2">
