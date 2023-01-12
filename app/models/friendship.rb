@@ -35,14 +35,14 @@ class Friendship < ApplicationRecord
   validates :user, presence: true
   validates :friend, presence: true, uniqueness: { scope: :user_id }
 
-  after_create :create_inverse_friendship, if: -> { persisted? && inverse_not_created }
-  after_destroy :destroy_inverse_friendship, if: :destroyed?
+  after_create :create_inverse_friendship, if: -> { persisted? && inverse_not_found? }
+  after_destroy :destroy_inverse_friendship, if: -> { destroyed? && !inverse_not_found? }
   after_update :update_inverse_status
 
   scope :accepted, -> { where(status: :accepted) }
   scope :pending, -> { where(status: %i[sent received]) }
 
-  def inverse_not_created
+  def inverse_not_found?
     Friendship.find_by(user: friend, friend: user).nil?
   end
 

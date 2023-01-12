@@ -3,7 +3,7 @@ module FriendshipsHelper
     case status
     when 'accepted'
       tag.span('(placeholder) Message') +
-      button_to('Remove Friend', friendship_path(user), method: :delete, data: { turbo_confirm: 'Are you sure?' })
+      button_to('Remove Friend', friendship_path(user), params: { friendship: { friend_id: user.id} }, method: :delete, data: { turbo_confirm: 'Are you sure?' })
     when 'sent'
       button_to('Cancel Request', friendship_path(user), params: { request: :cancel }, method: :delete)
     when 'received'

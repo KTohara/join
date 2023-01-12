@@ -7,37 +7,48 @@ class FriendshipsController < ApplicationController
 
   def index
     @friends = current_user.friends
-    @friendship_requests = current_user.pending_requests
+    @friend_requests = current_user.pending_requests
   end
 
   def create
     @friendship = current_user.friendships.build(friendship_params)
+    @user = @friendship.friend
 
-    if @friendship.save
-      redirect_back fallback_location: friendships_path, notice: 'Friendship request sent'
+    flash.now[:notice] = if @friendship.save
+      'Friendship request sent'
     else
-      redirect_back fallback_location: friendships_path, notice: "#{@friendship.friend.username} already sent you a request"
+      "#{@friendship.friend.username} already sent you a request"
+    end
+
+    respond_to do |format|
+      format.turbo_stream { turbo_stream_replace_friend_request }
     end
   end
 
   def update
     @friendship = current_user.friendships.find_by(friend_id: params[:id])
+    @user = @friendship.friend
 
     if @friendship.update(friendship_params)
-      redirect_back fallback_location: friendships_path, notice: 'Friendship accepted'
+      flash.now[:notice] = 'Friendship accepted'
     else
-      redirect_back fallback_location: friendships_path, alert: 'Something went wrong!'
+      flash.now[:alert] = 'Something went wrong!'
+    end
+
+    respond_to do |format|
+      format.turbo_stream { turbo_stream_replace_friend_request }
     end
   end
 
   def destroy
     @friendship = Friendship.find_by(friend_id: params[:id])
+    @user = User.find_by(id: params[:friendship][:friend_id])
 
-    if @friendship.nil?
-      redirect_back fallback_location: friendships_path, alert: 'Friend request could not be deleted'
-    elsif @friendship.destroy
-      flash_msg = params[:request] == 'cancel' ? 'Request cancelled' : "#{@friendship.friend.username} removed as friend"
-      redirect_back fallback_location: friendships_path, alert: flash_msg
+    respond_to do |format|
+      @friendship.destroy unless @friendship.nil? # guard clause due to removing friends while on the same page
+      flash.now[:alert] = params[:request] == 'cancel' ? 'Request cancelled' : "#{@user.username} removed as friend"
+
+      format.turbo_stream { turbo_stream_replace_friend_request }
     end
   end
 
@@ -45,6 +56,13 @@ class FriendshipsController < ApplicationController
 
   def friendship_params
     params.require(:friendship).permit(:user_id, :friend_id, :status)
+  end
+
+  def turbo_stream_replace_friend_request
+    render turbo_stream: [
+      turbo_stream.replace("user_#{@user.id}", partial: 'friendships/friend_request', locals: { user: @user}),
+      turbo_stream.prepend('alert', partial: 'shared/alert')
+    ]
   end
 
   def send_friend_request_notification(friendship, message)

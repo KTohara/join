@@ -6,6 +6,6 @@
 
 <%= turbo_frame_tag 'users' do %>
   <% @users.each do |user| %>
-    <%= render 'friendships/friendship_request', user: user %>
+    <%= render 'friendships/friend_request', user: user %>
   <% end %>
 <% end %>
