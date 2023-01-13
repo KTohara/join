@@ -17,7 +17,7 @@
     </button>
 
     <div class="hidden" data-object-author-target="editButton">
-      <%= button_to edit_comment_path(comment), method: :get, data: { action: 'click@window->dropdown#close touchend@window->dropdown#close', dropdown_target: "button" }, aria: { expanded: 'false' } do %>
+      <%= button_to edit_comment_path(comment), method: :get do %>
         <i class="fa-regular fa-pen-to-square"></i>
         <span>Edit</span>
       <% end %>

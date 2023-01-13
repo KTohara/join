@@ -13,9 +13,7 @@ export default class extends Controller {
   //   console.log('connected to dropdown')
   // }
   
-  toggle(event) {
-    event.preventDefault();
-
+  toggle() {
     if (this.buttonTarget.getAttribute('aria-expanded') == 'false') {
       this.open();
     } else {

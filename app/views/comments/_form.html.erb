@@ -6,11 +6,9 @@
   class: local_assigns[:class] do |f| %>
   
   <% if f.object.errors.any? %>
-    <div>
-      <% f.object.errors.full_messages.each do |message| %>
-        <div><%= message %></div>
-      <% end %>
-    </div>
+    <% f.object.errors.full_messages.each do |message| %>
+      <p><%= message %></p>
+    <% end %>
   <% end %>
   
   <div class="flex flex-col content-start gap-x-2" data-controller="form">
