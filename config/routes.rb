@@ -4,13 +4,19 @@ Rails.application.routes.draw do
   root 'posts#index'
 
   resources :posts, except: :new do
-    resources :likes, only: %i[create destroy], module: :posts
-    resources :comments, only: %i[create], module: :posts
+    scope module: :posts do
+      resources :likes, only: %i[create destroy]
+      resources :comments, only: :create
+      post 'show_comments', to: 'comments#show_comments'
+    end
   end
   
   resources :comments, only: %i[edit update destroy] do
-    resources :likes, only: %i[create destroy], module: :comments
-    resources :comments, only: %i[create], module: :comments
+    scope module: :comments do
+      resources :likes, only: %i[create destroy]
+      resources :comments, only: :create
+      post 'show_comments', to: 'comments#show_comments'
+    end
   end
 
   resources :notifications, only: :destroy do

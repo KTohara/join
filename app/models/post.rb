@@ -38,4 +38,8 @@ class Post < ApplicationRecord
 
     created_at.strftime('%B %e')
   end
+
+  def parent_comments
+    comments.where(parent_id: nil)
+  end
 end

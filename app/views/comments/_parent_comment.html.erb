@@ -4,7 +4,7 @@
 <%= turbo_stream_from comment %>
 
 <div class="<%= nesting_padding(comment.nesting) %>" data-controller="dropdown">
-  <%= render comment, user: user %>
+  <%= render 'comments/comment', comment: comment, user: user %>
 
   <div id="<%= dom_id(comment, :comments) %>">
     <%= render 'comments/form',

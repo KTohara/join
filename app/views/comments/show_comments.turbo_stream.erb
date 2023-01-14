@@ -1,0 +1,14 @@
+<%= turbo_stream.update(dom_id(@commentable, :comments)) do %>
+  <%= render partial: 'comments/parent_comment',
+    collection: @commentable.comments.where(parent_id: nil).limit(@show_next_limit),
+    as: :comment,
+    locals: { user: @commentable.user } %>
+<% end %>
+
+<% if @show_next_limit < @max_comment_count %>
+  <%= turbo_stream.update(dom_id(@commentable, :load)) do %>
+    <%= render partial: 'comments/load_more', locals: { post: @commentable, limit: @show_next_limit } %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.remove(dom_id(@commentable, :load)) %>
+<% end %>

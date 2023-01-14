@@ -9,6 +9,16 @@ module Commentable
     after_action -> { send_comment_notification(@commentable, @commentable.author, 'replied to your post') }, only: :create, if: -> { valid_commentable_user?(@commentable, @parent) }
   end
 
+  def show_comments
+    @max_comment_count = @parent.present? ? @parent.comments.count : @commentable.parent_comments.count
+    @show_next_limit = params[:limit].to_i + 4
+    @commentable ||= @parent
+
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
   def create
     @comment = @commentable.comments.new(comment_params)
     @comment.user = current_user
