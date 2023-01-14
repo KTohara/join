@@ -10,10 +10,9 @@ module Commentable
   end
 
   def show_comments
-    @max_comment_count = @parent.present? ? @parent.comments.count : @commentable.parent_comments.count
-    @show_next_limit = params[:limit].to_i + 4
-    @commentable ||= @parent
-
+    @comments = reject_first_comment unless @pagy.present?
+    @pagy, @comments = pagy(@comments || @parent || @commentable, items: 10)
+    
     respond_to do |format|
       format.turbo_stream
     end
@@ -56,5 +55,15 @@ module Commentable
     # check to see if commentable user is neither parent user or current user
     users = [current_user, parent&.user].compact
     users.none? { |user| commentable.user == user }
+  end
+
+  def reject_first_comment
+    if @parent.present?
+      comment_to_reject = @parent.comments.first
+      @parent.comments.where.not(id: comment_to_reject)
+    else
+      comment_to_reject = @commentable.parent_comments.first
+      @commentable.parent_comments.where.not(id: comment_to_reject)
+    end
   end
 end

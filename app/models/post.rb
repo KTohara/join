@@ -25,7 +25,7 @@ class Post < ApplicationRecord
   belongs_to :user
   belongs_to :author, class_name: 'User'
 
-  has_many :comments, -> { includes(%i[user comments commentable]) },
+  has_many :comments, -> { includes(%i[user parent commentable]).order(created_at: :asc) },
            as: :commentable,
            dependent: :destroy
 

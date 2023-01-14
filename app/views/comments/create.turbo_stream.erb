@@ -1,7 +1,7 @@
 <% comment = Comment.new %>
 <% flash.now[:notice] = comment_flash_message %>
 
-<% if @parent %> <%# replace forms parent comments or nested comments %>
+<% if @parent.present? %> <%# replace forms parent comments or nested comments %>
   <%= turbo_stream.replace(dom_id_for_comment(@parent, comment)) do %>
     <%= render partial: 'comments/form',
       locals: {

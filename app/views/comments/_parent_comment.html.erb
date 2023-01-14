@@ -13,8 +13,12 @@
       data: { dropdown_target: 'popup' },
       class: 'hidden' %>
     <%= render partial: 'comments/parent_comment',
-      collection: comment.comments,
+      collection: comment.comments.limit(1),
       as: :comment,
       locals: { user: user } %>
+  </div>
+
+  <div id="<%= dom_id(comment, :load) %>" class="pl-5 mb-2">
+    <%= render 'comments/load_comments_button', commentable: comment %>
   </div>
 </div>

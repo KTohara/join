@@ -33,7 +33,7 @@ class Comment < ApplicationRecord
   belongs_to :commentable, polymorphic: true, counter_cache: :comment_count
   belongs_to :parent, optional: true, class_name: 'Comment'
 
-  has_many :comments, -> { includes(%i[user comments commentable]) },
+  has_many :comments, -> { includes(%i[user parent commentable]).order(created_at: :asc) },
            class_name: 'Comment',
            foreign_key: :parent_id,
            dependent: :destroy
