@@ -5,7 +5,7 @@ module Posts
     private
 
     def set_likeable
-      @likeable = Post.find(params[:post_id])
+      @likeable = Post.find_by(id: params[:post_id])
     end
   end
 end

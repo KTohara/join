@@ -13,12 +13,11 @@ export default class extends Controller {
   //   console.log('connected to dropdown')
   // }
   
-  toggle() {
-    if (this.buttonTarget.getAttribute('aria-expanded') == 'false') {
-      this.open();
-    } else {
-      this.close(null);
-    }
+  toggle(event) {
+    if (this.buttonTarget.getAttribute('aria-expanded') == 'false') return this.open();
+    if (this.buttonTarget.id == 'notification_btn') return this.closeNotifications(event);
+
+    this.close(null);
   }
 
   open() {
@@ -43,4 +42,14 @@ export default class extends Controller {
     }
   }
 
+  closeNotifications(event) {
+    let notifications = this.popupTarget;
+    let notificationBtn = this.buttonTarget;
+    let popupHidden = notifications.classList.contains('hidden');
+
+    if (popupHidden || notifications.contains(event.target)) return;
+    if (notificationBtn.contains(event.target)) event.preventDefault();
+
+    notifications.classList.add('hidden')
+  }
 }

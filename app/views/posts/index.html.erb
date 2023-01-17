@@ -1,9 +1,10 @@
 <%= render 'posts/form', post: @new_post %>
 
 <%= turbo_frame_tag "posts_page_#{@pagy.page}" do %>
-  <%= render @posts, user: current_user %>
-
-  <% if @pagy.next.present? %>
-    <%= render 'posts/infinite_scroll', user: current_user %>
-  <% end %>
+  <div id="posts">
+    <%= render @posts, user: current_user %>
+    <% if @pagy.next.present? %>
+      <%= render 'posts/infinite_scroll', user: current_user %>
+    <% end %>
+  </div>
 <% end %>

@@ -61,7 +61,7 @@ class FriendshipsController < ApplicationController
   def turbo_stream_replace_friend_request
     render turbo_stream: [
       turbo_stream.replace("user_#{@user.id}", partial: 'friendships/friend_request', locals: { user: @user}),
-      turbo_stream.prepend('alert', partial: 'shared/alert')
+      turbo_prepend_alert
     ]
   end
 

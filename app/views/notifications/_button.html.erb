@@ -1,5 +1,5 @@
 <div class="relative">
-  <%= button_to unread_notifications_path, method: :get, data: { action: toggle_popup('dropdown'), dropdown_target: 'button' } do %>
+  <%= button_to unread_notifications_path, id: 'notification_btn', method: :get, data: { action: toggle_popup('dropdown'), dropdown_target: 'button' } do %>
     <i class="fa-solid fa-bell"></i>
     <%= turbo_stream_from current_user.id, :notification_count %>
     <%= render 'notifications/notification_counter', notification_count: current_user.unread_notifications.count %>

@@ -1,6 +1,5 @@
 <div class="mt-2 p-5 border rounded-xl bg-white drop-shadow-sm" id=<%= dom_id(post) %>>
   <%= render 'posts/post_body', post: post %>
-  <hr>
 
   <%= turbo_stream_from post, :comment_count %>
   <%= render 'posts/comment_counter', post: post %>
@@ -13,7 +12,9 @@
       locals: { user: user } %>
   </div>
   <div id="<%= dom_id(post, :load) %>">
-    <%= render 'comments/load_comments_button', commentable: post %>
+    <% if post.comments.present? %>
+      <%= render 'comments/load_comments_button', commentable: post %>
+    <% end %>
   </div>
   <%= render 'comments/form', commentable: post, comment: Comment.new %>
 </div>

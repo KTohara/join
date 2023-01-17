@@ -25,9 +25,7 @@ Rails.application.routes.draw do
     get :unread, on: :collection
   end
 
-  resources :users, only: %i[index show] do
-    post :show, on: :member
-  end
-
+  resources :users, only: %i[index show]
+  # post 'user', to: 'users#show'
   resources :friendships, only: %i[index create update destroy]
 end

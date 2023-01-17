@@ -20,8 +20,8 @@
     </div>
 
     <div>
-      <%= f.button nil, data: { form_target: 'button' }, class: 'border rounded-full w-fit px-3' do %>
-        <i class="fas fa-circle-chevron-right"></i>
+      <%= f.button nil, data: { form_target: 'button' }, class: 'border rounded-full w-fit px-3', aria: { expanded: false } do %>
+        <i class="fa-regular fa-comments"></i>
         <span>Submit</span>
       <% end %>
 

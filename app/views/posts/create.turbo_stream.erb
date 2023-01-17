@@ -1,0 +1,16 @@
+<% flash[:alert] = 'Post successful' %>
+
+<% if @user %>
+  <%# request from user/show %>
+  <%= turbo_stream.replace('post_form') do %>
+    <%= render partial: 'posts/form', locals: { post: @user.posts.build, user: @user } %>
+  <% end %>
+<% else %>
+  <%# request from posts/index %>
+  <%= turbo_stream.replace('post_form') do %>
+    <%= render partial: 'posts/form', locals: { post: current_user.posts.build } %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.prepend('posts', partial: 'posts/post', locals: { post: @new_post, user: current_user} ) %>
+<%= turbo_stream.prepend('alert', partial: 'shared/alert') %>

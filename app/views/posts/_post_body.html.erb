@@ -9,13 +9,22 @@
     <% end %>
     <span><%= post.formatted_date %>:</span>
   </div>
-  <p><%= post.body %></p>
-  <hr>
 
-  <div class="flex gap-x-2">
-    <%= render 'likes/like_button', likeable: post, user: current_user %>
+  <% if post.image.attached? %>
+    <div class="flex justify-center bg-slate-50 w-full">
+      <%= image_tag post.image.variant(:resize) %>
+    </div>
+  <% end %>
+  <p><%= post.body %></p>
+  
+  <hr class="my-2">
+
+  <div class="flex gap-x-5">
     <%= turbo_stream_from post, :like_count, class: 'hidden' %>
-    <%= render 'likes/like_counter', likeable: post, user: current_user %>
+    <div class="flex gap-x-1">
+      <%= render 'likes/like_button', likeable: post, user: current_user %>
+      <%= render 'likes/like_counter', likeable: post, user: current_user %>
+    </div>
     
     <% if post.author == current_user %>
       <%= button_to edit_post_path(post), method: :get do %>
@@ -25,10 +34,11 @@
     <% end %>
 
     <% if post.user == current_user || post.author == current_user %>
-      <%= button_to post, method: :delete do %>
+      <%= button_to post, method: :delete, params: { post: { user_id: current_user.id }, data: { turbo_frame: '_top'}} do %>
         <i class="far fa-trash-can"></i>
         <span>Delete</span>
       <% end %>
     <% end %>
   </div>
+  <hr class="my-2">
 <% end %>

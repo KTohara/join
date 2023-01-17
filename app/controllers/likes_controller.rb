@@ -14,8 +14,8 @@ class LikesController < ApplicationController
   end
 
   def destroy
-    @like = Like.find(params[:id])
-    @like.destroy
+    @like = Like.find_by(id: params[:id])
+    @like.destroy unless @like.nil?
     respond_to do |format|
       flash.now[:alert] = 'You unliked the thing!'
       format.turbo_stream { turbo_update_like_button }
@@ -32,7 +32,7 @@ class LikesController < ApplicationController
         partial: 'likes/like_button',
         locals: { likeable: @likeable, user: current_user }
       ),
-      turbo_stream.prepend('alert', partial: 'shared/alert')
+      turbo_prepend_alert
     ]
   end
 

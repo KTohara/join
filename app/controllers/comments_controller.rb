@@ -10,7 +10,7 @@ class CommentsController < ApplicationController
           flash.now[:notice] = 'Comment updated!'
           render turbo_stream: [
             turbo_stream.replace(@comment, partial: 'comments/comment', locals: { comment: @comment, user: current_user }),
-            turbo_stream.prepend('alert', partial: 'shared/alert')
+            turbo_prepend_alert
           ]
         end
         format.html { redirect_to posts_path, notice: 'Comment updated!' }
@@ -25,7 +25,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         flash.now[:alert] = 'Comment deleted'
-        render turbo_stream: turbo_stream.prepend('alert', partial: 'shared/alert')
+        render turbo_stream: turbo_prepend_alert
       end
       format.html { redirect_to posts_path, alert: 'Comment deleted' }
     end

@@ -1,9 +1,9 @@
 module PostsHelper
   def submit_button_text
-    if action_name == 'index' || action_name == 'show'
-      'Post'
-    else
+    if action_name == 'edit'
       'Save'
+    else
+      'Post'
     end
   end
 

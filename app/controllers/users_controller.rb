@@ -3,18 +3,12 @@ class UsersController < ApplicationController
 
   def index
     @users = User.search_by_user(params, current_user)
-
   end
 
   def show
     @user = User.find(params[:id])
-    @pagy, @posts = pagy_countless(@user.posts.order(created_at: :desc), items: 5)
-    @post = @user.posts.build
-
-    respond_to do |format|
-      format.html # for regular get request
-      format.turbo_stream # for pagy post request
-    end
+    @pagy, @posts = pagy(@user.posts.includes(:comments, :image_attachment).order(created_at: :desc), items: 5)
+    @new_post = @user.posts.build
   end
 
   private

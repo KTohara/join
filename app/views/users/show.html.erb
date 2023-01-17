@@ -1,11 +1,12 @@
 <h1><%= @user.username %>'s page</h1>
 <h1>Profile splash goes here</h1>
-<%= render 'posts/form', post: @post, user: @user %>
+<%= render 'posts/form', post: @new_post, user: @user %>
 
 <%= turbo_frame_tag "posts_page_#{@pagy.page}" do %>
-  <%= render @posts, user: current_user %>
-
-  <% if @pagy.next.present? %>
-    <%= render 'posts/infinite_scroll', user: current_user %>
-  <% end %>
+  <div id="posts">
+    <%= render @posts, user: current_user %>
+    <% if @pagy.next.present? %>
+      <%= render 'posts/infinite_scroll', user: current_user %>
+    <% end %>
+  </div>
 <% end %>
