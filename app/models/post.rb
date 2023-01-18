@@ -29,7 +29,7 @@ class Post < ApplicationRecord
     attachable.variant :resize, resize_to_limit: [1200, 630]
   end
 
-  has_many :comments, -> { includes(%i[user parent]).order(created_at: :asc) },
+  has_many :comments, -> { order(created_at: :asc) },
            as: :commentable,
            dependent: :destroy
   
@@ -41,9 +41,7 @@ class Post < ApplicationRecord
   validates :image, content_type: { in: %w[image/png image/jpg image/jpeg], message: 'image must be a valid format' },
                     size: { less_than: 5.megabytes, message: 'image must be less than 5MB' }
 
-  def formatted_date
-    created_at.strftime('%B %e')
-  end
+
 
   def parent_comments
     comments.where(parent_id: nil)

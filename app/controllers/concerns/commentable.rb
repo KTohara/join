@@ -11,7 +11,7 @@ module Commentable
 
   def show_comments
     @comments = reject_first_comment unless @pagy.present?
-    @pagy, @comments = pagy(@comments || @parent || @commentable, items: 10)
+    @pagy, @comments = pagy_countless(@comments || @parent || @commentable, items: 10)
     
     respond_to do |format|
       format.turbo_stream
@@ -60,10 +60,14 @@ module Commentable
   def reject_first_comment
     if @parent.present?
       comment_to_reject = @parent.comments.first
-      @parent.comments.where.not(id: comment_to_reject)
+      @parent.comments
+        .includes(:user, :commentable, :parent)
+        .where.not(id: comment_to_reject)
     else
       comment_to_reject = @commentable.parent_comments.first
-      @commentable.parent_comments.where.not(id: comment_to_reject)
+      @commentable.parent_comments
+        .includes(:user, :commentable)
+        .where.not(id: comment_to_reject)
     end
   end
 end
