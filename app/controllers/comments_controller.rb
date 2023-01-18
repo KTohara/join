@@ -1,5 +1,12 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: %i[edit update destroy]
+  before_action :set_comment, only: %i[show edit update destroy]
+
+  def show
+    respond_to do |format|
+      format.turbo_stream { turbo_cancel_comment_edit }
+      format.html
+    end
+  end
 
   def edit; end
 
@@ -39,5 +46,13 @@ class CommentsController < ApplicationController
 
   def set_comment
     @comment = Comment.find(params[:id])
+  end
+
+  def turbo_cancel_comment_edit
+    render turbo_stream: turbo_stream.replace(
+      helpers.dom_id_for_comment(@comment),
+      partial: 'comments/comment',
+      locals: { comment: @comment, user: current_user }
+    )
   end
 end

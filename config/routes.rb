@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :comments, only: %i[edit update destroy] do
+  resources :comments, only: %i[show edit update destroy] do
     scope module: :comments do
       resources :likes, only: %i[create destroy]
       resources :comments, only: :create
