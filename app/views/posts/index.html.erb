@@ -5,7 +5,5 @@
 </div>
 
 <% if @pagy.next.present? %>
-  <%= turbo_frame_tag :infinite_scroll, loading: :lazy, src: posts_path(format: :turbo_stream) do %>
-    <p class='text-[1px]'>.</p> <%# not sure why the turbo frame won't load without it having something inside the block %>
-  <% end %>
+  <%= turbo_frame_tag :infinite_scroll, loading: :lazy, src: posts_path(format: :turbo_stream) %>
 <% end %>

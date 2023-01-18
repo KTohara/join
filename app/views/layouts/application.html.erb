@@ -12,10 +12,10 @@
     <%= javascript_include_tag "https://kit.fontawesome.com/6191f9c23a.js", crossorigin: 'anonymous', defer: 'defer' %>
   </head>
 
-  <body class="font-roboto bg-stone-100">
+  <body class="font-roboto bg-stone-100 text-sm">
     <%= render 'shared/nav' unless devise_controller? %>
     <%= turbo_frame_tag :alert %>
-    <main class="container mx-auto mt-10 w-[60%]">
+    <main class="container mx-auto mt-10 px-52">
       <%= yield %>
     </main>
   </body>
