@@ -2,11 +2,12 @@
 <h1>Profile splash goes here</h1>
 <%= render 'posts/form', post: @new_post, user: @user %>
 
-<%= turbo_frame_tag "posts_page_#{@pagy.page}" do %>
-  <div id="posts">
-    <%= render @posts, user: current_user %>
-    <% if @pagy.next.present? %>
-      <%= render 'posts/infinite_scroll', user: current_user %>
-    <% end %>
-  </div>
+<div id="posts">
+  <%= render @posts, user: current_user %>
+</div>
+
+<% if @pagy.next.present? %>
+  <%= turbo_frame_tag :infinite_scroll, loading: :lazy, src: posts_path(format: :turbo_stream) do %>
+    <p class='text-[1px]'>.</p> <%# not sure why the turbo frame won't load without it having something inside the block %>
+  <% end %>
 <% end %>
