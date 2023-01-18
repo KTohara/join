@@ -8,9 +8,19 @@ class PostsController < ApplicationController
   def index
     @pagy, @posts = pagy(current_user.feed, items: 5)
     @new_post = current_user.posts.build
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+    end
   end
 
-  def show; end
+  def show
+    respond_to do |format|
+      format.html
+      format.turbo_stream { turbo_cancel_post_edit }
+    end
+  end
 
   def create
     respond_to do |format|
@@ -22,14 +32,6 @@ class PostsController < ApplicationController
         format.html { render :index, status: :unprocessable_entity }
       end
     end
-    # if @new_post.save
-    #   redirect_back fallback_location: posts_url, notice: 'Post successful!'
-    # else
-    #   # if params[:post][:user_id] # create request from users/show
-    #     # render 'users/show', status: :unprocessable_entity
-    #   # else
-    #   render :index, status: :unprocessable_entity
-    # end
   end
 
   def edit; end
@@ -47,7 +49,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    flash[:alert] = @post&.destroy ? 'Post deleted!' : 'Post not found'
+    flash.now[:alert] = @post&.destroy ? 'Post deleted!' : 'Post not found'
 
     respond_to do |format|
       if @post.destroy
@@ -82,6 +84,14 @@ class PostsController < ApplicationController
       turbo_stream.replace("post_body_#{@post.id}", partial: 'posts/post_body', locals: { post: @post, user: current_user }),
       turbo_prepend_alert
     ]
+  end
+
+  def turbo_cancel_post_edit
+    render turbo_stream: turbo_stream.replace(
+      "post_form",
+      partial: 'posts/post_body',
+      locals: { post: @post }
+    )
   end
 
   def turbo_destroy_post

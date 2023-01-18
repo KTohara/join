@@ -26,6 +26,5 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: %i[index show]
-  # post 'user', to: 'users#show'
   resources :friendships, only: %i[index create update destroy]
 end

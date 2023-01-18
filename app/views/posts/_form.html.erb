@@ -22,7 +22,7 @@
 
       <% if f.object.persisted? %>
         <div class="w-full rounded hover:bg-slate-100 ease-in duration-100">
-          <%= link_to posts_path, class: 'w-full flex justify-center items-center gap-1' do %>
+          <%= link_to post_path(post), class: 'w-full flex justify-center items-center gap-1', method: :get do %>
             <i class="fas fa-rotate-left"></i>
             <span>Cancel</span>
           <% end %>
