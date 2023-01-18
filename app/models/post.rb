@@ -29,7 +29,7 @@ class Post < ApplicationRecord
     attachable.variant :resize, resize_to_limit: [1200, 630]
   end
 
-  has_many :comments, -> { includes(%i[user parent commentable]).order(created_at: :asc) },
+  has_many :comments, -> { includes(%i[user parent]).order(created_at: :asc) },
            as: :commentable,
            dependent: :destroy
   
