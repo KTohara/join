@@ -33,7 +33,10 @@ class Comment < ApplicationRecord
   belongs_to :commentable, polymorphic: true, counter_cache: :comment_count
   belongs_to :parent, optional: true, class_name: 'Comment'
 
-  has_one_attached :image
+  has_one_attached :image, dependent: :destroy do |attachable|
+    attachable.variant :thumb, resize_to_limit: [260, 128]
+  end
+  
   has_many :comments, -> { order(created_at: :asc) },
            class_name: 'Comment',
            foreign_key: :parent_id,
@@ -42,8 +45,11 @@ class Comment < ApplicationRecord
   has_many :likes, as: :likeable, dependent: :destroy
   has_many :notifications, as: :notifiable, dependent: :destroy
 
-  validates :body, presence: true, length: { maximum: 8_000 }
+  validates :body, presence: true, unless: proc { |comment| comment.image.attached? }
+  validates :body, length: { maximum: 8_000 }
   validates :nesting, presence: true
+  validates :image, content_type: { in: %w[image/png image/jpg image/jpeg], message: 'image must be a valid format' },
+                    size: { less_than: 5.megabytes, message: 'image must be less than 5MB' }
 
   after_create_commit do
     broadcast_create_to_comment

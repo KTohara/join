@@ -41,8 +41,6 @@ class Post < ApplicationRecord
   validates :image, content_type: { in: %w[image/png image/jpg image/jpeg], message: 'image must be a valid format' },
                     size: { less_than: 5.megabytes, message: 'image must be less than 5MB' }
 
-
-
   def parent_comments
     comments.where(parent_id: nil)
   end

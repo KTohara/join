@@ -3,19 +3,26 @@
   <%= f.hidden_field :user_id, value: user.id if local_assigns[:user] %>
 
   <div class="p-5 border rounded-xl bg-white drop-shadow-sm" data-controller="form">
-    <div class="flex flex-col w-full items-stretch mb-2">
+    <div class="flex flex-col w-full mb-2">
       <%= f.text_area :body,
         placeholder: form_placeholder_message,
-        data: { action: 'form#resize keyup->form#is_empty', form_target: 'input' },
+        data: { action: 'form#resize keyup->form#isEmpty', form_target: 'input' },
         class: "w-full h-9 border-none bg-stone-100 rounded-2xl hover:text" %>
-      <%= render 'shared/form_errors', form: f, param_type: :body %>
-      <%= render 'shared/form_errors', form: f, param_type: :image %>
+      <div class="flex justify-between items-baseline">
+        <div>
+          <%= render 'shared/form_errors', form: f, param_type: :body %>
+          <%= render 'shared/form_errors', form: f, param_type: :image %>
+        </div>
+        <div class=" text-xs" data-form-target="preview">
+          <p><%= "Image: #{f.object.image.filename}" if f.object.image.attached? %></p>
+        </div>
+      </div>
     </div>
 
     <div class="flex justify-around items-center gap-x-2 h-8">
       <div class='w-full rounded hover:bg-slate-100 ease-in duration-100'>
         <%= f.button nil, class: 'w-full flex justify-center items-center gap-1', data: { form_target: 'button' } do %>
-          <i class="fa-regular fa-comments"></i>
+          <i class="fa-regular fa-comments text-stone-500"></i>
           <span><%= submit_button_text %></span>
         <% end %>
       </div>
@@ -23,18 +30,18 @@
       <% if f.object.persisted? %>
         <div class="w-full rounded hover:bg-slate-100 ease-in duration-100">
           <%= link_to post_path(post), class: 'w-full flex justify-center items-center gap-1', method: :get do %>
-            <i class="fas fa-rotate-left"></i>
+            <i class="fas fa-rotate-left text-stone-500"></i>
             <span>Cancel</span>
           <% end %>
         </div>
       <% end %>
 
-      <div class="relative w-full rounded hover:bg-slate-100 ease-in duration-100">
+      <div class="relative w-full rounded text-stone-500 hover:bg-slate-100 ease-in duration-100">
         <div data-action="click->form#uploadImage" class="flex justify-center items-center gap-1 w-full hover:cursor-pointer">
           <i class="fa-regular fa-image"></i>
           <span>Photo</span>
         </div>
-        <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#is_empty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
+        <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="form"
 export default class extends Controller {
-  static targets = ['input', 'button', 'image'];
+  static targets = ['input', 'button', 'image', 'preview'];
 
   connect() {
     this.inputTarget.style.resize = 'none';
@@ -23,12 +23,13 @@ export default class extends Controller {
     event.target.style.height = `${event.target.scrollHeight}px`;
   }
 
-  is_empty() {
+  isEmpty() {
     let disableStatus = true;
-    // if (this.imageTarget.files.length > 0) {
-    //   this.buttonTarget.disabled = !disableStatus;
-    //   return this.buttonTarget.classList.remove('disabled:opacity-50');
-    // }
+
+    if (this.imageTarget.files.length > 0) {
+      this.buttonTarget.disabled = !disableStatus;
+      return this.buttonTarget.classList.remove('disabled:opacity-50');
+    }
 
     if (this.inputTarget.value.length == 0) {
       disableStatus = false
@@ -39,7 +40,18 @@ export default class extends Controller {
     this.buttonTarget.classList.remove('disabled:opacity-50');
   }
 
-  uploadImage(event) {
+  uploadImage() {
     this.imageTarget.click();
+  }
+
+  preview() {
+    let imageFile = this.imageTarget.files;
+
+    debugger
+    if (imageFile.length >= 1) {
+      this.previewTarget.textContent = `Image: ${imageFile[0].name}`;
+    } else {
+      this.previewTarget.textContent = '';
+    }
   }
 }

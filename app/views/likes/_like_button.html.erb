@@ -1,7 +1,7 @@
 <div class="flex" id="<%= dom_id(likeable, :like_button) %>">
   <% if user.liked?(likeable) == false %>
     <%= button_to [likeable, Like.new], method: :post do %>
-      <i class="far fa-thumbs-up"></i>
+      <i class="far fa-thumbs-up text-stone-500"></i>
     <% end %>
   <% else %>
     <%= button_to [likeable, user.find_like(likeable)], method: :delete do %>

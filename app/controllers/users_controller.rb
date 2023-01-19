@@ -7,7 +7,12 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @pagy, @posts = pagy_countless(@user.posts.includes(:comments, :image_attachment).order(created_at: :desc), items: 5)
+    user_feed = @user.posts
+      .with_attached_image
+      .includes(:comments, :image_attachment)
+      .order(created_at: :desc)
+
+    @pagy, @posts = pagy_countless(user_feed, items: 5)
     @new_post = @user.posts.build
 
     respond_to do |format|

@@ -36,7 +36,7 @@ module Commentable
   private
 
   def comment_params
-    params.require(:comment).permit(:body)
+    params.require(:comment).permit(:body, :image)
   end
 
   def send_comment_notification(comment_type, recipient, message)
