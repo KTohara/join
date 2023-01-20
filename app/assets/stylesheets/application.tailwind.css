@@ -7,7 +7,17 @@
   .btn {
     border-radius: 6px;
     width: 100%;
-    color: rgb(238, 157, 7);
+    color: #e06706;
+  }
+
+  .icon {
+    color: #e06706;
+  }
+
+  .hover-orange-text:hover {
+    color: #e06706;
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+    transition-duration: 100ms;
   }
 
   /* .image-upload {

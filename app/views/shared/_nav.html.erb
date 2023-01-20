@@ -4,16 +4,16 @@
       <%= link_to root_path do %>
         <%= image_tag('logo-join.svg', width: '100') %>
       <% end %>
-      <%= link_to "Welcome #{current_user.username}", user_path(current_user) %>
-      <%= link_to 'Search People', users_path %>
+      <%= link_to "Welcome #{current_user.username}", user_path(current_user), class: 'hover-orange-text' %>
+      <%= link_to 'Search People', users_path, class: 'hover-orange-text' %>
     </div>
     <div class="flex items-center justify-center gap-x-3 ">
-      <%= link_to 'Posts', posts_path %>
-      <%= link_to 'Friends', friendships_path %>
-      <%= link_to 'Profile' %>
-      <%= link_to 'Messages' %>
-      <%= link_to 'Settings' %>
-      <%= link_to 'Log Out', destroy_user_session_path, data: { turbo_method: :delete } %>
+      <%= link_to 'Posts', posts_path, class: 'hover-orange-text' %>
+      <%= link_to 'Friends', friendships_path, class: 'hover-orange-text' %>
+      <%= link_to 'Profile', '#', class: 'hover-orange-text' %>
+      <%= link_to 'Messages', '#', class: 'hover-orange-text' %>
+      <%= link_to 'Settings', '#', class: 'hover-orange-text' %>
+      <%= link_to 'Log Out', destroy_user_session_path, data: { turbo_method: :delete }, class: 'hover-orange-text' %>
     
       <%= turbo_frame_tag :notifications do %>
         <%= render 'notifications/button' %>

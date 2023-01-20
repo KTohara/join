@@ -22,24 +22,24 @@
     <div class="flex justify-around items-center gap-x-2 h-8">
       <div class='w-full rounded hover:bg-slate-100 ease-in duration-100'>
         <%= f.button nil, class: 'w-full flex justify-center items-center gap-1', data: { form_target: 'submit' } do %>
-          <i class="fa-regular fa-comments text-stone-500"></i>
-          <span><%= submit_button_text %></span>
+          <i class="fa-regular fa-comments icon"></i>
+          <span class="text-slate-600"><%= submit_button_text %></span>
         <% end %>
       </div>
 
       <% if f.object.persisted? %>
         <div class="w-full rounded hover:bg-slate-100 ease-in duration-100">
           <%= link_to post_path(post), class: 'w-full flex justify-center items-center gap-1', method: :get do %>
-            <i class="fas fa-rotate-left text-stone-500"></i>
-            <span>Cancel</span>
+            <i class="fas fa-rotate-left icon"></i>
+            <span class="text-slate-600">Cancel</span>
           <% end %>
         </div>
       <% end %>
 
-      <div class="relative w-full rounded text-stone-500 hover:bg-slate-100 ease-in duration-100">
+      <div class="relative w-full rounded hover:bg-slate-100 ease-in duration-100">
         <div data-action="click->form#uploadImage" class="flex justify-center items-center gap-1 w-full hover:cursor-pointer">
-          <i class="fa-regular fa-image"></i>
-          <span>Photo</span>
+          <i class="fa-regular fa-image icon"></i>
+          <span class="text-slate-600">Photo</span>
         </div>
         <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
       </div>

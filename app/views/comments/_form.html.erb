@@ -16,13 +16,13 @@
 
       <div class="flex justify-center items-center w-5">
         <div data-action="click->form#uploadImage" class="hover:cursor-pointer">
-          <i class="fa-regular fa-image text-stone-500"></i>
+          <i class="fa-regular fa-image icon"></i>
         </div>
         <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
       </div>
 
       <%= f.button nil, data: { form_target: 'submit' }, aria: { expanded: false }, class: 'flex items-center w-fit px-3 gap-x-2 rounded-r-2xl' do %>
-        <i class="fa-regular fa-comments text-stone-500"></i><%# submit button%>
+        <i class="fa-regular fa-comments icon"></i><%# submit button%>
       <% end %>
     </div>
 
@@ -36,7 +36,7 @@
 
       <% if f.object.persisted? %>
         <%= link_to comment_path(comment), method: :get do %>
-          <i class="fas fa-rotate-left text-stone-500"></i>
+          <i class="fas fa-rotate-left icon"></i>
           <span>Cancel</span>
         <% end %>
       <% end %>

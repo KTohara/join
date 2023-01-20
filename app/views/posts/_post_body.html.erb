@@ -1,11 +1,11 @@
 <%= turbo_frame_tag "post_body_#{post.id}" do %>
   <div class="mb-2 font-medium">
     <% if post.author == post.user %>
-      <%= link_to post.author.username, post.author, data: { turbo_frame: '_top' } %>
+      <%= link_to post.author.username, post.author, data: { turbo_frame: '_top' }, class: 'hover-orange-text' %>
     <% else %>
-      <%= link_to post.author.username, post.author, data: { turbo_frame: '_top' } %>
+      <%= link_to post.author.username, post.author, data: { turbo_frame: '_top' }, class: 'hover-orange-text' %>
       <i class="fa-solid fa-play h-[11px] text-stone-400"></i>
-      <%= link_to post.user.username, post.user, data: { turbo_frame: '_top' } %>
+      <%= link_to post.user.username, post.user, data: { turbo_frame: '_top' }, class: 'hover-orange-text' %>
     <% end %>
     <p class="text-xs font-light"><%= formatted_date(post) %></p>
   </div>
@@ -29,12 +29,12 @@
     <div class="pr-5 flex gap-x-4">
       <% if post.author == current_user %>
         <%= button_to edit_post_path(post), method: :get do %>
-          <i class="fa-regular fa-pen-to-square text-stone-500"></i>
+          <i class="fa-regular fa-pen-to-square icon"></i>
         <% end %>
       <% end %>
       <% if post.user == current_user || post.author == current_user %>
         <%= button_to post, method: :delete, params: { post: { user_id: current_user.id }, data: { turbo_frame: '_top'}} do %>
-          <i class="far fa-trash-can text-stone-500"></i>
+          <i class="far fa-trash-can icon"></i>
         <% end %>
       <% end %>
     </div>
