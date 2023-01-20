@@ -2,10 +2,10 @@
 <h1>Profile splash goes here</h1>
 <%= render 'posts/form', post: @new_post, user: @user %>
 
-<div id="posts">
+<div id="posts" class="mb-2">
   <%= render @posts, user: current_user %>
 </div>
 
 <% if @pagy.next.present? %>
-  <%= turbo_frame_tag :infinite_scroll, loading: :lazy, src: posts_path(format: :turbo_stream) %>
+  <%= turbo_frame_tag :infinite_scroll, loading: :lazy, src: posts_path(format: :turbo_stream), class: 'absolute bottom-5' %>
 <% end %>

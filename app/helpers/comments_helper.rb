@@ -16,6 +16,6 @@ module CommentsHelper
 
   def nesting_padding(nesting)
     return if nesting == 1
-    "pl-5"
+    "pl-8"
   end
 end

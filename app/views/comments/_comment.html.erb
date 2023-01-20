@@ -5,12 +5,12 @@
   </div>
 
   <% if comment.image.attached? %>
-    <div>
-      <%= image_tag comment.image.variant(:thumb), class: 'rounded-md' %>
-    </div>
+    <%= link_to comment.image.url, target: '_blank', class: 'block w-fit' do %>
+      <%= image_tag comment.image.variant(:thumb), class: 'rounded-2xl' %>
+    <% end %>
   <% end %>
 
-  <div class="flex pl-4 gap-x-3 m-2 items-baseline text-sm" data-controller="object-author"
+  <div class="flex gap-x-3 m-2 items-baseline text-sm" data-controller="object-author"
     data-object-author-commenter-id-value="<%= comment.user_id %>"
     data-object-author-poster-id-value="<%= comment.commentable.user_id %>">
 

@@ -5,37 +5,34 @@
   data: local_assigns[:data],
   class: local_assigns[:class] do |f| %>
   
-  <% if f.object.errors.any? %>
-    <% f.object.errors.full_messages.each do |message| %>
-      <p><%= message %></p>
-    <% end %>
-  <% end %>
-  
   <div class="flex flex-col gap-x-2" data-controller="form">
-    <div class="flex border-red-800">
+    <div class="flex rounded-2xl focus-within:ring-1 focus-within:ring-blue-500 bg-stone-100">
       <%= f.text_area :body,
         placeholder: 'Write a comment...',
         data: { action: 'input->form#resize input->form#isEmpty', form_target: 'input' },
-        class: 'w-full h-9 bg-stone-100 border-none rounded-l-2xl text-sm' %>
+        class: 'w-full h-9 bg-stone-100 border-transparent focus:border-transparent focus:ring-0 rounded-l-2xl text-sm' %>
       <%= render 'shared/form_errors', form: f, param_type: :body %>
       <%= render 'shared/form_errors', form: f, param_type: :image %>
 
-      <div class="flex items-center pl-2 w-10 bg-stone-100 border-none rounded-r-2xl">
+      <div class="flex justify-center items-center w-5">
         <div data-action="click->form#uploadImage" class="hover:cursor-pointer">
           <i class="fa-regular fa-image text-stone-500"></i>
         </div>
         <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
       </div>
+
+      <%= f.button nil, data: { form_target: 'submit' }, aria: { expanded: false }, class: 'flex items-center w-fit px-3 gap-x-2 rounded-r-2xl' do %>
+        <i class="fa-regular fa-comments text-stone-500"></i><%# submit button%>
+      <% end %>
     </div>
+
+
     <p class="self-end text-xs" data-form-target="preview">
       <%= "Image: #{f.object.image.filename}" if f.object.image.attached? %>
     </p>
 
     <div>
-      <%= f.button nil, data: { form_target: 'button' }, class: 'border rounded-full w-fit px-3', aria: { expanded: false } do %>
-        <i class="fa-regular fa-comments text-stone-500"></i>
-        <span>Submit</span>
-      <% end %>
+
 
       <% if f.object.persisted? %>
         <%= link_to comment_path(comment), method: :get do %>

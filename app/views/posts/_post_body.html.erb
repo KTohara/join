@@ -19,24 +19,25 @@
   
   <hr class="my-2">
 
-  <div class="flex gap-x-5">
+  <div class="pl-5 flex justify-between">
     <%= turbo_stream_from post, :like_count, class: 'hidden' %>
     <div class="flex gap-x-1">
       <%= render 'likes/like_button', likeable: post, user: current_user %>
       <%= render 'likes/like_counter', likeable: post, user: current_user %>
     </div>
     
-    <% if post.author == current_user %>
-      <%= button_to edit_post_path(post), method: :get do %>
-        <i class="fa-regular fa-pen-to-square text-stone-500"></i>
+    <div class="pr-5 flex gap-x-4">
+      <% if post.author == current_user %>
+        <%= button_to edit_post_path(post), method: :get do %>
+          <i class="fa-regular fa-pen-to-square text-stone-500"></i>
+        <% end %>
       <% end %>
-    <% end %>
-
-    <% if post.user == current_user || post.author == current_user %>
-      <%= button_to post, method: :delete, params: { post: { user_id: current_user.id }, data: { turbo_frame: '_top'}} do %>
-        <i class="far fa-trash-can text-stone-500"></i>
+      <% if post.user == current_user || post.author == current_user %>
+        <%= button_to post, method: :delete, params: { post: { user_id: current_user.id }, data: { turbo_frame: '_top'}} do %>
+          <i class="far fa-trash-can text-stone-500"></i>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
   </div>
   <hr class="my-2">
 <% end %>

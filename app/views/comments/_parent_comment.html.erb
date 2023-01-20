@@ -18,7 +18,7 @@
       locals: { user: user } %>
   </div>
 
-  <div id="<%= dom_id(comment, :load) %>" class="pl-5 mb-2">
+  <div id="<%= dom_id(comment, :load) %>" class="px-5 mb-2 w-fit text-slate-800">
     <%= render 'comments/load_comments_button', commentable: comment %>
   </div>
 </div>

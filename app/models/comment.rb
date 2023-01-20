@@ -27,7 +27,7 @@ class Comment < ApplicationRecord
   include ActionView::RecordIdentifier
   include ActionView::Helpers::TextHelper
 
-  MAX_NESTING_LEVEL = 2
+  MAX_NESTING_LEVEL = 3
 
   belongs_to :user
   belongs_to :commentable, polymorphic: true, counter_cache: :comment_count

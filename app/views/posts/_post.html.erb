@@ -2,7 +2,9 @@
   <%= render 'posts/post_body', post: post %>
 
   <%= turbo_stream_from post, :comment_count %>
-  <%= render 'posts/comment_counter', post: post %>
+  <div class="flex justify-end mb-2">
+    <%= render 'posts/comment_counter', post: post %>
+  </div>
 
   <%= turbo_stream_from post, :comments %>
   <div id="<%= dom_id(post, :comments) %>">
@@ -11,7 +13,7 @@
       as: :comment,
       locals: { user: user } %>
   </div>
-  <div id="<%= dom_id(post, :load) %>">
+  <div id="<%= dom_id(post, :load) %>" class="mb-2 text-slate-800">
     <% if post.comments.present? %>
       <%= render 'comments/load_comments_button', commentable: post %>
     <% end %>

@@ -5,7 +5,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="form"
 export default class extends Controller {
-  static targets = ['input', 'button', 'image', 'preview'];
+  static targets = ['input', 'submit', 'image', 'preview'];
 
   connect() {
     this.inputTarget.style.resize = 'none';
@@ -13,8 +13,8 @@ export default class extends Controller {
     this.inputTarget.style.overflow = 'hidden';
 
     if (this.inputTarget.value.length == 0) {
-      this.buttonTarget.disabled = true;
-      this.buttonTarget.classList.add('disabled:opacity-50');
+      this.submitTarget.disabled = true;
+      this.submitTarget.classList.add('disabled:opacity-50');
     }
   }
 
@@ -27,17 +27,17 @@ export default class extends Controller {
     let disableStatus = true;
 
     if (this.imageTarget.files.length > 0) {
-      this.buttonTarget.disabled = !disableStatus;
-      return this.buttonTarget.classList.remove('disabled:opacity-50');
+      this.submitTarget.disabled = !disableStatus;
+      return this.submitTarget.classList.remove('disabled:opacity-50');
     }
 
     if (this.inputTarget.value.length == 0) {
       disableStatus = false
-      this.buttonTarget.classList.add('disabled:opacity-50');
-      return this.buttonTarget.disabled = !disableStatus;
+      this.submitTarget.classList.add('disabled:opacity-50');
+      return this.submitTarget.disabled = !disableStatus;
     }
-    this.buttonTarget.disabled = !disableStatus;
-    this.buttonTarget.classList.remove('disabled:opacity-50');
+    this.submitTarget.disabled = !disableStatus;
+    this.submitTarget.classList.remove('disabled:opacity-50');
   }
 
   uploadImage() {
@@ -47,7 +47,6 @@ export default class extends Controller {
   preview() {
     let imageFile = this.imageTarget.files;
 
-    debugger
     if (imageFile.length >= 1) {
       this.previewTarget.textContent = `Image: ${imageFile[0].name}`;
     } else {
