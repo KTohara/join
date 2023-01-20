@@ -31,7 +31,7 @@ export default class extends Controller {
       return this.submitTarget.classList.remove('disabled:opacity-50');
     }
 
-    if (this.inputTarget.value.length == 0) {
+    if (this.inputTarget.value.trim().length === 0) {
       disableStatus = false
       this.submitTarget.classList.add('disabled:opacity-50');
       return this.submitTarget.disabled = !disableStatus;

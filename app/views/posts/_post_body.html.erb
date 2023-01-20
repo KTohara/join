@@ -12,10 +12,10 @@
 
   <% if post.image.attached? %>
     <div class="flex justify-center bg-slate-50 w-full">
-      <%= image_tag post.image.variant(:resize) %>
+      <%= image_tag post.image.variant(:display) %>
     </div>
   <% end %>
-  <p><%= post.body %></p>
+  <p class="whitespace-pre-wrap"><%= post.body %></p>
   
   <hr class="my-2">
 

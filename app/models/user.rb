@@ -46,12 +46,17 @@ class User < ApplicationRecord
   # Likes
   has_many :likes, dependent: :destroy
 
+  # Profile
+  has_one :profile, dependent: :destroy
+
   # Notifications
   has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
   has_many :sent_notifications, class_name: 'Notification', foreign_key: 'sender_id', dependent: :destroy
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..50 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
+
+  after_create :create_profile
 
   def self.search_by_user(params, current_user)
     users = where.not(id: current_user.id)

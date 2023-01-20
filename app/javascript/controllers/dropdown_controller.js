@@ -24,9 +24,9 @@ export default class extends Controller {
     this.buttonTarget.setAttribute('aria-expanded', 'true');
     this.popupTarget.classList.remove('hidden');
 
-    if (this.popupTarget.id.includes('new_comment')) {
-      this.popupTarget.classList.add('pl-5');
-    }
+    // if (this.popupTarget.id.includes('new_comment')) {
+    //   this.popupTarget.classList.add('pl-5');
+    // }
   }
 
   close(event) {
@@ -37,9 +37,9 @@ export default class extends Controller {
     this.buttonTarget.setAttribute('aria-expanded', 'false');
     this.popupTarget.classList.add('hidden');
 
-    if (this.popupTarget.id.includes('new_comment')) {
-      this.popupTarget.classList.remove('pl-5');
-    }
+    // if (this.popupTarget.id.includes('new_comment')) {
+    //   this.popupTarget.classList.remove('pl-5');
+    // }
   }
 
   closeNotifications(event) {

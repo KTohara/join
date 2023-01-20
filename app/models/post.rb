@@ -26,7 +26,7 @@ class Post < ApplicationRecord
   belongs_to :author, class_name: 'User'
 
   has_one_attached :image, dependent: :destroy do |attachable|
-    attachable.variant :resize, resize_to_limit: [1200, 630]
+    attachable.variant :display, resize_to_limit: [1200, 630]
   end
 
   has_many :comments, -> { order(created_at: :asc) },
@@ -38,7 +38,7 @@ class Post < ApplicationRecord
   validates :body, presence: true, unless: proc { |post| post.image.attached? }
   validates :body, length: { maximum: 15_000 }
                    
-  validates :image, content_type: { in: %w[image/png image/jpg image/jpeg], message: 'image must be a valid format' },
+  validates :image, content_type: { in: %w[image/png image/jpg image/jpeg image/gif], message: 'image must be a valid format' },
                     size: { less_than: 5.megabytes, message: 'image must be less than 5MB' }
 
   def parent_comments
