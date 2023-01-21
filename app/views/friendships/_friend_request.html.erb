@@ -1,5 +1,14 @@
-<div id="<%= dom_id(user) %>" class="flex gap-x-2">
-  <%= link_to user.username, user_path(user), class: 'font-medium' %>
-  <% status = current_user.friendship_status(user) %>
-  <%= button_for_friendship_type(status, user) %>
+<% status = current_user.friendship_status(user) %>
+
+<div id="<%= dom_id(user) %>" class="flex items-center justify-between gap-2 mb-2">
+  <div class="flex items-center gap-2">
+    <div class="avatar">
+      <%= image_tag avatar_image(user, :thumb) %>
+    </div>
+    <%= link_to user.name, user_path(user), class: 'font-medium' %>
+  </div>
+
+  <div class="flex justify-between items-center gap-2">
+    <%= button_for_friendship_type(status, user) %>
+  </div>
 </div>

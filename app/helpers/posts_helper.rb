@@ -9,7 +9,7 @@ module PostsHelper
 
   def form_placeholder_message
     if @user.present? && @user != current_user
-      "Post something to #{@user.username}"
+      "Post something to #{@user.name}"
     else
       "What's on your mind?"
     end

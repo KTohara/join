@@ -5,65 +5,47 @@
 
 @layer components {
   .btn {
-    border-radius: 6px;
-    width: 100%;
-    color: #e06706;
+    @apply bg-stone-500 text-slate-200 active:bg-orange-500 font-normal uppercase text-xs tracking-wide w-fit px-4 py-2 rounded-full shadow-md hover:bg-amber-700 hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150 cursor-pointer;
+  }
+
+  .form-field {
+    border: none;
+    border-radius: 1rem;
+    background-color: #e7e5e4;
+    font-size: 14px;
   }
 
   .icon {
     color: #e06706;
   }
 
-  .hover-orange-text:hover {
+  a:hover {
     color: #e06706;
     transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
     transition-duration: 100ms;
   }
 
-  /* .image-upload {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-color: #e06706;
+    border-width: 2px;
+    border-radius: 50%;
+    position: relative;
     overflow: hidden;
+  }
+
+  .avatar img {
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
     position: absolute;
-    z-index: 1;
-  } */
-
-  /* .image-upload + label {
-    font-size: 1.25em;
-    font-weight: 700;
-    color: white;
-    background-color: black;
-    display: inline-block;
-    cursor: pointer;
-  } */
-
-  /* .image-upload:focus + label,
-  .image-upload + label:hover {
-      background-color: red;
-      outline: 1px dotted #000;
-      outline: -webkit-focus-ring-color auto 5px;
-  } */
-
-  /* .image-upload:focus + label {
-    outline: 1px dotted #000;
-    outline: -webkit-focus-ring-color auto 5px;
-  } */
-
-  /* .btn-primary {
-
-  }
-
-  .btn-secondary {
-
-  } */
-}
-/*
-
-@layer components {
-  .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
   }
 }
-
-*/

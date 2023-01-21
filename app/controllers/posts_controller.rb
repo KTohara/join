@@ -8,7 +8,7 @@ class PostsController < ApplicationController
   def index
     @pagy, @posts = pagy_countless(current_user.feed, items: 5)
     @new_post = current_user.posts.build
-
+    
     respond_to do |format|
       format.turbo_stream
       format.html

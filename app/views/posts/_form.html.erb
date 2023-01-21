@@ -2,7 +2,7 @@
   <%= f.hidden_field :author_id, value: current_user.id %>
   <%= f.hidden_field :user_id, value: user.id if local_assigns[:user] %>
 
-  <div class="p-5 border rounded-xl bg-white drop-shadow-sm" data-controller="form">
+  <div class="p-5 border rounded-xl bg-white shadow-md" data-controller="form">
     <div class="flex flex-col w-full mb-2">
       <%= f.text_area :body,
         placeholder: form_placeholder_message,

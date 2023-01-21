@@ -23,7 +23,7 @@ class Profile < ApplicationRecord
   belongs_to :user
 
   has_one_attached :avatar, dependent: :destroy do |attachable|
-    attachable.variant :thumb, resize_to_limit: [36, 36]
+    attachable.variant :thumb, resize_to_limit: [50, 50]
     attachable.variant :display, resize_to_limit: [300, 300]
   end
 
@@ -32,6 +32,6 @@ class Profile < ApplicationRecord
   validates :location, length: { maximum: 30 }
   validates :bio, length: { maximum: 500 }
 
-  validates :avatar, content_type: { in: %w[image/png image/jpg image/jpeg image/gif], message: 'image must be a valid format' },
+  validates :avatar, content_type: { in: %w[image/png image/jpg image/jpeg], message: 'image must be a valid format' },
                      size: { less_than: 5.megabytes, message: 'image must be less than 5MB' }
 end

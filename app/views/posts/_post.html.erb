@@ -1,4 +1,4 @@
-<div class="mt-2 p-5 border rounded-xl bg-white drop-shadow-sm" id=<%= dom_id(post) %>>
+<div class="mt-2 p-5 border rounded-xl bg-white shadow-md" id=<%= dom_id(post) %>>
   <%= render 'posts/post_body', post: post %>
 
   <%= turbo_stream_from post, :comment_count %>

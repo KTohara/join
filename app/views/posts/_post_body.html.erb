@@ -1,13 +1,18 @@
 <%= turbo_frame_tag "post_body_#{post.id}" do %>
-  <div class="mb-2 font-medium">
-    <% if post.author == post.user %>
-      <%= link_to post.author.username, post.author, data: { turbo_frame: '_top' }, class: 'hover-orange-text' %>
-    <% else %>
-      <%= link_to post.author.username, post.author, data: { turbo_frame: '_top' }, class: 'hover-orange-text' %>
-      <i class="fa-solid fa-play h-[11px] text-stone-400"></i>
-      <%= link_to post.user.username, post.user, data: { turbo_frame: '_top' }, class: 'hover-orange-text' %>
-    <% end %>
-    <p class="text-xs font-light"><%= formatted_date(post) %></p>
+  <div class="flex items-center gap-x-1 mb-2">
+    <div class="avatar">
+      <%= image_tag avatar_image(post.author, :thumb) %>
+    </div>
+    <div class="font-medium">
+      <% if post.author == post.user %>
+        <%= link_to post.author.name, post.author, data: { turbo_frame: '_top' } %>
+      <% else %>
+        <%= link_to post.author.name, post.author, data: { turbo_frame: '_top' } %>
+        <i class="fa-solid fa-play h-[11px] text-stone-400"></i>
+        <%= link_to post.user.name, post.user, data: { turbo_frame: '_top' } %>
+      <% end %>
+      <p class="text-xs font-light"><%= formatted_date(post) %></p>
+    </div>
   </div>
 
   <% if post.image.attached? %>

@@ -20,7 +20,7 @@
         </div>
         <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
         <%= f.button nil, data: { form_target: 'submit' }, aria: { expanded: false }, class: 'rounded-r-2xl' do %>
-          <i class="fa-regular fa-comments icon"></i><%# submit button%>
+          <i class="fa-regular fa-comments icon"></i><%# submit button %>
         <% end %>
       </div>
     </div>

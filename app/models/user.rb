@@ -89,4 +89,12 @@ class User < ApplicationRecord
   def unread_notifications
     notifications.where(read: false)
   end
+
+  def name
+    name_blank? ? self.username : "#{profile.first_name} #{profile.last_name}"
+  end
+
+  def name_blank?
+    profile.first_name.blank? || profile.last_name.blank?
+  end
 end
