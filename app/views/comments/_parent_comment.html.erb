@@ -7,15 +7,17 @@
   <%= render 'comments/comment', comment: comment, user: user %>
 
   <div id="<%= dom_id(comment, :comments) %>">
-    <%= render partial: 'comments/form',
-      locals: { commentable: comment, comment: Comment.new, class: 'hidden' },
-      data: { dropdown_target: 'popup' } %>
+    <%= render 'comments/form',
+      commentable: comment,
+      comment: Comment.new(user: user),
+      data: { dropdown_target: 'popup' },
+      class: 'hidden pl-12' %>
     <%= render partial: 'comments/parent_comment',
       collection: comment.preloaded_comments, as: :comment,
       locals: { user: user } %>
   </div>
 
-  <div id="<%= dom_id(comment, :load) %>" class="px-5 mb-2 w-fit text-slate-800">
+  <div id="<%= dom_id(comment, :load) %>" class="ml-12 mb-2 w-fit text-slate-800">
     <%= render 'comments/load_comments_button', commentable: comment %>
   </div>
 </div>

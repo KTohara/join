@@ -18,5 +18,5 @@
       <%= render 'comments/load_comments_button', commentable: post %>
     <% end %>
   </div>
-  <%= render 'comments/form', commentable: post, comment: Comment.new %>
+  <%= render 'comments/form', commentable: post, comment: Comment.new(user: user) %>
 </div>

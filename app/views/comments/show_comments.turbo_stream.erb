@@ -13,7 +13,12 @@
 <% end %>
 
 <%= turbo_stream.update(dom_id(@parent || @commentable, :load)) do %>
+  <% nested_padding = 'ml-8' %>
   <% if @pagy.next.present? %>
-    <%= button_to 'Load more...', pagy_url_for(@pagy, @pagy.next), class: 'hover:underline text-xs' %>
+    <% if @parent.present? %>
+      <%= button_to 'Load more...', pagy_url_for(@pagy, @pagy.next), class: "#{nested_padding} hover:underline text-xs" %>
+    <% else %>
+      <%= button_to 'Load more...', pagy_url_for(@pagy, @pagy.next), class: 'hover:underline text-xs' %>
+    <% end %>
   <% end %>
 <% end %>

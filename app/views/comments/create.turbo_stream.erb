@@ -1,4 +1,4 @@
-<% comment = Comment.new %>
+<% comment = Comment.new(user: current_user) %>
 <% flash.now[:notice] = comment_flash_message %>
 
 <% if @parent.present? %> <%# replace forms parent comments or nested comments %>
