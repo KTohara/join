@@ -1,15 +1,13 @@
 <% if @parent.present? %>
   <%= turbo_stream.append dom_id(@parent, :comments) do %>
     <%= render partial: 'comments/parent_comment',
-      collection: @comments,
-      as: :comment,
+      collection: @comments, as: :comment,
       locals: { user: @parent.user } %>
   <% end %>
 <% else %>
   <%= turbo_stream.append dom_id(@commentable, :comments) do %>
     <%= render partial: 'comments/parent_comment',
-      collection: @comments,
-      as: :comment,
+      collection: @comments, as: :comment,
       locals: { user: @commentable.user } %>
   <% end %>
 <% end %>

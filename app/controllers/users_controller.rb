@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     user_feed = @user.posts
       .with_attached_image
-      .includes(:comments, :image_attachment)
+      .includes(:comments)
       .order(created_at: :desc)
 
     @pagy, @posts = pagy_countless(user_feed, items: 5)

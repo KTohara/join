@@ -44,4 +44,11 @@ class Post < ApplicationRecord
   def parent_comments
     comments.where(parent_id: nil)
   end
+
+  def commentable_comments_to_load
+    rejected_comments = parent_comments.first
+    parent_comments
+      .includes(:commentable, image_attachment: [:blob], user: [profile: [:avatar_attachment]])
+      .where.not(id: rejected_comments)
+  end
 end

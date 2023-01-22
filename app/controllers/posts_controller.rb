@@ -81,17 +81,22 @@ class PostsController < ApplicationController
 
   def turbo_replace_post_body
     render turbo_stream: [
-      turbo_stream.replace("post_body_#{@post.id}", partial: 'posts/post_body', locals: { post: @post, user: current_user }),
+      turbo_stream.replace(
+        "post_body_#{@post.id}",
+        partial: 'posts/post_body',
+        locals: { post: @post, user: current_user }
+      ),
       turbo_prepend_alert
     ]
   end
 
   def turbo_cancel_post_edit
-    render turbo_stream: turbo_stream.replace(
-      "post_form",
-      partial: 'posts/post_body',
-      locals: { post: @post }
-    )
+    render turbo_stream:
+      turbo_stream.replace(
+        "post_form",
+        partial: 'posts/post_body',
+        locals: { post: @post }
+      )
   end
 
   def turbo_destroy_post

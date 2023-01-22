@@ -10,8 +10,8 @@ module Commentable
   end
 
   def show_comments
-    @comments = reject_first_comment unless @pagy.present?
-    @pagy, @comments = pagy_countless(@comments || @parent || @commentable, items: 10)
+    @comments = reject_preloaded_comments unless @pagy.present?
+    @pagy, @comments = pagy_countless(@comments, items: 5)
     
     respond_to do |format|
       format.turbo_stream
@@ -57,17 +57,11 @@ module Commentable
     users.none? { |user| commentable.user == user }
   end
 
-  def reject_first_comment
+  def reject_preloaded_comments
     if @parent.present?
-      comment_to_reject = @parent.comments.first
-      @parent.comments
-        .includes(:commentable, image_attachment: [:blob], user: [:profile])
-        .where.not(id: comment_to_reject)
+      @parent.parent_comments_to_load
     else
-      comment_to_reject = @commentable.parent_comments.first
-      @commentable.parent_comments
-        .includes(:commentable, image_attachment: [:blob], user: [profile: [:avatar_attachment]])
-        .where.not(id: comment_to_reject)
+      @commentable.commentable_comments_to_load
     end
   end
 end

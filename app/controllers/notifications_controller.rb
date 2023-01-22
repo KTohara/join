@@ -34,9 +34,9 @@ class NotificationsController < ApplicationController
   end
 
   def turbo_replace_notifications
-    debugger
     render turbo_stream:
-    turbo_stream.replace(:notifications_list,
+    turbo_stream.replace(
+      :notifications_list,
       partial: 'notifications/notifications',
       locals: { notifications: current_user.notifications.unread.order(created_at: :desc).limit(10) }
     )

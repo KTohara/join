@@ -72,6 +72,19 @@ class Comment < ApplicationRecord
     parent.nesting + 1
   end
 
+  def preloaded_comments
+    comments
+      .includes(image_attachment: [:blob], user: [:profile])
+      .where(nesting: ..2).limit(2)
+  end
+
+  def parent_comments_to_load
+    rejected_comments = preloaded_comments
+    comments
+      .includes(image_attachment: [:blob], user: [:profile])
+      .where.not(id: rejected_comments)
+  end
+
   private
 
   def self.max_nesting

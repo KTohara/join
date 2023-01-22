@@ -7,14 +7,11 @@
   <%= render 'comments/comment', comment: comment, user: user %>
 
   <div id="<%= dom_id(comment, :comments) %>">
-    <%= render 'comments/form',
-      commentable: comment,
-      comment: Comment.new,
-      data: { dropdown_target: 'popup' },
-      class: 'hidden' %>
+    <%= render partial: 'comments/form',
+      locals: { commentable: comment, comment: Comment.new, class: 'hidden' },
+      data: { dropdown_target: 'popup' } %>
     <%= render partial: 'comments/parent_comment',
-      collection: comment.comments.limit(1),
-      as: :comment,
+      collection: comment.preloaded_comments, as: :comment,
       locals: { user: user } %>
   </div>
 
