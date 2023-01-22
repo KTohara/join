@@ -59,8 +59,8 @@ class User < ApplicationRecord
   after_create :create_profile
 
   def self.search_by_user(params, current_user)
-    users = where.not(id: current_user.id)
-    params[:q].blank? ? users : users.where('username ILIKE ?', "%#{sanitize_sql_like(params[:q])}%")
+    users = includes(profile: [:avatar_attachment]).where.not(id: current_user.id)
+    params[:q].blank? ? users : users.includes(profile: [:avatar_attachment]).where('username ILIKE ?', "%#{sanitize_sql_like(params[:q])}%")
   end
 
   def feed

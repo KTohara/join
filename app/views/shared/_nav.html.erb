@@ -1,13 +1,13 @@
 <nav id="nav" class="sticky top-0 h-16 pt-5 pb-12 bg-amber-700 z-10 text-slate-100 font-normal uppercase tracking-widest text-xs border-b-4 border-slate-600/25">
-  <div class="flex justify-around items-center gap-x-5 px-[10%]">
-    <div class="flex items-center gap-x-3">
+  <div class="flex justify-around items-center gap-5 px-[10%]">
+    <div class="flex items-center gap-3">
       <%= link_to root_path do %>
         <%= image_tag('logo-join.svg', width: '100') %>
       <% end %>
       <%= link_to "Welcome #{current_user.profile.first_name || current_user.username}", user_path(current_user) %>
       <%= link_to 'Search People', users_path %>
     </div>
-    <div class="flex items-center justify-center gap-x-3 ">
+    <div class="flex items-center justify-center gap-3 ">
       <%= link_to 'Posts', posts_path %>
       <%= link_to 'Friends', friendships_path %>
       <%= link_to 'Profile', edit_profile_path(current_user.profile) %>

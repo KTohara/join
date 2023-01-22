@@ -61,12 +61,12 @@ module Commentable
     if @parent.present?
       comment_to_reject = @parent.comments.first
       @parent.comments
-        .includes(:user, :commentable, :parent)
+        .includes(:commentable, image_attachment: [:blob], user: [:profile])
         .where.not(id: comment_to_reject)
     else
       comment_to_reject = @commentable.parent_comments.first
       @commentable.parent_comments
-        .includes(:user, :commentable)
+        .includes(:commentable, image_attachment: [:blob], user: [profile: [:avatar_attachment]])
         .where.not(id: comment_to_reject)
     end
   end

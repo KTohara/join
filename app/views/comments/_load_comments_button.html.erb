@@ -1,5 +1,7 @@
 <% if commentable.class.name == 'Post' && commentable.comments.count > 1 %>
   <%= button_to 'View More Comments', post_show_comments_path(commentable), class: 'hover:underline text-xs' %>
-<% elsif commentable.class.name == 'Comment' && commentable.parent.nil? && commentable.comments.count > 1 %>
+<% elsif commentable.class.name == 'Comment' && commentable.comments.count > 1 %>
   <%= button_to 'Show Replies', comment_show_comments_path(commentable), class: 'hover:underline text-xs' %>
 <% end %>
+
+<%# && commentable.parent.nil? %>

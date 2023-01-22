@@ -1,5 +1,20 @@
-<h1><%= @user.name %>'s page</h1>
-<h1>Profile splash goes here</h1>
+<div class="flex items-center gap-4 px-6 py-4 rounded-t-xl bg-amber-700">
+  <%= image_tag avatar_image(@user, :display), class: 'rounded-full bg-white p-1' %>
+  <div class="flex flex-col gap-2 text-slate-200 tracking-wide">
+    <h1 class="text-3xl font-extrabold"><%= @user.name %></h1>
+    <div class="flex justify-between">
+      <p>
+        <i class="fa-solid fa-user-group"></i>
+        <span> <%= pluralize(@user.friends.count, 'friend') %></span>
+      </p>
+      <p>
+        <i class="fa-solid fa-house-chimney"></i>
+        <span> <%= @user.profile.location %></span>
+      </p>
+    </div>
+    <p><%= @user.profile.bio %></p>
+  </div>
+</div>
 <%= render 'posts/form', post: @new_post, user: @user %>
 
 <div id="posts" class="mb-10">

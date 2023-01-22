@@ -24,7 +24,7 @@ class Profile < ApplicationRecord
 
   has_one_attached :avatar, dependent: :destroy do |attachable|
     attachable.variant :thumb, resize_to_limit: [50, 50]
-    attachable.variant :display, resize_to_limit: [300, 300]
+    attachable.variant :display, resize_to_limit: [168, 168]
   end
 
   validates :first_name, length: { maximum: 30 }

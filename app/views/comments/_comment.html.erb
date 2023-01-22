@@ -1,5 +1,5 @@
 <%= turbo_frame_tag comment do %>
-  <div class="flex items-top gap-x-1 mb-2">
+  <div class="flex items-top gap-1 mb-1">
     <div class="avatar">
       <%= image_tag avatar_image(comment.user, :thumb) %>
     </div>
@@ -11,21 +11,21 @@
 
   <% if comment.image.attached? %>
     <%= link_to comment.image.url, target: '_blank', class: 'block w-fit' do %>
-      <%= image_tag comment.image.variant(:thumb), class: 'rounded-2xl ml-10' %>
+      <%= image_tag comment.image.variant(:thumb), class: 'rounded-2xl ml-10 border p-2' %>
     <% end %>
   <% end %>
 
-  <div class="flex gap-x-3 m-2 items-baseline text-sm" data-controller="object-author"
+  <div class="flex gap-3 ml-12 mt-1 mb-2 items-baseline text-sm" data-controller="object-author"
     data-object-author-commenter-id-value="<%= comment.user_id %>"
     data-object-author-poster-id-value="<%= comment.commentable.user_id %>">
 
-    <div class="flex gap-x-1">
+    <div class="flex gap-1">
       <%= render 'likes/like_button', likeable: comment, user: user %>
       <%= render 'likes/like_counter', likeable: comment %>
     </div>
 
     <button data-action="<%= toggle_popup('dropdown') %>" data-dropdown-target="button" aria-expanded="false">
-      <i class="fa-regular fa-comment-dots icon"></i>
+      <i class="fa-regular fa-comment-dots icon"></i> <%# reply button %>
     </button>
 
     <div class="hidden" data-object-author-target="editButton">

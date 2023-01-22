@@ -15,4 +15,8 @@ module NotificationsHelper
       friendships_path(notification_id: notification.id)
     end
   end
+
+  def selected_color(button_type)
+    "underline decoration-orange-400" if button_type == action_name
+  end
 end

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     scope module: :posts do
       resources :likes, only: %i[create destroy]
       resources :comments, only: :create
-      post :show_comments
+      post 'show_comments', to: 'comments#show_comments'
     end
   end
   
@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     scope module: :comments do
       resources :likes, only: %i[create destroy]
       resources :comments, only: :create
-      post :show_comments
+      post 'show_comments', to: 'comments#show_comments'
     end
   end
 

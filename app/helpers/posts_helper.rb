@@ -23,4 +23,8 @@ module PostsHelper
       time_ago_in_words(object_creation_time)
     end
   end
+
+  def rounded_top(controller)
+    controller.controller_name == 'users' ? 'rounded-b-2xl' : 'rounded-2xl'
+  end
 end

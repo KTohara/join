@@ -5,7 +5,7 @@
   data: local_assigns[:data],
   class: local_assigns[:class] do |f| %>
   
-  <div class="flex flex-col gap-x-2" data-controller="form">
+  <div class="flex flex-col gap-2" data-controller="form">
     <div class="flex justify-center items-end rounded-2xl focus-within:ring-1 focus-within:ring-blue-500 bg-stone-100">
       <%= f.text_area :body,
         placeholder: 'Write a comment...',
@@ -14,13 +14,15 @@
       <%= render 'shared/form_errors', form: f, param_type: :body %>
       <%= render 'shared/form_errors', form: f, param_type: :image %>
 
-      <div class="flex gap-x-2 pb-2 pr-3">
+      <div class="flex gap-2 pb-2 pr-3">
         <div data-action="click->form#uploadImage" class="hover:cursor-pointer">
-          <i class="fa-regular fa-image icon"></i>
+          <i class="fa-regular fa-image icon"></i> <%# updload image button %>
         </div>
+
         <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
+        
         <%= f.button nil, data: { form_target: 'submit' }, aria: { expanded: false }, class: 'rounded-r-2xl' do %>
-          <i class="fa-regular fa-comments icon"></i><%# submit button %>
+          <i class="fa-regular fa-comments icon"></i> <%# submit button %>
         <% end %>
       </div>
     </div>

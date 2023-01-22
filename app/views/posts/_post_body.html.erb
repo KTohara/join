@@ -1,8 +1,9 @@
 <%= turbo_frame_tag "post_body_#{post.id}" do %>
-  <div class="flex items-center gap-x-1 mb-2">
+  <div class="flex items-center gap-1 mb-2">
     <div class="avatar">
       <%= image_tag avatar_image(post.author, :thumb) %>
     </div>
+
     <div class="font-medium">
       <% if post.author == post.user %>
         <%= link_to post.author.name, post.author, data: { turbo_frame: '_top' } %>
@@ -11,6 +12,7 @@
         <i class="fa-solid fa-play h-[11px] text-stone-400"></i>
         <%= link_to post.user.name, post.user, data: { turbo_frame: '_top' } %>
       <% end %>
+
       <p class="text-xs font-light"><%= formatted_date(post) %></p>
     </div>
   </div>
@@ -20,23 +22,26 @@
       <%= image_tag post.image.variant(:display) %>
     </div>
   <% end %>
+
   <p class="whitespace-pre-wrap"><%= post.body %></p>
   
   <hr class="my-2">
 
   <div class="pl-5 flex justify-between">
     <%= turbo_stream_from post, :like_count, class: 'hidden' %>
-    <div class="flex gap-x-1">
+
+    <div class="flex gap-1">
       <%= render 'likes/like_button', likeable: post, user: current_user %>
       <%= render 'likes/like_counter', likeable: post, user: current_user %>
     </div>
     
-    <div class="pr-5 flex gap-x-4">
+    <div class="pr-5 flex gap-4">
       <% if post.author == current_user %>
         <%= button_to edit_post_path(post), method: :get do %>
           <i class="fa-regular fa-pen-to-square icon"></i>
         <% end %>
       <% end %>
+
       <% if post.user == current_user || post.author == current_user %>
         <%= button_to post, method: :delete, params: { post: { user_id: current_user.id }, data: { turbo_frame: '_top'}} do %>
           <i class="far fa-trash-can icon"></i>
