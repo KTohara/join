@@ -15,9 +15,9 @@
 <%= turbo_stream.update(dom_id(@parent || @commentable, :load)) do %>
   <% if @pagy.next.present? %>
     <% if @parent.present? %>
-      <%= button_to 'Load more...', pagy_url_for(@pagy, @pagy.next), class: "ml-8 hover:underline text-xs" %>
+      <%= button_to 'Load more...', pagy_url_for(@pagy, @pagy.next), id: "load_button_#{@parent.id || @commentable.id }", class: "ml-8 hover:underline text-xs" %>
     <% else %>
-      <%= button_to 'Load more...', pagy_url_for(@pagy, @pagy.next), class: 'hover:underline text-xs' %>
+      <%= button_to 'Load more...', pagy_url_for(@pagy, @pagy.next), id: "load_button_#{@parent.id || @commentable.id }", class: 'hover:underline text-xs' %>
     <% end %>
   <% end %>
 <% end %>

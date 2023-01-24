@@ -7,10 +7,12 @@
         <i class="fa-solid fa-user-group"></i>
         <span> <%= pluralize(@user.friends.count, 'friend') %></span>
       </p>
-      <p>
-        <i class="fa-solid fa-house-chimney"></i>
-        <span> <%= @user.profile.location %></span>
-      </p>
+      <% if @user.profile.location.present? %>
+        <p>
+          <i class="fa-solid fa-house-chimney"></i>
+          <span> <%= @user.profile.location %></span>
+        </p>
+      <% end %>
     </div>
     <p><%= @user.profile.bio %></p>
   </div>

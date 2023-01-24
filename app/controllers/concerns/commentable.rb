@@ -13,7 +13,13 @@ module Commentable
   end
 
   def show_comments
-    @comments = reject_preloaded_comments if @pagy.blank?
+    if params[:reject_comments]
+      turbo_comments_to_reject = Comment.where(id: params[:reject_comments].values)
+      @comments = reject_preloaded_comments(turbo_comments_to_reject) if @pagy.blank?
+    else
+      @comments = reject_preloaded_comments if @pagy.blank?
+    end
+
     @pagy, @comments = pagy_countless(@comments, items: 5)
     
     respond_to do |format|
@@ -60,11 +66,11 @@ module Commentable
     users.none? { |user| commentable.author == user }
   end
 
-  def reject_preloaded_comments
+  def reject_preloaded_comments(turbo_comments = nil)
     if @parent.present?
-      @parent.parent_comments_to_load
+      @parent.parent_comments_to_load(turbo_comments)
     else
-      @commentable.post_comments_to_load
+      @commentable.post_comments_to_load(turbo_comments)
     end
   end
 end

@@ -54,7 +54,7 @@ class Comment < ApplicationRecord
   after_create_commit do
     broadcast_create_to_comment
     broadcast_update_to_comment_count
-    broadcast_hidden_field
+    # broadcast_hidden_field
   end
 
   after_destroy_commit do
@@ -79,11 +79,10 @@ class Comment < ApplicationRecord
       .where(nesting: ..2).limit(2)
   end
 
-  def parent_comments_to_load
-    rejected_comments = preloaded_comments
+  def parent_comments_to_load(turbo_comments = nil)
     comments
       .includes(:commentable, image_attachment: [:blob], user: [:profile])
-      .where.not(id: rejected_comments)
+      .where.not(id: preloaded_comments && turbo_comments)
   end
 
   private
@@ -107,8 +106,9 @@ class Comment < ApplicationRecord
   end
 
   def broadcast_hidden_field
-    broadcast_append_later_to [commentable, :comments],
-      target: dom_id(parent || commentable, :load),
-      content: "hi there"
+    broadcast_after_to [commentable, :comments],
+      target: "load_button_#{(parent || commentable).id}",
+      partial: 'comments/comments_to_reject',
+      locals: { comment: self }
   end
 end
