@@ -27,8 +27,8 @@ class Profile < ApplicationRecord
     attachable.variant :display, resize_to_limit: [168, 168]
   end
 
-  validates :first_name, length: { maximum: 30 }
-  validates :last_name, length: { maximum: 30 }
+  validates :first_name, :last_name, length: { maximum: 30 }
+  # validates :last_name, length: { maximum: 30 }
   validates :location, length: { maximum: 30 }
   validates :bio, length: { maximum: 500 }
 

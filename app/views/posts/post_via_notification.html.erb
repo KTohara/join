@@ -1,0 +1,34 @@
+<div class="mt-2 p-5 border rounded-xl bg-white shadow-md" id=<%= dom_id(@post) %>>
+  <%= render 'posts/post_body', post: @post %>
+  
+  <div class="pt-2">
+    <% if @parent.present? %>
+      <%= turbo_stream_from @parent, :comments, class: 'hidden' %>
+      <%= turbo_stream_from @parent, :like_count, class: 'hidden' %>
+      <%= turbo_stream_from @parent %>
+      <div id="<%= dom_id(@parent, :comments) %>" data-controller="dropdown">
+        <%= render 'comments/comment', comment: @parent, user: current_user %>
+        <%= render 'comments/form',
+          commentable: @parent,
+          comment: Comment.new(user: current_user),
+          data: { dropdown_target: 'popup' },
+          class: 'hidden pl-12' %>
+      </div>
+    <% end %>
+
+    <% if @comment.present? %>
+      <%= turbo_stream_from @comment, :comments, class: 'hidden' %>
+      <%= turbo_stream_from @comment, :like_count, class: 'hidden' %>
+      <%= turbo_stream_from @comment %>
+      <div id="<%= dom_id(@comment, :comments) %>" class="<%= via_notification_padding(@parent) %>" data-controller="dropdown">
+        <%= render 'comments/comment', comment: @comment, user: current_user %>
+        <%= render 'comments/form',
+          commentable: @comment,
+          comment: Comment.new(user: current_user),
+          data: { dropdown_target: 'popup' },
+          class: 'hidden pl-12' %>
+      </div>
+    <% end %>
+  </div>
+</div>
+

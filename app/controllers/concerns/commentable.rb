@@ -5,12 +5,15 @@ module Commentable
   include Notifiable
 
   included do
-    after_action -> { send_comment_notification(@parent, @parent.user, 'replied to your comment') }, only: :create, if: -> { valid_parent_user?(@parent) }
-    after_action -> { send_comment_notification(@commentable, @commentable.author, 'replied to your post') }, only: :create, if: -> { valid_commentable_user?(@commentable, @parent) }
+    after_action -> { send_comment_notification(@comment, @parent.user, 'replied to your comment') },
+      only: :create, if: -> { valid_parent_user?(@parent) && @comment.persisted? }
+    
+    after_action -> { send_comment_notification(@comment, @commentable.author, 'replied to your post') },
+      only: :create, if: -> { valid_commentable_user?(@commentable, @parent) && @comment.persisted? }
   end
 
   def show_comments
-    @comments = reject_preloaded_comments unless @pagy.present?
+    @comments = reject_preloaded_comments if @pagy.blank?
     @pagy, @comments = pagy_countless(@comments, items: 5)
     
     respond_to do |format|
@@ -41,8 +44,8 @@ module Commentable
 
   def send_comment_notification(comment_type, recipient, message)
     send_notification(
-      recipient: recipient,
       notifiable: comment_type,
+      recipient: recipient,
       message: message
     )
   end
@@ -54,14 +57,14 @@ module Commentable
   def valid_commentable_user?(commentable, parent)
     # check to see if commentable user is neither parent user or current user
     users = [current_user, parent&.user].compact
-    users.none? { |user| commentable.user == user }
+    users.none? { |user| commentable.author == user }
   end
 
   def reject_preloaded_comments
     if @parent.present?
       @parent.parent_comments_to_load
     else
-      @commentable.commentable_comments_to_load
+      @commentable.post_comments_to_load
     end
   end
 end

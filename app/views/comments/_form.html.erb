@@ -15,8 +15,8 @@
           placeholder: 'Write a comment...',
           data: { action: 'input->form#resize input->form#isEmpty', form_target: 'input' },
           class: 'w-full h-9 bg-stone-100 border-transparent focus:border-transparent focus:ring-0 rounded-l-2xl text-sm' %>
-        <%= render 'shared/form_errors', form: f, param_type: :body %>
-        <%= render 'shared/form_errors', form: f, param_type: :image %>
+        <%= render 'shared/form_errors', form: f, value_type: :body %>
+        <%= render 'shared/form_errors', form: f, value_type: :image %>
         <div class="flex gap-2 pb-2 pr-3">
           <div data-action="click->form#uploadImage" class="hover:cursor-pointer">
             <i class="fa-regular fa-image icon"></i> <%# updload image button %>
@@ -35,7 +35,7 @@
     </p>
 
     <% if f.object.persisted? %>
-      <%= link_to comment_path(comment), method: :get do %>
+      <%= link_to comment_path(comment) do %>
         <i class="fas fa-rotate-left icon"></i>
         <span>Cancel</span>
       <% end %>

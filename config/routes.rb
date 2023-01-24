@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   root 'posts#index'
 
-  resources :posts, except: :new do
+  resources :posts, except: :new do  
     scope module: :posts do
       resources :likes, only: %i[create destroy]
       resources :comments, only: :create
@@ -24,6 +24,9 @@ Rails.application.routes.draw do
     get :read, on: :collection
     get :unread, on: :collection
   end
+
+  get 'cancel_edit/:id', to: 'posts#cancel_edit', as: 'cancel_edit'
+  get 'post_notification/:id', to: 'posts#post_via_notification', as: 'via_notification'
 
   resources :users, only: %i[index show]
   resources :profile, only: %i[edit update]

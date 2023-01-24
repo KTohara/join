@@ -7,11 +7,11 @@
       <%= f.text_area :body,
         placeholder: form_placeholder_message,
         data: { action: 'form#resize keyup->form#isEmpty', form_target: 'input' },
-        class: "w-full h-9 border-none bg-stone-100 rounded-2xl hover:text" %>
+        class: "w-full h-9 border-none bg-stone-100 rounded-2xl" %>
       <div class="flex justify-between items-baseline">
         <div>
-          <%= render 'shared/form_errors', form: f, param_type: :body %>
-          <%= render 'shared/form_errors', form: f, param_type: :image %>
+          <%= render 'shared/form_errors', form: f, value_type: :body %>
+          <%= render 'shared/form_errors', form: f, value_type: :image %>
         </div>
         <div class=" text-xs" data-form-target="preview">
           <p><%= "Image: #{f.object.image.filename}" if f.object.image.attached? %></p>
@@ -29,7 +29,7 @@
 
       <% if f.object.persisted? %>
         <div class="w-full rounded hover:bg-slate-100 ease-in duration-100">
-          <%= link_to post_path(post), class: 'w-full flex justify-center items-center gap-1', method: :get do %>
+          <%= link_to cancel_edit_path(post), class: 'w-full flex justify-center items-center gap-1', data: { turbo_stream: 'true' } do %>
             <i class="fas fa-rotate-left icon"></i>
             <span class="text-slate-600">Cancel</span>
           <% end %>

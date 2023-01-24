@@ -1,5 +1,5 @@
 <% if form.object.errors.any? %>
-  <% form.object.errors.full_messages_for(param_type).each do |message| %>
+  <% form.object.errors.full_messages_for(value_type).each do |message| %>
     <span class="text-xs text-red-700"><%= message %></span>
   <% end %>
 <% end %>

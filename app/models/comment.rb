@@ -54,6 +54,7 @@ class Comment < ApplicationRecord
   after_create_commit do
     broadcast_create_to_comment
     broadcast_update_to_comment_count
+    broadcast_hidden_field
   end
 
   after_destroy_commit do
@@ -81,7 +82,7 @@ class Comment < ApplicationRecord
   def parent_comments_to_load
     rejected_comments = preloaded_comments
     comments
-      .includes(image_attachment: [:blob], user: [:profile])
+      .includes(:commentable, image_attachment: [:blob], user: [:profile])
       .where.not(id: rejected_comments)
   end
 
@@ -103,5 +104,11 @@ class Comment < ApplicationRecord
       target: dom_id(commentable, :comment_count),
       partial: 'posts/comment_counter',
       locals: { post: commentable }
+  end
+
+  def broadcast_hidden_field
+    broadcast_append_later_to [commentable, :comments],
+      target: dom_id(parent || commentable, :load),
+      content: "hi there"
   end
 end

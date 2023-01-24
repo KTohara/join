@@ -1,4 +1,4 @@
-<% if commentable.class.name == 'Post' && commentable.commentable_comments_to_load.count >= 1 %>
+<% if commentable.class.name == 'Post' && commentable.post_comments_to_load.count >= 1 %>
   <%= button_to 'View More Comments', post_show_comments_path(commentable), class: 'hover:underline text-xs' %>
 <% elsif commentable.class.name == 'Comment' && commentable.parent_comments_to_load.count >= 1 %>
   <%= button_to 'Show Replies', comment_show_comments_path(commentable), class: 'hover:underline text-xs' %>

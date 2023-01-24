@@ -1,9 +1,9 @@
 class PostsController < ApplicationController
   include Notifiable
   
-  before_action :set_post, only: %i[show edit update destroy]
+  before_action :set_post, only: %i[show edit cancel_edit update destroy post_via_notification]
   before_action :set_new_post, only: %i[create update]
-  before_action :mark_notification_as_read, only: :show
+  before_action :mark_notification_as_read, only: %i[show post_via_notification]
   
   def index
     @pagy, @posts = pagy_countless(current_user.feed, items: 5)
@@ -15,11 +15,11 @@ class PostsController < ApplicationController
     end
   end
 
-  def show
-    respond_to do |format|
-      format.html
-      format.turbo_stream { turbo_cancel_post_edit }
-    end
+  def show; end
+
+  def post_via_notification
+    notification = Notification.find(params[:notification_id])
+    set_post_variables(notification)
   end
 
   def create
@@ -35,6 +35,12 @@ class PostsController < ApplicationController
   end
 
   def edit; end
+
+  def cancel_edit
+    respond_to do |format|
+      format.turbo_stream { turbo_replace_post_body }
+    end
+  end
 
   def update
     respond_to do |format|
@@ -79,24 +85,26 @@ class PostsController < ApplicationController
     @new_post = current_user.posts.build(post_params)
   end
 
+  def set_post_variables(notification)
+    notifiable = notification.notifiable
+    case notification.notifiable_type
+    when 'Comment'
+      @comment = notifiable
+      @parent = notifiable&.parent
+    when 'Like'
+      @comment = notifiable.likeable
+    end
+  end
+
   def turbo_replace_post_body
     render turbo_stream: [
       turbo_stream.replace(
         "post_body_#{@post.id}",
         partial: 'posts/post_body',
-        locals: { post: @post, user: current_user }
+        locals: { post: @post }
       ),
       turbo_prepend_alert
     ]
-  end
-
-  def turbo_cancel_post_edit
-    render turbo_stream:
-      turbo_stream.replace(
-        "post_form",
-        partial: 'posts/post_body',
-        locals: { post: @post }
-      )
   end
 
   def turbo_destroy_post
@@ -104,5 +112,14 @@ class PostsController < ApplicationController
       turbo_stream.remove(@post),
       turbo_prepend_alert
     ]
+  end
+
+  def turbo_show_notification_post
+    notification = Notification.find(params[:notification_id])
+    parent_comment = notification.notifiable.parent
+    render turbo_stream: turbo_stream.replace(helpers.dom_id(@post, :comments),
+      partial: 'comments/parent_comment',
+      locals: { comment: parent_comment, user: current_user }
+    )
   end
 end

@@ -9,11 +9,18 @@
 <%= form_with model: @profile, data: { controller: 'form' } do |f| %>
   <div class="flex flex-col gap-y-2 mt-10 py-8 w-full px-[20%] border-2 rounded-md bg-white shadow-md">
     <%= f.text_field :first_name, placeholder: 'First name', class: 'form-field' %>
+    <%= render 'shared/form_errors', form: f, value_type: :first_name %>
+
     <%= f.text_field :last_name, placeholder: 'Last name', class: 'form-field' %>
+    <%= render 'shared/form_errors', form: f, value_type: :last_name %>    
+    
     <%= f.text_field :location, placeholder: 'Location', class: 'form-field' %>
+    <%= render 'shared/form_errors', form: f, value_type: :location %>
+    
     <%= f.text_area :bio, placeholder: 'Bio', rows: 3,
-      data: { action: 'input->form#resize input->form#isEmpty', form_target: 'input' },
+      data: { action: 'form#resize', form_target: 'input', form_type: 'profile' },
       class: 'form-field' %>
+    <%= render 'shared/form_errors', form: f, value_type: :bio %>
     
     <div class="flex justify-between mt-2">
       <div data-action="click->form#uploadImage" class="btn space-x-1">
@@ -22,11 +29,12 @@
       </div>
       
       <%= f.file_field :avatar, data: { form_target: 'image', action: 'change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
-      <%= f.submit 'Save Profile', data: { form_target: 'submit', turbo: false }, class: 'btn' %>
+      <%= f.submit 'Save Profile', data: { turbo: false }, class: 'btn' %>
     </div>
 
     <p class="text-xs" data-form-target="preview">
       <%= "Image: #{f.object.avatar.filename}" if f.object.avatar.attached? %>
+      <%= render 'shared/form_errors', form: f, value_type: :avatar %>
     </p>
   </div>
 <% end %>

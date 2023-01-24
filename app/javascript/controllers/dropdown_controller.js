@@ -43,9 +43,9 @@ export default class extends Controller {
   }
 
   closeNotifications(event) {
-    let notifications = this.popupTarget;
-    let notificationBtn = this.buttonTarget;
-    let popupHidden = notifications.classList.contains('hidden');
+    const notifications = this.popupTarget;
+    const notificationBtn = this.buttonTarget;
+    const popupHidden = notifications.classList.contains('hidden');
 
     if (popupHidden || notifications.contains(event.target)) return;
     if (notificationBtn.contains(event.target)) event.preventDefault();
