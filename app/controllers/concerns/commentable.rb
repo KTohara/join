@@ -12,10 +12,11 @@ module Commentable
   end
 
   def show_comments
-    find_turbo_comments_to_reject(params)
-    set_show_comments
+    @comments = (@parent.comments || @commentable.comments).includes(:commentable, image_attachment: [:blob], user: [:profile])
+    @pagy, @comments = pagy(@comments, items: 5)
 
-    @pagy, @comments = pagy_countless(@comments, items: 5)
+    find_turbo_comments_to_reject(params)
+    reject_dup_comments
     session.delete(:turbo_comments) if @pagy.next.nil?
 
     respond_to do |format|
@@ -81,12 +82,12 @@ module Commentable
     end
   end
 
-  def set_show_comments
+  def reject_dup_comments
     if session[:turbo_comments].present?
       turbo_comments_to_reject = Comment.where(id: session[:turbo_comments])
-      @comments = reject_preloaded_comments(turbo_comments_to_reject)
+      @pagy, @comments = pagy(reject_preloaded_comments(turbo_comments_to_reject), items: 5)
     else
-      @comments = reject_preloaded_comments if @pagy.blank?
+      @pagy, @comments = pagy(reject_preloaded_comments, items: 5) if params[:page].nil? || @pagy.overflow?
     end
   end
 end
