@@ -16,6 +16,21 @@ module CommentsHelper
 
   def nesting_padding(nesting)
     return if nesting == 1
-    "pl-8"
+    'pl-8'
+  end
+
+  def load_comments_button_margin(parent)
+    if parent.present?
+      'ml-8'
+    end
+  end
+
+  def reject_new_turbo_comments(params)
+    debugger
+    if params[:reject_comments].present?
+      params[:reject_comments].each_value do
+        render 'comments/comments_to_reject', comment: comment
+      end
+    end
   end
 end

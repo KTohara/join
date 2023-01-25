@@ -48,8 +48,7 @@ class Post < ApplicationRecord
   def post_comments_to_load(turbo_comments = nil)
     parent_comments
       .includes(:commentable, image_attachment: [:blob], user: [profile: [:avatar_attachment]])
-      .where.not(id: parent_comments && turbo_comments)
+      .where.not(id: parent_comments)
+      .where.not(id: turbo_comments)
   end
 end
-
-# fix comment deletion pagy turbo

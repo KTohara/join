@@ -1,1 +1,1 @@
-<%= hidden_field :reject_comments, dom_id(comment), value: comment.id %>
+<input type="hidden" name="<%= "reject_comments_#{comment.id}" %>" value="<%= comment.id %>" autocomplete="off">
