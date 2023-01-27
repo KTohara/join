@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   include Notifiable
   
-  before_action :set_post, only: %i[show edit cancel_edit update destroy post_via_notification]
+  before_action :set_post, only: %i[show edit update destroy post_via_notification]
   before_action :set_new_post, only: %i[create update]
   before_action :mark_notification_as_read, only: %i[show post_via_notification]
   
@@ -35,12 +35,6 @@ class PostsController < ApplicationController
   end
 
   def edit; end
-
-  def cancel_edit
-    respond_to do |format|
-      format.turbo_stream { turbo_replace_post_body }
-    end
-  end
 
   def update
     respond_to do |format|

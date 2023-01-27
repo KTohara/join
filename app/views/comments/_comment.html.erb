@@ -4,7 +4,7 @@
       <%= image_tag avatar_image(comment.user, :thumb) %>
     </div>
     <div class="flex flex-col w-fit py-2 px-4 bg-stone-100 rounded-2xl">
-      <%= link_to comment.user.name, user_path(comment.user), class: 'font-medium w-fit text-xs' %>
+      <%= link_to comment.user.name, user_path(comment.user), class: 'font-medium w-fit text-xs', data: { turbo_frame: '_top'} %>
       <p class="whitespace-pre-wrap"><%= comment.id %> <%= comment.body %></p>
     </div>
   </div>
@@ -15,7 +15,8 @@
     <% end %>
   <% end %>
 
-  <div class="flex gap-3 ml-12 mt-1 mb-2 items-baseline text-sm" data-controller="object-author"
+  <div class="flex gap-3 ml-12 mt-1 mb-2 items-baseline text-sm"
+    data-controller="object-author"
     data-object-author-commenter-id-value="<%= comment.user_id %>"
     data-object-author-poster-id-value="<%= comment.commentable.user_id %>">
 
@@ -24,22 +25,25 @@
       <%= render 'likes/like_counter', likeable: comment %>
     </div>
 
-    <button data-action="<%= toggle_popup('dropdown') %>" data-dropdown-target="button" aria-expanded="false">
+    <button id="<%= dom_id(comment, :reply_btn) %>" data-action="<%= toggle_popup('dropdown') %>" data-dropdown-target="button"">
       <i class="fa-regular fa-comment-dots icon"></i> <%# reply button %>
     </button>
 
     <div class="hidden" data-object-author-target="editButton">
-      <%= button_to edit_comment_path(comment), method: :get do %>
+      <%= button_to edit_comment_path(comment), method: :get, data: { turbo_frame: dom_id(comment, :edit)} do %>
         <i class="fa-regular fa-pen-to-square icon"></i>
       <% end %>
     </div>
+
     <div class="hidden" data-object-author-target="deleteButton">
       <%= button_to comment_path(comment), method: :delete do %>
         <i class="far fa-trash-can icon"></i>
       <% end %>
     </div>
+
     <div class="text-xs text-stone-500"">
       <p><%= time_ago_in_words(comment.created_at) %></p>
     </div>
   </div>
+
 <% end %>

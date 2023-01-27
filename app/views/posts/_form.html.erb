@@ -5,7 +5,7 @@
   <div class="p-5 border rounded-b-xl bg-white shadow-md <%= rounded_top(controller) %>" data-controller="form">
     <div class="flex flex-col w-full mb-2">
       <%= f.text_area :body,
-        placeholder: form_placeholder_message,
+        placeholder: form_placeholder_message, autofocus: true,
         data: { action: 'form#resize keyup->form#isEmpty', form_target: 'input' },
         class: "w-full h-9 border-none bg-stone-100 rounded-2xl" %>
       <div class="flex justify-between items-baseline">
@@ -20,28 +20,28 @@
     </div>
 
     <div class="flex justify-around items-center gap-2 h-8">
-      <div class='w-full rounded hover:bg-slate-100 ease-in duration-100'>
-        <%= f.button nil, class: 'w-full flex justify-center items-center gap-1', data: { form_target: 'submit' } do %>
-          <i class="fa-regular fa-comments icon"></i>
-          <span class="text-slate-600"><%= submit_button_text %></span>
-        <% end %>
-      </div>
-
-      <% if f.object.persisted? %>
-        <div class="w-full rounded hover:bg-slate-100 ease-in duration-100">
-          <%= link_to cancel_edit_path(post), class: 'w-full flex justify-center items-center gap-1', data: { turbo_stream: 'true' } do %>
-            <i class="fas fa-rotate-left icon"></i>
-            <span class="text-slate-600">Cancel</span>
-          <% end %>
-        </div>
-      <% end %>
-
       <div class="relative w-full rounded hover:bg-slate-100 ease-in duration-100">
         <div data-action="click->form#uploadImage" class="flex justify-center items-center gap-1 w-full hover:cursor-pointer">
           <i class="fa-regular fa-image icon"></i>
           <span class="text-slate-600">Photo</span>
         </div>
         <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
+      </div>
+
+      <% if f.object.persisted? %>
+        <div class="w-full rounded hover:bg-slate-100 ease-in duration-100">
+          <%= link_to post_path(post), class: 'w-full flex justify-center items-center gap-1', data: { turbo_stream: 'true' } do %>
+            <i class="fas fa-rotate-left icon"></i>
+            <span class="text-slate-600">Cancel</span>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class='w-full rounded hover:bg-slate-100 ease-in duration-100'>
+        <%= f.button nil, class: 'w-full flex justify-center items-center gap-1', data: { form_target: 'submit' } do %>
+          <i class="fa-regular fa-comments icon"></i>
+          <span class="text-slate-600"><%= submit_button_text %></span>
+        <% end %>
       </div>
     </div>
   </div>

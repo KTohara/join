@@ -9,7 +9,7 @@
   <%= turbo_stream_from post, :comments %>
   <div id="<%= dom_id(post, :comments) %>">
     <%= render partial: 'comments/parent_comment',
-      collection: post.parent_comments.limit(1),
+      collection: post.parent_comments,
       as: :comment,
       locals: { user: user } %>
   </div>

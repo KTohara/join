@@ -75,7 +75,7 @@ class Comment < ApplicationRecord
 
   def preloaded_comments
     comments
-      .includes(image_attachment: [:blob], user: [:profile])
+      .includes(:image_attachment, user: [:profile])
       .where(nesting: ..2).limit(2)
   end
 

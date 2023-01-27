@@ -66,7 +66,7 @@ class User < ApplicationRecord
   def feed
     friend_ids = "SELECT friend_id FROM friendships WHERE (user_id = :user_id AND status = '2')"
     Post.with_attached_image
-        .includes(%i[image_attachment comments author user])
+        .includes([:image_attachment, :comments, :author, user: [:profile]])
         .where("user_id IN (#{friend_ids}) OR user_id = :user_id", user_id: id)
         .order(created_at: :desc)
   end

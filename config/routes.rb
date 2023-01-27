@@ -25,7 +25,6 @@ Rails.application.routes.draw do
     get :unread, on: :collection
   end
 
-  get 'cancel_edit/:id', to: 'posts#cancel_edit', as: 'cancel_edit'
   get 'post_notification/:id', to: 'posts#post_via_notification', as: 'via_notification'
 
   resources :users, only: %i[index show]

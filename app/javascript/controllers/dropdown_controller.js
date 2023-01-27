@@ -7,26 +7,24 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="dropdown"
 export default class extends Controller {
-  static targets = ['popup', 'button'];
+  static targets = ['popup', 'button', 'input', 'container'];
 
   // connect() {
   //   console.log('connected to dropdown')
   // }
   
   toggle(event) {
-    if (this.buttonTarget.getAttribute('aria-expanded') == 'false') return this.open();
+    if (this.popupTarget.classList.contains('hidden')) return this.open();
     if (this.buttonTarget.id == 'notification_btn') return this.closeNotifications(event);
 
     this.close(null);
   }
 
   open() {
-    this.buttonTarget.setAttribute('aria-expanded', 'true');
     this.popupTarget.classList.remove('hidden');
-
-    // if (this.popupTarget.id.includes('new_comment')) {
-    //   this.popupTarget.classList.add('pl-5');
-    // }
+    if (this.buttonTarget.id != 'notification_btn') {
+      this.inputTarget.focus();
+    }
   }
 
   close(event) {
@@ -34,12 +32,7 @@ export default class extends Controller {
       return;
     }
 
-    this.buttonTarget.setAttribute('aria-expanded', 'false');
     this.popupTarget.classList.add('hidden');
-
-    // if (this.popupTarget.id.includes('new_comment')) {
-    //   this.popupTarget.classList.remove('pl-5');
-    // }
   }
 
   closeNotifications(event) {

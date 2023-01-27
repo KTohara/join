@@ -6,13 +6,13 @@ module Commentable
 
   included do
     after_action -> { send_comment_notification(@comment, @parent.user, 'replied to your comment') },
-      only: :create, if: -> { valid_parent_user?(@parent) && @comment.persisted? }
+      only: :create, if: -> { @comment.persisted? && valid_parent_user?(@parent) }
     after_action -> { send_comment_notification(@comment, @commentable.author, 'replied to your post') },
-      only: :create, if: -> { valid_commentable_user?(@commentable, @parent) && @comment.persisted? }
+      only: :create, if: -> { @comment.persisted? && valid_commentable_user?(@commentable, @parent) }
   end
 
   def show_comments
-    @comments = (@parent.comments || @commentable.comments).includes(:commentable, image_attachment: [:blob], user: [:profile])
+    @comments = (@parent || @commentable).comments
     @pagy, @comments = pagy(@comments, items: 5)
 
     find_turbo_comments_to_reject(params)
@@ -25,6 +25,8 @@ module Commentable
   end
 
   def create
+    return redirect_back fallback_location: posts_path if @commentable.nil?
+
     @comment = @commentable.comments.new(comment_params)
     @comment.user = current_user
     @comment.nesting = @comment.set_nesting(@parent)

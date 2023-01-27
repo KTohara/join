@@ -12,7 +12,7 @@ export default class extends Controller {
     this.inputTarget.style.minHeight = `${this.inputTarget.scrollHeight}px`;
     this.inputTarget.style.overflow = 'hidden';
 
-    if (this.inputTarget.value.length == 0 && !this.inputTarget.getAttribute('data-form-type') == 'profile') {
+    if (this.inputTarget.value.length == 0 && this.inputTarget.getAttribute('data-form-type') != 'profile') {
       this.submitTarget.disabled = true;
       this.submitTarget.classList.add('disabled:opacity-50');
     }

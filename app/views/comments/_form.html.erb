@@ -6,39 +6,37 @@
   class: local_assigns[:class] do |f| %>
   
   <div class="flex flex-col gap-2" data-controller="form">
-    <div class="flex gap-1">
-      <div class="avatar">
-        <%= image_tag avatar_image(comment.user, :thumb) %>
-      </div>
-      <div class="flex w-full justify-center items-end rounded-2xl focus-within:ring-1 focus-within:ring-blue-500 bg-stone-100">
-        <%= f.text_area :body,
-          placeholder: 'Write a comment...',
-          data: { action: 'input->form#resize input->form#isEmpty', form_target: 'input' },
-          class: 'w-full h-9 bg-stone-100 border-transparent focus:border-transparent focus:ring-0 rounded-l-2xl text-sm' %>
-        <%= render 'shared/form_errors', form: f, value_type: :body %>
-        <%= render 'shared/form_errors', form: f, value_type: :image %>
-        <div class="flex gap-2 pb-2 pr-3">
-          <div data-action="click->form#uploadImage" class="hover:cursor-pointer">
-            <i class="fa-regular fa-image icon"></i> <%# updload image button %>
-          </div>
-          <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
-      
-          <%= f.button nil, data: { form_target: 'submit' }, aria: { expanded: false }, class: 'rounded-r-2xl' do %>
-            <i class="fa-regular fa-comments icon"></i> <%# submit button %>
-          <% end %>
+    <div class="flex w-full justify-center items-end rounded-2xl focus-within:ring-1 focus-within:ring-blue-500 bg-stone-100">
+      <%= f.text_area :body,
+        placeholder: 'Write a comment...', autofocus: true,
+        data: { action: 'input->form#resize input->form#isEmpty ', form_target: 'input', dropdown_target: 'input' },
+        class: 'w-full h-9 bg-stone-100 border-transparent focus:border-transparent focus:ring-0 rounded-l-2xl text-sm' %>
+
+      <%= render 'shared/form_errors', form: f, value_type: :body %>
+      <%= render 'shared/form_errors', form: f, value_type: :image %>
+      <div class="flex gap-2 pb-2 pr-3">
+        <div data-action="click->form#uploadImage" class="hover:cursor-pointer">
+          <i class="fa-regular fa-image icon"></i> <%# updload image button %>
         </div>
+        <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
+    
+        <%= f.button nil, data: { form_target: 'submit' }, class: 'rounded-r-2xl' do %>
+          <i class="fa-regular fa-comments icon"></i> <%# submit button %>
+        <% end %>
       </div>
     </div>
 
     <p class="self-end text-xs" data-form-target="preview">
       <%= "Image: #{f.object.image.filename}" if f.object.image.attached? %>
     </p>
-
+    
     <% if f.object.persisted? %>
-      <%= link_to comment_path(comment) do %>
-        <i class="fas fa-rotate-left icon"></i>
-        <span>Cancel</span>
-      <% end %>
+      <div>
+        <%= link_to comment_path(comment), data: { dropdown_target: 'button' } do %>
+          <i class="fas fa-rotate-left icon"></i>
+          <span>Cancel</span>
+        <% end %>
+      </div>
     <% end %>
   </div>
 <% end %>
