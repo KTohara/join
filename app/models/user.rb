@@ -97,4 +97,8 @@ class User < ApplicationRecord
   def name_blank?
     profile.first_name.blank? || profile.last_name.blank?
   end
+
+  def first_name
+    profile.first_name if profile.first_name.present?
+  end
 end

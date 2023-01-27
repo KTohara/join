@@ -4,7 +4,7 @@
       <%= link_to root_path do %>
         <%= image_tag('logo-join.svg', width: '100') %>
       <% end %>
-      <%= link_to "Welcome #{current_user.name}", user_path(current_user) %>
+      <%= link_to "Welcome #{current_user.first_name || current_user.username}", user_path(current_user) %>
       <%= link_to 'Search People', users_path %>
     </div>
     <div class="flex items-center justify-center gap-3 ">
