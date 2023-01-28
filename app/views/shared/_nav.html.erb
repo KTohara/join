@@ -1,20 +1,41 @@
 <nav id="nav" class="sticky top-0 h-16 pt-5 pb-12 bg-amber-700 z-10 text-slate-100 font-normal uppercase tracking-widest text-xs border-b-4 border-slate-600/25">
-  <div class="flex justify-around items-center gap-5 px-[10%]">
-    <div class="flex items-center gap-3">
-      <%= link_to root_path do %>
-        <%= image_tag('logo-join.svg', width: '100') %>
+  <div class="h-8 flex justify-between items-center gap-5 px-8">
+    <%= turbo_frame_tag :search_people, class: "flex items-center gap-2" do %>
+      <%= link_to root_path, class: 'min-w-max border-2 rounded-full p-[2px]' do %>
+        <%= image_tag('join-icon.svg', width: '24px') %>
       <% end %>
-      <%= link_to "Welcome #{current_user.first_name || current_user.username}", user_path(current_user) %>
-      <%= link_to 'Search People', users_path %>
-    </div>
-    <div class="flex items-center justify-center gap-3 ">
-      <%= link_to 'Posts', posts_path %>
-      <%= link_to 'Friends', friendships_path %>
-      <%= link_to 'Profile', edit_profile_path(current_user.profile) %>
+
+      <%= link_to users_path, class: 'flex gap-1 items-center' do %>
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <p>Search</p>
+      <% end %>
+    <% end %>
+
+    <div class="flex items-center justify-center gap-3">
+      <%= link_to posts_path, class: 'flex gap-1' do %>
+        <i class="fa-regular fa-pen-to-square"></i>
+        <p>Posts</p>
+      <% end %>
+
+      <%= link_to friendships_path, class: 'flex gap-1' do %>
+        <i class="fa-solid fa-user-group"></i>
+        <p>Friends</p>
+      <% end %>
+
+      <%= link_to edit_profile_path(current_user.profile), class: 'flex gap-1 items-center' do %>
+        <i class="fa-solid fa-circle-user w-[15px] h-[15px]"></i>
+        <p>Profile</p>
+      <% end %>
+
       <%= link_to 'Messages', '#' %>
       <%= link_to 'Settings', '#' %>
       <%= link_to 'Log Out', destroy_user_session_path, data: { turbo_method: :delete } %>
     
+      <%= link_to user_path(current_user), class: 'flex gap-1 items-center' do %>
+        <%= image_tag avatar_image(current_user, :thumb), class: 'avatar border-white w-5 h-5' %>
+        <%= "#{current_user.first_name || current_user.username}" %>
+      <% end %>
+
       <%= turbo_frame_tag :notifications do %>
         <%= render 'notifications/button' %>
       <% end %>

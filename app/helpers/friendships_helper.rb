@@ -3,14 +3,14 @@ module FriendshipsHelper
     case status
     when 'accepted'
       tag.span('(placeholder) Message') +
-      button_to('Remove Friend', friendship_path(user), params: { friendship: { friend_id: user.id} }, method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'btn')
+      button_to('Remove', friendship_path(user), params: { friendship: { friend_id: user.id} }, method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'btn-sm normal-case')
     when 'sent'
-      button_to('Cancel Request', friendship_path(user), params: { request: :cancel, friendship: { friend_id: user.id} }, method: :delete, class: 'btn')
+      button_to('Cancel', friendship_path(user), params: { request: :cancel, friendship: { friend_id: user.id} }, method: :delete, class: 'btn-sm normal-case')
     when 'received'
-      button_to('Accept', friendship_path(user), params: { friendship: { status: :accepted } }, method: :patch, class: 'btn') +
-      button_to('Decline', friendship_path(user), method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'btn')
+      button_to('Accept', friendship_path(user), params: { friendship: { status: :accepted } }, method: :patch, class: 'btn-sm normal-case') +
+      button_to('Decline', friendship_path(user), method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'btn-sm normal-case')
     else
-      button_to('Add Friend', friendships_path, params: { friendship: { friend_id: user.id } }, method: :post, class: 'btn')
+      button_to('Add', friendships_path, params: { friendship: { friend_id: user.id } }, method: :post, class: 'btn-sm normal-case')
     end
   end
 end

@@ -12,7 +12,7 @@
       data: { dropdown_target: 'popup' },
       class: 'hidden pl-10' %>
     <%= render partial: 'comments/parent_comment',
-      collection: comment.comments.includes(:user, :image_attachment).where(nesting: ..2).limit(2),
+      collection: comment.preloaded_comments,
       as: :comment,
       locals: { user: user } %>
   </div>

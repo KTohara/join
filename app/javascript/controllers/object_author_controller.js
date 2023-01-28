@@ -13,30 +13,20 @@ export default class extends Controller {
   }
 
   connect() {
+    this.currentUserId = document.querySelector("[name='current-user-id']").content
+
     this.showEditButton();
     this.showDeleteButton();
   }
 
-  get commenterId() {
-    return this.commenterIdValue
-  }
-
-  get posterId() {
-    return this.posterIdValue
-  }
-
-  get currentUserId() {
-    return document.querySelector("[name='current-user-id']").content
-  }
-
   showEditButton() {
-    if (this.currentUserId === this.commenterId) {
+    if (this.currentUserId === this.commenterIdValue) {
       this.editButtonTarget.classList.remove('hidden')
     }
   }
 
   showDeleteButton() {
-    const userIds = [this.commenterId, this.posterId]
+    const userIds = [this.commenterIdValue, this.posterIdValue]
     userIds.forEach(id => {
       if (id === this.currentUserId) return this.deleteButtonTarget.classList.remove('hidden')
     });

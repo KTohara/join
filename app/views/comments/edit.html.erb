@@ -1,3 +1,3 @@
 <%= turbo_frame_tag @comment do %>
-  <%= render 'comments/form', comment: @comment %>
+  <%= render 'comments/form', comment: @comment, data: { controller: 'dropdown', dropdown_target: 'popup' }, class: 'bg-gray-100/25 rounded p-2 shadow-md mb-2' %>
 <% end %>

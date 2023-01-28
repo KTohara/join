@@ -1,11 +1,25 @@
-<h1>Search People</h1>
-<%= form_with url: users_path, method: :get, data: { controller: 'search', turbo_frame: 'users', turbo_action: 'advance', search_target: 'form' } do |f| %>
-  <%= f.text_field :q, placeholder: 'Search Users...', data: { action: 'input->search#submit' } %>
-  <%= f.submit 'Search', name: nil %>
-<% end %>
+<%= turbo_frame_tag :search_people do %>
+  <div class="relative" data-controller="dropdown">
+    <div class="absolute top-[-22px] left-[-32px] w-[400px] rounded-md" data-dropdown-target="popup">
+      <div class="flex flex-col text-slate-600 normal-case tracking-normal gap-4">
+        <%= form_with url: users_path, method: :get,
+          data: { controller: 'search', turbo_frame: 'users', turbo_action: 'advance', search_target: 'form' },
+          class: 'flex gap-4 items-center ml-4' do |f| %>
 
-<%= turbo_frame_tag 'users' do %>
-  <% @users.each do |user| %>
-    <%= render 'friendships/friend_request', user: user %>
-  <% end %>
+          <%= link_to :back, data: { dropdown_target: 'button' } do %>
+            <i class="fa-solid fa-arrow-left w-5 h-5 text-white"></i>
+          <% end %>
+
+          <%= f.text_field :q, placeholder: 'Search Users...', data: { action: 'focusout->dropdown#previous input->search#submit' }, class: 'rounded-3xl border' %>
+        <% end %>
+        <div class="p-3 rounded-b-md bg-white shadow-md">
+          <%= turbo_frame_tag :users do %>
+            <% @users.each do |user| %>
+              <%= render 'friendships/friend_request', user: user %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
 <% end %>

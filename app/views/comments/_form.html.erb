@@ -3,13 +3,13 @@
 <%= form_with model: model,
   id: dom_id_for_comment(*model),
   data: local_assigns[:data],
-  class: local_assigns[:class] do |f| %>
+  class: local_assigns[:class]  do |f| %>
   
   <div class="flex flex-col gap-2" data-controller="form">
     <div class="flex w-full justify-center items-end rounded-2xl focus-within:ring-1 focus-within:ring-blue-500 bg-stone-100">
       <%= f.text_area :body,
         placeholder: 'Write a comment...', autofocus: true,
-        data: { action: 'input->form#resize input->form#isEmpty ', form_target: 'input', dropdown_target: 'input' },
+        data: { action: 'input->form#resize input->form#isEmpty', form_target: 'input', dropdown_target: 'input' },
         class: 'w-full h-9 bg-stone-100 border-transparent focus:border-transparent focus:ring-0 rounded-l-2xl text-sm' %>
 
       <%= render 'shared/form_errors', form: f, value_type: :body %>
@@ -20,23 +20,23 @@
         </div>
         <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
     
-        <%= f.button nil, data: { form_target: 'submit' }, class: 'rounded-r-2xl' do %>
+        <%= f.button nil, data: { form_target: 'submit', dropdown_target: 'submit' }, class: 'rounded-r-2xl' do %>
           <i class="fa-regular fa-comments icon"></i> <%# submit button %>
         <% end %>
       </div>
     </div>
 
-    <p class="self-end text-xs" data-form-target="preview">
-      <%= "Image: #{f.object.image.filename}" if f.object.image.attached? %>
-    </p>
-    
-    <% if f.object.persisted? %>
-      <div>
-        <%= link_to comment_path(comment), data: { dropdown_target: 'button' } do %>
+    <div class="flex justify-between px-2">
+      <% if f.object.persisted? %>
+        <%= link_to comment_path(comment), id: 'turbo_btn', data: { dropdown_target: 'button', turbo_stream: 'true' }, class: 'w-fit' do %>
           <i class="fas fa-rotate-left icon"></i>
           <span>Cancel</span>
         <% end %>
+      <% end %>
+
+      <div class="ml-auto text-xs" data-form-target="preview">
+        <%= "Image: #{f.object.image.filename}" if f.object.image.attached? %>
       </div>
-    <% end %>
+    </div>
   </div>
 <% end %>
