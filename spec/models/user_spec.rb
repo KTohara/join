@@ -31,7 +31,6 @@ RSpec.describe User, type: :model do
 
   describe 'post associations' do
     it { should have_many(:posts).dependent(:destroy) }
-    it { should have_many(:friends_posts).through(:friends).source(:posts) }
   end
 
   describe 'friend associations' do
@@ -39,7 +38,7 @@ RSpec.describe User, type: :model do
     it { should have_many(:pending_requests).class_name('Friendship') }
 
     it { should have_many(:friends).through(:friendships).conditions(status: :accepted).source(:friend) }
-    it { should have_many(:pending_friends).through(:friendships).conditions(status: [:sent, :received]).source(:friend) }
+    # it { should have_many(:pending_friends).through(:friendships).conditions(status: [:sent, :received]).source(:friend) }
   end
 
   describe 'comment associations' do

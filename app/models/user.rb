@@ -24,32 +24,17 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  # Friendships
   has_many :friendships, dependent: :destroy
   has_many :pending_requests, -> { Friendship.pending }, class_name: 'Friendship'
 
-  # Friends
   has_many :friends, -> { Friendship.accepted },
            through: :friendships,
            source: :friend
-  has_many :pending_friends, -> { Friendship.pending },
-           through: :friendships,
-           source: :friend
-
-  # Posts
-  has_many :posts, -> { includes(%i[user author]) }, dependent: :destroy
-  has_many :friends_posts, through: :friends, source: :posts
-
-  # Comments
-  has_many :comments, dependent: :destroy
-
-  # Likes
-  has_many :likes, dependent: :destroy
-
-  # Profile
+           
   has_one :profile, dependent: :destroy
-
-  # Notifications
+  has_many :posts, -> { includes(%i[user author]) }, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
   has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
   has_many :sent_notifications, class_name: 'Notification', foreign_key: 'sender_id', dependent: :destroy
 
@@ -59,8 +44,8 @@ class User < ApplicationRecord
   after_create :create_profile
 
   def self.search_by_user(params, current_user)
-    users = includes(profile: [:avatar_attachment]).where.not(id: current_user.id)
-    params[:q].blank? ? users : users.includes(profile: [:avatar_attachment]).where('username ILIKE ?', "%#{sanitize_sql_like(params[:q])}%")
+    users = User.includes(profile: [:avatar_attachment]).where.not(id: current_user.id)
+    params[:q].blank? ? users : users.where('username ILIKE ?', "%#{sanitize_sql_like(params[:q])}%")
   end
 
   def feed

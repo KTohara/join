@@ -21,7 +21,9 @@
 
   <% if post.image.attached? %>
     <div class="flex justify-center bg-slate-50 w-full">
-      <%= image_tag post.image.variant(:display) %>
+      <%= link_to url_for(post.image), target: '_blank' do %>
+        <%= image_tag post.image.variant(:display) %>
+      <% end %>
     </div>
   <% end %>
 

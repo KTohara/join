@@ -13,7 +13,7 @@ module Commentable
 
   def show_comments
     @comments = (@parent || @commentable).comments
-    @pagy, @comments = pagy(@comments, items: 5)
+    @pagy, @comments = pagy_countless(@comments, items: 5)
 
     find_turbo_comments_to_reject(params)
     reject_dup_comments

@@ -14,7 +14,7 @@
   </div>
 
   <% if comment.image.attached? %>
-    <%= link_to comment.image.url, target: '_blank', class: 'block w-fit' do %>
+    <%= link_to url_for(comment.image), target: '_blank', class: 'block w-fit' do %>
       <%= image_tag comment.image.variant(:thumb), class: 'rounded-2xl ml-10 border' %>
     <% end %>
   <% end %>
