@@ -1,14 +1,7 @@
 <nav id="nav" class="sticky top-0 h-16 pt-5 pb-12 bg-amber-700 z-10 text-slate-100 font-normal uppercase tracking-widest text-xs border-b-4 border-slate-600/25">
   <div class="h-8 flex justify-between items-center gap-5 px-8">
     <%= turbo_frame_tag :search_people, class: "flex items-center gap-2" do %>
-      <%= link_to root_path, class: 'min-w-max border-2 rounded-full p-[2px]' do %>
-        <%= image_tag('join-icon.svg', width: '28px') %>
-      <% end %>
-
-      <%= link_to users_path, class: 'flex gap-1 items-center' do %>
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <p>Search</p>
-      <% end %>
+      <%= render 'shared/search' %>
     <% end %>
 
     <div class="flex items-center justify-center gap-3">

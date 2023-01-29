@@ -7,16 +7,22 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    user_feed = @user.posts
+    user_feed = @user.feed
       .with_attached_image
       .includes(:comments)
       .order(created_at: :desc)
 
     @pagy, @posts = pagy_countless(user_feed, items: 5)
     @new_post = @user.posts.build
+  end
 
+  def cancel_search
     respond_to do |format|
-      format.turbo_stream
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          'search_users', partial: 'shared/search'
+        )
+      end
       format.html
     end
   end

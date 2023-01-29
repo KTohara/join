@@ -29,7 +29,7 @@
       <%= render 'likes/like_counter', likeable: comment %>
     </div>
 
-    <button id="<%= dom_id(comment, :reply_btn) %>" data-action="<%= toggle_popup('dropdown') %>" data-dropdown-target="button">
+    <button id="<%= dom_id(comment, :reply_btn) %>" data-action="dropdown#toggle" data-dropdown-target="button">
       <i class="fa-regular fa-comment-dots icon"></i> <%# reply button %>
     </button>
 

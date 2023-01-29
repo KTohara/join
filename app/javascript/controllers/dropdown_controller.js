@@ -1,9 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
 // closes dropdowns for when a user clicks the right button, or outside the window
-// used in:
-  // shared/nav notifications/_notifications, _button
-  // comments/parent, comment, _form
 
 // Connects to data-controller="dropdown"
 export default class extends Controller {
@@ -13,12 +10,12 @@ export default class extends Controller {
     this.close = this.close.bind(this);
     this.clickCancel = this.clickCancel.bind(this);
 
-    if (this.buttonTarget.id == 'notification_btn') window.addEventListener('click', this.close);
-    if (this.buttonTarget.id == 'turbo_btn') window.addEventListener('click', this.clickCancel);
+    if (this.buttonTarget.id == 'notification_btn') window.addEventListener('mousedown', this.close);
+    if (this.buttonTarget.id == 'turbo_btn') window.addEventListener('mousedown', this.clickCancel);
   }
   
   toggle(event) {
-    window.addEventListener('click', this.close);
+    window.addEventListener('mousedown', this.close);
     
     if (this.buttonTarget.id == 'notification_btn') return this.closeNotifications(event);
     if (this.popupTarget.classList.contains('hidden')) return this.open();
@@ -37,7 +34,7 @@ export default class extends Controller {
     if (event && (this.popupTarget.contains(event.target) || this.buttonTarget.contains(event.target))) {
       return
     }
-    window.removeEventListener('click', this.close);
+    window.removeEventListener('mousedown', this.close);
     this.popupTarget.classList.add('hidden');
   }
 
@@ -49,21 +46,21 @@ export default class extends Controller {
     if (popupHidden || notifications.contains(event.target)) return;
     if (notificationBtn.contains(event.target)) event.preventDefault();
     
-    window.removeEventListener('click', this.close)
+    window.removeEventListener('mousedown', this.close)
     notifications.classList.add('hidden')
   }
 
   clickCancel(event) {
     if (event && this.popupTarget.contains(event.target)) {
-      return this.isSubmitClicked(event)
-    } 
-    window.removeEventListener('click', this.clickCancel);
+      return this.isButtonClicked(event)
+    }
+    window.removeEventListener('mousedown', this.clickCancel);
     this.buttonTarget.click();
   }
 
-  isSubmitClicked(event) {
+  isButtonClicked(event) {
     if (this.submitTarget.contains(event.target) || this.buttonTarget.contains(event.target)) {
-      window.removeEventListener('click', this.clickCancel);
+      window.removeEventListener('mousedown', this.clickCancel);
     }
   }
 }
