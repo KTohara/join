@@ -23,7 +23,9 @@ class PostsController < ApplicationController
   end
 
   def post_via_notification
-    notification = Notification.find(params[:notification_id])
+    notification = Notification.find_by(id: params[:notification_id])
+    return if notification.nil?
+    
     set_post_variables(notification)
   end
 
