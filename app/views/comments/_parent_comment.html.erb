@@ -1,7 +1,3 @@
-<%= turbo_stream_from comment, :comments, class: 'hidden' %>
-<%= turbo_stream_from comment, :like_count, class: 'hidden' %>
-<%= turbo_stream_from comment %>
-
 <div class="<%= nesting_padding(comment.nesting) %>" data-controller="dropdown">
   <%= render 'comments/comment', comment: comment, user: user %>
 
@@ -12,8 +8,7 @@
       data: { dropdown_target: 'popup' },
       class: 'hidden pl-10' %>
     <%= render partial: 'comments/parent_comment',
-      collection: comment.preloaded_comments,
-      as: :comment,
+      collection: comment.preloaded_comments, as: :comment,
       locals: { user: user } %>
   </div>
 

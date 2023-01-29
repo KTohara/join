@@ -6,7 +6,7 @@
     <meta name="current-user-id" content="<%= current_user&.id %>"> <%# current user conditionals when broadcasting turbo streams %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload", rel: 'stylesheet preload prefetch', as: 'style' %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <%= javascript_include_tag "https://kit.fontawesome.com/6191f9c23a.js", crossorigin: 'anonymous', defer: 'defer' %>

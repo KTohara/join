@@ -1,8 +1,7 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[show edit update destroy]
 
-  def show
-  end
+  def show; end
 
   def edit; end
 
@@ -42,10 +41,5 @@ class CommentsController < ApplicationController
 
   def set_comment
     @comment = Comment.find(params[:id])
-  end
-
-  def turbo_replace_edit_body
-    render turbo_stream: 
-      turbo_stream.replace(@comment, partial: 'comments/comment', locals: { comment: @comment, user: current_user })
   end
 end

@@ -30,17 +30,17 @@ class Like < ApplicationRecord
   validates :user, presence: true, uniqueness: { scope: %i[likeable_id likeable_type] }
 
   after_create_commit do
-    update_comment_counter
+    broadcast_update_to_like_counter
   end
 
   after_destroy_commit do
-    update_comment_counter
+    broadcast_update_to_like_counter
   end
 
   private
 
-  def update_comment_counter
-    broadcast_replace_to [likeable, :like_count],
+  def broadcast_update_to_like_counter
+    broadcast_replace_to likeable,
       target: dom_id(likeable, :like_count),
       partial: 'likes/like_counter',
       locals: { likeable: likeable }

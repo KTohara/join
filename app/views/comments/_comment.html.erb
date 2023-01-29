@@ -1,7 +1,11 @@
+<%= turbo_stream_from comment %>
+
 <%= turbo_frame_tag comment do %>
   <div class="flex items-center gap-1 mb-1">
     <div class="avatar w-9 h-9">
-      <%= image_tag avatar_image(comment.user, :thumb) %>
+      <%= link_to comment.user do %>
+        <%= image_tag avatar_image(comment.user, :thumb) %>
+      <% end %>
     </div>
     <div class="flex flex-col w-fit py-2 px-4 bg-stone-100 rounded-2xl">
       <%= link_to comment.user.name, user_path(comment.user), class: 'font-medium w-fit text-xs', data: { turbo_frame: '_top'} %>
@@ -25,12 +29,12 @@
       <%= render 'likes/like_counter', likeable: comment %>
     </div>
 
-    <button id="<%= dom_id(comment, :reply_btn) %>" data-action="<%= toggle_popup('dropdown') %>" data-dropdown-target="button"">
+    <button id="<%= dom_id(comment, :reply_btn) %>" data-action="<%= toggle_popup('dropdown') %>" data-dropdown-target="button">
       <i class="fa-regular fa-comment-dots icon"></i> <%# reply button %>
     </button>
 
     <div class="hidden" data-object-author-target="editButton">
-      <%= button_to edit_comment_path(comment), method: :get do %>
+      <%= button_to edit_comment_path(comment), method: :get, data: { turbo_stream: 'true' } do %>
         <i class="fa-regular fa-pen-to-square icon"></i>
       <% end %>
     </div>

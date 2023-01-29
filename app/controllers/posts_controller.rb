@@ -15,7 +15,12 @@ class PostsController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    respond_to do |format|
+      format.turbo_stream { turbo_replace_post_body }
+      format.html
+    end
+  end
 
   def post_via_notification
     notification = Notification.find(params[:notification_id])

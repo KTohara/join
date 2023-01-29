@@ -17,7 +17,7 @@ module Commentable
 
     find_turbo_comments_to_reject(params)
     reject_dup_comments
-    session.delete(:turbo_comments) if @pagy.next.nil?
+    session.delete(:turbo_comments) if @pagy.next.nil? 
 
     respond_to do |format|
       format.turbo_stream
@@ -65,14 +65,6 @@ module Commentable
     users.none? { |user| commentable.author == user }
   end
 
-  def reject_preloaded_comments(turbo_comments = nil)
-    if @parent.present?
-      @parent.parent_comments_to_load(turbo_comments)
-    else
-      @commentable.post_comments_to_load(turbo_comments)
-    end
-  end
-
   def find_turbo_comments_to_reject(params)
     comment_ids = params.select { |param| param.starts_with?('reject_comments') }.values
     return if comment_ids.empty?
@@ -89,7 +81,15 @@ module Commentable
       turbo_comments_to_reject = Comment.where(id: session[:turbo_comments])
       @pagy, @comments = pagy(reject_preloaded_comments(turbo_comments_to_reject), items: 5)
     else
-      @pagy, @comments = pagy(reject_preloaded_comments, items: 5) if params[:page].nil? || @pagy.overflow?
+      @pagy, @comments = pagy(reject_preloaded_comments, items: 5) #if params[:page].nil? || @pagy.overflow?
+    end
+  end
+
+  def reject_preloaded_comments(turbo_comments = nil)
+    if @parent.present?
+      @parent.comments_to_load(turbo_comments)
+    else
+      @commentable.parent_comments_to_load(turbo_comments)
     end
   end
 end

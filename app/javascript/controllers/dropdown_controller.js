@@ -9,7 +9,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ['popup', 'button', 'input', 'submit'];
 
-  initialize() {
+  connect() {
     this.close = this.close.bind(this);
     this.clickCancel = this.clickCancel.bind(this);
 

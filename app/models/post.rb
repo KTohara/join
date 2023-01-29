@@ -42,13 +42,14 @@ class Post < ApplicationRecord
                     size: { less_than: 5.megabytes, message: 'image must be less than 5MB' }
 
   def parent_comments
-    comments.where(parent_id: nil).limit(1)
+    comments.where(parent_id: nil)
   end
 
-  def post_comments_to_load(turbo_comments = nil)
+  def parent_comments_to_load(turbo_comments = nil)
+    reject_comments = parent_comments.first
     parent_comments
       .includes(image_attachment: [:blob], user: [profile: [:avatar_attachment]])
-      .where.not(id: parent_comments)
+      .where.not(id: reject_comments)
       .where.not(id: turbo_comments)
   end
 end

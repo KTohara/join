@@ -24,13 +24,4 @@ module CommentsHelper
       'ml-8'
     end
   end
-
-  def reject_new_turbo_comments(params)
-    debugger
-    if params[:reject_comments].present?
-      params[:reject_comments].each_value do
-        render 'comments/comments_to_reject', comment: comment
-      end
-    end
-  end
 end

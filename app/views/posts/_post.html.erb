@@ -1,15 +1,15 @@
+<%= turbo_stream_from post %>
+
 <div class="mt-2 p-5 border rounded-xl bg-white shadow-md" id=<%= dom_id(post) %>>
   <%= render 'posts/post_body', post: post %>
 
-  <%= turbo_stream_from post, :comment_count %>
   <div class="flex justify-end mb-2">
     <%= render 'posts/comment_counter', post: post %>
   </div>
 
-  <%= turbo_stream_from post, :comments %>
   <div id="<%= dom_id(post, :comments) %>">
     <%= render partial: 'comments/parent_comment',
-      collection: post.parent_comments,
+      collection: post.parent_comments.limit(1),
       as: :comment,
       locals: { user: user } %>
   </div>

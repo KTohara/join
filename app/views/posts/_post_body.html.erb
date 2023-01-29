@@ -1,7 +1,9 @@
 <%= turbo_frame_tag "post_body_#{post.id}" do %>
-  <div class="flex items-center gap-1 mb-2">
+  <div class="flex items-center gap-2 mb-2">
     <div class="avatar w-9 h-9">
-      <%= image_tag avatar_image(post.author, :thumb) %>
+      <%= link_to post.author do %>
+        <%= image_tag avatar_image(post.author, :thumb) %>
+      <% end %>
     </div>
 
     <div class="font-medium">
@@ -28,8 +30,6 @@
   <hr class="my-2">
 
   <div class="pl-5 flex justify-between">
-    <%= turbo_stream_from post, :like_count, class: 'hidden' %>
-
     <div class="flex gap-1">
       <%= render 'likes/like_button', likeable: post, user: current_user %>
       <%= render 'likes/like_counter', likeable: post, user: current_user %>

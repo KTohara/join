@@ -79,7 +79,7 @@ class Comment < ApplicationRecord
       .where(nesting: ..2).limit(2)
   end
 
-  def parent_comments_to_load(turbo_comments = nil)
+  def comments_to_load(turbo_comments = nil)
     comments
       .includes(:commentable, image_attachment: [:blob], user: [:profile])
       .where.not(id: preloaded_comments)
@@ -93,21 +93,21 @@ class Comment < ApplicationRecord
   end
 
   def broadcast_create_to_comment
-    broadcast_append_later_to [commentable, :comments],
+    broadcast_append_later_to commentable,
       target: dom_id(parent || commentable, :comments),
       partial: 'comments/parent_comment',
       locals: { user: (parent || commentable).user }
   end
 
   def broadcast_update_to_comment_count
-    broadcast_replace_to [commentable, :comment_count],
+    broadcast_replace_to commentable,
       target: dom_id(commentable, :comment_count),
       partial: 'posts/comment_counter',
       locals: { post: commentable }
   end
 
   def broadcast_update_to_load_comments
-    broadcast_after_to [commentable, :comments],
+    broadcast_after_to commentable,
       target: "load_button_#{(parent || commentable).id}",
       partial: 'comments/comments_to_reject',
       locals: { comment: self }

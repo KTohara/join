@@ -1,4 +1,4 @@
-<%= form_with model: post, id: 'post_form' do |f| %>
+<%= form_with model: post, id: 'post_form', data: local_assigns[:data] do |f| %>
   <%= f.hidden_field :author_id, value: current_user.id %>
   <%= f.hidden_field :user_id, value: user.id if local_assigns[:user] %>
 
@@ -30,15 +30,15 @@
 
       <% if f.object.persisted? %>
         <div class="w-full rounded hover:bg-slate-100 ease-in duration-100">
-          <%= link_to post_path(post), class: 'w-full flex justify-center items-center gap-1', data: { turbo_stream: 'true' } do %>
+          <%= link_to post_path(post), id: 'turbo_btn', class: 'w-full flex justify-center items-center gap-1', data: { dropdown_target: 'button', turbo_stream: 'true' } do %>
             <i class="fas fa-rotate-left icon"></i>
             <span class="text-slate-600">Cancel</span>
           <% end %>
         </div>
       <% end %>
-
+      
       <div class='w-full rounded hover:bg-slate-100 ease-in duration-100'>
-        <%= f.button nil, class: 'w-full flex justify-center items-center gap-1', data: { form_target: 'submit' } do %>
+        <%= f.button nil, class: 'w-full flex justify-center items-center gap-1', data: { dropdown_target: 'submit', form_target: 'submit' } do %>
           <i class="fa-regular fa-comments icon"></i>
           <span class="text-slate-600"><%= submit_button_text %></span>
         <% end %>

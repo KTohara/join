@@ -4,7 +4,7 @@ module NotificationsHelper
 
     case notifiable.class.name
     when 'Comment'
-      via_notification_path(notifiable.commentable, anchor: dom_id(notifiable), notification_id: notification.id)
+      via_notification_path(notifiable.commentable, notification_id: notification.id)
     when 'Like'
       likeable = notifiable.likeable
       if likeable.class == Post
