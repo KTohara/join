@@ -1,12 +1,12 @@
 class NotificationsController < ApplicationController
-  before_action :set_notifications, only: %i[unread read clear_all]
+  before_action :set_notifications, only: %i[index read clear_all]
 
-  def unread
-    @notifications = @notifications.unread.limit(10)
-  end
-
-  def read
-    @notifications = @notifications.read.limit(10)
+  def index
+    @notifications = if params[:notifications] == 'unread'
+      @notifications.unread.limit(10)
+    else
+      @notifications.read.limit(10)
+    end
   end
 
   def destroy

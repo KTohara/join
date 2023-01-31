@@ -48,7 +48,7 @@ class Notification < ApplicationRecord
   def update_notification_count
     broadcast_replace_to [recipient.id, :notification_count],
       target: 'notification_count',
-      partial: 'notifications/notification_counter',
+      partial: 'notifications/counter',
       locals: { notification_count: recipient.unread_notifications.count }
   end
 end

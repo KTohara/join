@@ -19,10 +19,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :notifications, only: :destroy do
+  resources :notifications, only: [:index, :destroy] do
     delete :clear_all, on: :collection
-    get :read, on: :collection
-    get :unread, on: :collection
   end
 
   get 'post_notification/:id', to: 'posts#post_via_notification', as: 'via_notification'

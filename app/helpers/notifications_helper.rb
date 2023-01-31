@@ -18,6 +18,6 @@ module NotificationsHelper
   end
 
   def selected_color(button_type)
-    "underline decoration-orange-400" if button_type == action_name
+    "underline decoration-orange-400" if params[:notifications] == button_type
   end
 end

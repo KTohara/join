@@ -1,5 +1,5 @@
 <%= turbo_frame_tag :search_people do %>
-  <div class="relative" data-controller="dropdown" id="search_users" class="transform transition-all duration-150 ease-out scale-0">
+  <div class="relative" data-controller="dropdown" id="search_users">
     <div class="absolute top-[-22px] left-[-32px] w-[400px] rounded-md" data-dropdown-target="popup">
       <div class="flex flex-col text-slate-600 normal-case tracking-normal gap-4">
         <%= form_with url: users_path, method: :get,

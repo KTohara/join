@@ -1,37 +1,65 @@
-<nav id="nav" class="sticky top-0 h-16 pt-5 pb-12 bg-amber-700 z-10 text-slate-100 font-normal uppercase tracking-widest text-xs border-b-4 border-slate-600/25">
-  <div class="h-8 flex justify-between items-center gap-5 px-8">
-    <%= turbo_frame_tag :search_people, class: "flex items-center gap-2" do %>
-      <%= render 'shared/search' %>
-    <% end %>
+<nav id="nav" class="flex justify-between items-center sticky top-0 h-16 px-8 bg-amber-700 z-10 text-slate-100 font-normal uppercase tracking-widest text-xs border-b-4 border-slate-600/25">
+  <%= turbo_frame_tag :search_people, class: "flex items-center gap-3" do %>
+    <%= render 'shared/search' %>
+  <% end %>
 
-    <div class="flex items-center justify-center gap-3">
-      <%= link_to posts_path, class: 'flex gap-1' do %>
-        <i class="fa-regular fa-pen-to-square"></i>
-        <p>Posts</p>
-      <% end %>
+  <div class="flex md:flex-col flex-row justify-end items-center gap-4">
+    <%# desktop %>
+    <div class="flex gap-5 lg:self-end">
+      <div class="md:flex hidden items-center md:gap-5 gap-3">
+        <%= link_to posts_path, class: 'flex gap-1' do %>
+          <i class="fa-solid fa-pen-to-square lg:w-4 lg:h-4 w-6 h-6"></i>
+          <p class="lg:block hidden">Posts</p>
+        <% end %>
 
-      <%= link_to friendships_path, class: 'flex gap-1' do %>
-        <i class="fa-solid fa-user-group"></i>
-        <p>Friends</p>
-      <% end %>
+        <%= link_to friendships_path, class: 'flex gap-1' do %>
+          <i class="fa-solid fa-user-group lg:w-4 lg:h-4 w-6 h-6"></i>
+          <p class="lg:block hidden">Friends</p>
+        <% end %>
 
-      <%= link_to edit_profile_path(current_user.profile), class: 'flex gap-1 items-center' do %>
-        <i class="fa-solid fa-circle-user w-[15px] h-[15px]"></i>
-        <p>Profile</p>
-      <% end %>
+        <%= link_to edit_profile_path(current_user.profile), class: 'flex gap-1 items-center' do %>
+          <i class="fa-solid fa-circle-user lg:w-[15px] lg:h-[15px] w-6 h-6"></i>
+          <p class="lg:block hidden">Profile</p>
+        <% end %>
 
-      <%= link_to 'Messages', '#' %>
-      <%= link_to 'Settings', '#' %>
-      <%= link_to 'Log Out', destroy_user_session_path, data: { turbo_method: :delete } %>
-    
-      <%= link_to user_path(current_user), class: 'flex gap-1 items-center' do %>
-        <%= image_tag avatar_image(current_user, :thumb), class: 'avatar border-white w-5 h-5' %>
-        <%= "#{current_user.first_name || current_user.username}" %>
-      <% end %>
+        <%= link_to '#', class: 'flex gap-1 items-center' do %>
+          <i class="fa-solid fa-message lg:w-[14px] lg:h-[14px] w-6 h-6"></i>
+          <p class="lg:block hidden">Messages</p>
+        <% end %>
 
-      <%= turbo_frame_tag :notifications do %>
-        <%= render 'notifications/button' %>
-      <% end %>
+        <%= link_to '#', class: 'flex gap-1 items-center' do %>
+          <i class="fa-solid fa-gear lg:w-4 lg:h-4 w-6 h-6"></i>
+          <p class="lg:block hidden">Settings</p>
+        <% end%>
+        
+        <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: 'flex gap-1 items-center' do %>
+          <i class="fa-solid fa-person-through-window lg:w-4 lg:h-4 w-7 h-7"></i>
+          <p class="lg:block hidden">Logout</p>
+        <% end %>
+      </div>
+
+      <div class="flex gap-3 justify-end items-center">
+        <%= link_to user_path(current_user), class: 'flex gap-1 items-center' do %>
+          <%= image_tag avatar_image(current_user, :thumb), class: 'avatar border-white w-6 h-6' %>
+          <p class="lg:block hidden"><%= "#{current_user.first_name || current_user.username}" %></p>
+        <% end %>
+
+        <div data-controller="dropdown">
+          <%= render 'notifications/button' %>
+          <%= turbo_frame_tag :notifications %>
+        </div>
+      </div>
+    </div>
+
+    <%# mobile %>
+    <div class="md:hidden flex items-center justify-center gap-3" data-controller="dropdown">
+      <button data-action="dropdown#toggle" data-dropdown-target="button">
+        <i class="fa-solid fa-bars w-5 h-5"></i>
+      </button>
+
+      <div class="hidden" data-dropdown-target="popup">
+        hi there
+      </div>
     </div>
   </div>
 </nav>

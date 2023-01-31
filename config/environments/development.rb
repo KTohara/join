@@ -43,7 +43,7 @@ Rails.application.configure do
   end
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :amazon
+  config.active_storage.service = :local
 
   # Points src to localhost instead of example.org
   config.action_controller.default_url_options = {host: "localhost", port: 3000}
