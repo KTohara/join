@@ -10,12 +10,16 @@
             <i class="fa-solid fa-arrow-left w-5 h-5 text-white"></i>
           <% end %>
 
-          <%= f.search_field :q, placeholder: 'Search Users...', autofocus: true, data: { action: 'search#submit' }, class: 'w-full h-8 rounded-3xl border-transparent focus:border-transparent focus:ring-0' %>
+          <%= f.search_field :q, placeholder: 'Search Users...', autofocus: true, data: { action: 'search#debounce' }, class: 'w-full h-8 rounded-3xl border-transparent focus:border-transparent focus:ring-0' %>
         <% end %>
         <div class="p-3 rounded-b-md bg-white shadow-md">
           <%= turbo_frame_tag :users do %>
-            <% @users.each do |user| %>
-              <%= render 'friendships/friend_request', user: user %>
+            <% if @users.length.positive? %>
+              <% @users.each do |user| %>
+                <%= render 'friendships/friend_request', user: user %>
+              <% end %>
+            <% else %>
+              <p class="mx-auto">No matches</p>
             <% end %>
           <% end %>
         </div>

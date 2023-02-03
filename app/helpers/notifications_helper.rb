@@ -8,7 +8,7 @@ module NotificationsHelper
     when 'Like'
       likeable = notifiable.likeable
       if likeable.class == Post
-        post_path(likeable)
+        post_path(likeable, notification_id: notification.id)
       else
         via_notification_path(likeable.commentable, notification_id: notification.id)
       end

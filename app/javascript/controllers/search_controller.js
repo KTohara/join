@@ -10,10 +10,10 @@ export default class extends Controller {
   //   console.log('connected to user search');
   // }
 
-  submit() {
+  debounce() {
     clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
       this.formTarget.requestSubmit()
-    }, 500)
+    }, 300)
   }
 }

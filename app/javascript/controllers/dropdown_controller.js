@@ -46,4 +46,11 @@ export default class extends Controller {
       window.removeEventListener('mouseup', this.clickCancel);
     }
   }
+
+  burgerToggle() {
+    window.addEventListener('mouseup', this.burgerClose);
+    if (this.popupTarget.classList.contains('hidden')) return this.burgerOpen();
+    
+    this.burgerClose();
+  }
 }

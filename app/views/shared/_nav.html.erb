@@ -1,4 +1,4 @@
-<nav id="nav" class="flex justify-between items-center sticky top-0 h-16 sm:px-8 px-2 bg-amber-700 z-10 text-slate-100 font-normal uppercase tracking-widest text-xs border-b-4 border-slate-600/25">
+<nav class="flex justify-between items-center sticky top-0 h-16 sm:px-8 px-2 bg-amber-700 z-10 text-slate-100 font-normal uppercase tracking-widest text-xs border-b-4 border-slate-600/25">
   <%= turbo_frame_tag :search_people do %>
     <%= render 'shared/search' %>
   <% end %>
@@ -57,8 +57,40 @@
         <i class="fa-solid fa-bars w-5 h-5"></i>
       </button>
 
-      <div class="hidden" data-dropdown-target="popup">
-        hi there
+      <div class="relative">
+        <div class="hidden absolute top-[30px] sm:right-[-32px] right-[-8px] p-4 rounded-b-md w-[140px] bg-amber-700 border-b-4 border-slate-600/25" data-dropdown-target="popup">
+          <div class="flex flex-col gap-2 items-end">
+            <%= link_to posts_path, class: 'flex justify-between w-full' do %>
+              <i class="fa-solid fa-pen-to-square w-4 h-4"></i>
+              <p>Posts</p>
+            <% end %>
+
+            <%= link_to friendships_path, class: 'flex justify-between w-full' do %>
+              <i class="fa-solid fa-user-group w-4 h-4"></i>
+              <p>Friends</p>
+            <% end %>
+
+            <%= link_to edit_profile_path(current_user.profile), class: 'flex justify-between w-full items-center' do %>
+              <i class="fa-solid fa-circle-user lg:w-[15px] lg:h-[15px] w-4 h-4"></i>
+              <p>Profile</p>
+            <% end %>
+
+            <%= link_to '#', class: 'flex justify-between w-full items-center' do %>
+              <i class="fa-solid fa-message lg:w-[14px] lg:h-[14px] w-4 h-4"></i>
+              <p>Messages</p>
+            <% end %>
+
+            <%= link_to '#', class: 'flex justify-between w-full items-center' do %>
+              <i class="fa-solid fa-gear w-4 h-4"></i>
+              <p>Settings</p>
+            <% end%>
+            
+            <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: 'flex justify-between w-full items-center' do %>
+              <i class="fa-solid fa-person-through-window w-5 h-5"></i>
+              <p>Logout</p>
+            <% end %>
+          </div>
+        </div>
       </div>
     </div>
   </div>
