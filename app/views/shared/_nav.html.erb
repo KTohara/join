@@ -1,9 +1,9 @@
-<nav id="nav" class="flex justify-between items-center sticky top-0 h-16 px-8 bg-amber-700 z-10 text-slate-100 font-normal uppercase tracking-widest text-xs border-b-4 border-slate-600/25">
-  <%= turbo_frame_tag :search_people, class: "flex items-center gap-3" do %>
+<nav id="nav" class="flex justify-between items-center sticky top-0 h-16 sm:px-8 px-2 bg-amber-700 z-10 text-slate-100 font-normal uppercase tracking-widest text-xs border-b-4 border-slate-600/25">
+  <%= turbo_frame_tag :search_people do %>
     <%= render 'shared/search' %>
   <% end %>
 
-  <div class="flex md:flex-col flex-row justify-end items-center gap-4">
+  <div class="flex md:flex-col flex-row justify-end items-center sm:gap-4 gap-2">
     <%# desktop %>
     <div class="flex gap-5 lg:self-end">
       <div class="md:flex hidden items-center md:gap-5 gap-3">
@@ -40,20 +40,20 @@
 
       <div class="flex gap-3 justify-end items-center">
         <%= link_to user_path(current_user), class: 'flex gap-1 items-center' do %>
-          <%= image_tag avatar_image(current_user, :thumb), class: 'avatar border-white w-6 h-6' %>
+          <div class="avatar border-white z-[-1] w-6 h-6">
+            <%= image_tag avatar_image(current_user, :thumb) %>
+          </div>
           <p class="lg:block hidden"><%= "#{current_user.first_name || current_user.username}" %></p>
         <% end %>
 
-        <div data-controller="dropdown">
-          <%= render 'notifications/button' %>
-          <%= turbo_frame_tag :notifications %>
-        </div>
+        <%= render 'notifications/button' %>
+        <%= turbo_frame_tag :notifications %>
       </div>
     </div>
 
     <%# mobile %>
     <div class="md:hidden flex items-center justify-center gap-3" data-controller="dropdown">
-      <button data-action="dropdown#toggle" data-dropdown-target="button">
+      <button id="burger_btn" data-action="dropdown#toggle" data-dropdown-target="button">
         <i class="fa-solid fa-bars w-5 h-5"></i>
       </button>
 

@@ -17,7 +17,7 @@ module NotificationsHelper
     end
   end
 
-  def selected_color(button_type)
-    "underline decoration-orange-400" if params[:notifications] == button_type
+  def animation(animate)
+    'animate-slideLeft' if animate == true
   end
 end

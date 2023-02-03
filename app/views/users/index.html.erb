@@ -1,7 +1,7 @@
 <%= turbo_frame_tag :search_people do %>
   <div class="relative" data-controller="dropdown" id="search_users">
-    <div class="absolute top-[-22px] left-[-32px] w-[400px] rounded-md" data-dropdown-target="popup">
-      <div class="flex flex-col text-slate-600 normal-case tracking-normal gap-4">
+    <div class="absolute top-[-26px] sm:left-[-32px] left-[-16px] sm:w-[300px] w-[290px] pt-3 rounded-md" data-dropdown-target="popup">
+      <div class="flex flex-col text-slate-600 normal-case tracking-normal gap-4 animate-slideRight">
         <%= form_with url: users_path, method: :get,
           data: { controller: 'search', turbo_frame: 'users', turbo_action: 'advance', search_target: 'form' },
           class: 'flex gap-4 items-center ml-4' do |f| %>
@@ -10,7 +10,7 @@
             <i class="fa-solid fa-arrow-left w-5 h-5 text-white"></i>
           <% end %>
 
-          <%= f.search_field :q, placeholder: 'Search Users...', autofocus: true, data: { action: 'search#submit' }, class: 'rounded-3xl border-transparent focus:border-transparent focus:ring-0' %>
+          <%= f.search_field :q, placeholder: 'Search Users...', autofocus: true, data: { action: 'search#submit' }, class: 'w-full h-8 rounded-3xl border-transparent focus:border-transparent focus:ring-0' %>
         <% end %>
         <div class="p-3 rounded-b-md bg-white shadow-md">
           <%= turbo_frame_tag :users do %>

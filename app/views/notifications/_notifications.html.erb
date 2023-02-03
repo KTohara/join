@@ -1,17 +1,30 @@
-<div id="notifications_list" class="text-slate-700 tracking-normal normal-case">
-  <ul class="absolute z-[1] top-16 right-0 w-72 px-4 py-2 border-2 rounded-md bg-white hover:cursor-default shadow-sm" data-dropdown-target="popup">
-    <div class="flex justify-between my-2 gap-2 text-[13px] ">
-      <div class="flex gap-2 decoration-2 rounded p-1 ">
-        <%= button_to 'Unread', notifications_path, class: "#{selected_color('unread')}", method: :get, params: { notifications: :unread } %>
-        <%= button_to 'Read', notifications_path, class: "#{selected_color('read')}", method: :get, params: { notifications: :read }  %>
+<div id="notifications_list" class="text-slate-700 tracking-normal normal-case" data-controller="notifications" data-notifications-default-tab-value="unread">
+  <ul class="<%= animation(animate) %> absolute z-[1] top-16 right-0 w-72 pb-2 px-4 border-2 rounded-md bg-white hover:cursor-default shadow-sm" data-notifications-target="popup">
+    <div class="flex justify-between items-end my-2 gap-2 text-[13px] ">
+      <div class="flex gap-2 decoration-2">
+        <button id="unread" data-notifications-target="tabBtn" data-action="notifications#select">Unread</button>
+        <button id="read" data-notifications-target="tabBtn" data-action="notifications#select">Read</button>
       </div>
       <%= button_to 'Clear All', clear_all_notifications_path, class: 'btn-sm normal-case', method: :delete %>
     </div>
     <hr class="mb-2">
-    <% if notifications.present? %>
-      <%= render notifications %>
+
+    <% if unread.present? || read.present? %>
+      <div id="unread" data-notifications-target="tab">
+        <% unread.each do |notification| %>
+          <%= render notification %>
+        <% end %>
+      </div>
+
+      <div id="read" data-notifications-target="tab">
+        <% read.each do |notification| %>
+          <%= render notification %>
+        <% end %>
+      </div>
     <% else %>
-      <li class="text-xs text-center">No notifications</li>
+      <div id="no_notifications" data-notifications-target="tab">
+        <li class="text-xs text-center">No notifications</li>
+      </div>
     <% end%>
   </ul>
 </div>

@@ -4,12 +4,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
 @layer components {
+  body {
+    /* for notification slide in/out animations */
+    overflow-x: hidden;
+  }
+
   .btn {
     @apply bg-stone-500 text-slate-200 active:bg-orange-500 font-normal uppercase text-xs tracking-wide w-fit px-4 py-2 rounded-full shadow-md hover:bg-amber-700 hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150 cursor-pointer;
   }
 
   .btn-sm {
     @apply bg-stone-500 text-slate-200 active:bg-orange-500 font-normal uppercase text-xs w-fit px-2 py-1 rounded-full shadow-md hover:bg-amber-700 hover:shadow-md outline-none focus:outline-none ease-linear transition-all duration-150 cursor-pointer;
+  }
+
+  .showpage-font { 
+    font-size: clamp(.8rem, 1vw + 1rem, 1.6rem);
+  } 
+
+  .selected-notification {
+    text-decoration-line: underline;
+    text-decoration-color: #fb923c;
   }
 
   .form-field {
@@ -38,6 +52,7 @@
     border-radius: 50%;
     position: relative;
     overflow: hidden;
+    flex-shrink: 0;
   }
 
   .avatar img {

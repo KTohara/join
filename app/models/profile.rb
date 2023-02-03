@@ -29,7 +29,7 @@ class Profile < ApplicationRecord
 
   validates :first_name, :last_name, length: { maximum: 15 }
   validates :location, length: { maximum: 30 }
-  validates :bio, length: { maximum: 500 }
+  validates :bio, length: { maximum: 100 }
 
   validates :avatar, content_type: { in: %w[image/png image/jpg image/jpeg], message: 'image must be a valid format' },
                      size: { less_than: 5.megabytes, message: 'image must be less than 5MB' }

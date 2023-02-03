@@ -1,8 +1,10 @@
-<%= link_to root_path, class: 'min-w-max border-2 rounded-full p-[2px]' do %>
-  <%= image_tag('join-icon.svg', width: '28px') %>
-<% end %>
-
-<%= link_to users_path, class: 'flex gap-1 items-center' do %>
-  <i class="fa-solid fa-magnifying-glass lg:w-4 lg:h-4 w-5 h-5"></i>
-  <p class="lg:block hidden">Search</p>
-<% end %>
+<div class="<%= local_assigns[:animate] %> flex items-center gap-3">
+  <%= link_to root_path, class: 'min-w-max border-2 rounded-full p-[2px]' do %>
+    <%= image_tag('join-icon.svg', width: '28px', class: 'hover:animate-spin') %>
+  <% end %>
+  
+  <%= link_to users_path, class: 'flex gap-1 items-center' do %>
+    <i class="fa-solid fa-magnifying-glass lg:w-4 lg:h-4 w-5 h-5"></i>
+    <p class="lg:block hidden">Search</p>
+  <% end %>
+</div>
