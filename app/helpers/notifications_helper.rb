@@ -16,8 +16,4 @@ module NotificationsHelper
       friendships_path
     end
   end
-
-  def animation(animate)
-    'animate-slideLeft' if animate == true
-  end
 end

@@ -57,23 +57,31 @@ export default class extends Controller {
   }
 
   burgerOpen() {
+    const menu = this.popupTarget
     window.addEventListener('mouseup', this.burgerClose);
-    this.popupTarget.setAttribute('aria-expanded', 'true')
-    this.popupTarget.classList.add('animate-slideDown')
-    this.popupTarget.classList.add('opacity-95')
-    this.popupTarget.classList.remove('animate-slideUp')
-    this.popupTarget.classList.remove('opacity-0')
+    menu.setAttribute('aria-expanded', 'true')
+    menu.classList.add('animate-slideDown')
+    menu.addEventListener('animationend', () => {
+      menu.classList.remove('animate-slideDown')
+      menu.classList.add('opacity-95')
+      menu.classList.remove('opacity-0')
+    });
   }
 
   burgerClose(event) {
-    if (event && (this.popupTarget.contains(event.target) || this.buttonTarget.contains(event.target))) {
+    const menu = this.popupTarget
+
+    if (event && (menu.contains(event.target) || this.buttonTarget.contains(event.target))) {
       return
     }
-    this.popupTarget.classList.remove('animate-slideDown')
-    this.popupTarget.classList.remove('opacity-95')
-    this.popupTarget.classList.add('animate-slideUp')
-    this.popupTarget.classList.add('opacity-0')
-    this.popupTarget.setAttribute('aria-expanded', 'false')
+
+    menu.classList.add('animate-slideOut')
+    menu.addEventListener('animationend', () => {
+      menu.classList.remove('animate-slideOut')
+      menu.classList.add('opacity-0')
+    });
+
+    menu.setAttribute('aria-expanded', 'false')
     window.removeEventListener('mouseup', this.burgerClose);
   }
 }

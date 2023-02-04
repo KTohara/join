@@ -48,7 +48,7 @@ export default class extends Controller {
     
     if (event && notifications.contains(event.target)) return
     
-    notifications.classList.remove('animate-slideLeft');
+    notifications.classList.remove('animate-slideDown');
     notifications.classList.add('animate-slideOut');
     notifications.addEventListener('animationend', () => {
       notifications.classList.add('hidden');

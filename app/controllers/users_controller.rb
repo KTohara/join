@@ -20,7 +20,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          'search_users', partial: 'shared/search', locals: { animate: 'animate-slideRight' }
+          'search_users', partial: 'shared/search', locals: { animate: true }
         )
       end
       format.html { redirect_back fallback_location: posts_path }

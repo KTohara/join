@@ -9,7 +9,7 @@ module CommentsHelper
   def comment_flash_message
     if params[:controller] == 'comments/comments'
       'Reply successful!'
-    else # 'comments'
+    else # params[:controller] == 'comments'
       'Comment successful!'
     end
   end
@@ -20,8 +20,6 @@ module CommentsHelper
   end
 
   def load_comments_button_margin(parent)
-    if parent.present?
-      'ml-8'
-    end
+    'ml-8' if parent.present?
   end
 end

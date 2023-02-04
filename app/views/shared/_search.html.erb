@@ -1,6 +1,13 @@
-<div class="<%= local_assigns[:animate] %> flex items-center gap-3">
-  <%= link_to root_path, class: 'min-w-max border-2 rounded-full p-[2px]' do %>
-    <%= image_tag('join-icon.svg', width: '28px', class: 'hover:animate-spin') %>
+<% animate = local_assigns[:animate] %>
+
+<div class="<%= animation(animate, 'animate-slideRight') %> flex items-center gap-3">
+  <%= link_to root_path, class: 'min-w-max bg-slate-100 rounded-full border-2 ' do %>
+    <%= content_tag :div, class: animate_logo do %>
+      <%= image_tag('join-icon.svg', width: '28px', class: 'sm:hidden block p-[2px]') %>
+    <% end %>
+    <%= content_tag :div, class: animate_logo do %>
+      <%= image_tag('logo-join.svg', width: '100px', class: 'sm:block hidden px-2 py-1') %>
+    <% end %>
   <% end %>
   
   <%= link_to users_path, class: 'flex gap-1 items-center' do %>
