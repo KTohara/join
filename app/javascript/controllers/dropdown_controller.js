@@ -9,6 +9,7 @@ export default class extends Controller {
   connect() {
     this.close = this.close.bind(this);
     this.clickCancel = this.clickCancel.bind(this);
+    this.burgerClose = this.burgerClose.bind(this);
 
     if (this.buttonTarget.id == 'turbo_btn') window.addEventListener('mouseup', this.clickCancel);
   }
@@ -48,9 +49,31 @@ export default class extends Controller {
   }
 
   burgerToggle() {
-    window.addEventListener('mouseup', this.burgerClose);
-    if (this.popupTarget.classList.contains('hidden')) return this.burgerOpen();
+    if (this.popupTarget.getAttribute('aria-expanded') === 'false') {
+      return this.burgerOpen();
+    }
     
     this.burgerClose();
+  }
+
+  burgerOpen() {
+    window.addEventListener('mouseup', this.burgerClose);
+    this.popupTarget.setAttribute('aria-expanded', 'true')
+    this.popupTarget.classList.add('animate-slideDown')
+    this.popupTarget.classList.add('opacity-95')
+    this.popupTarget.classList.remove('animate-slideUp')
+    this.popupTarget.classList.remove('opacity-0')
+  }
+
+  burgerClose(event) {
+    if (event && (this.popupTarget.contains(event.target) || this.buttonTarget.contains(event.target))) {
+      return
+    }
+    this.popupTarget.classList.remove('animate-slideDown')
+    this.popupTarget.classList.remove('opacity-95')
+    this.popupTarget.classList.add('animate-slideUp')
+    this.popupTarget.classList.add('opacity-0')
+    this.popupTarget.setAttribute('aria-expanded', 'false')
+    window.removeEventListener('mouseup', this.burgerClose);
   }
 }

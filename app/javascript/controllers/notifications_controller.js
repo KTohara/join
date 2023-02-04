@@ -27,12 +27,6 @@ export default class extends Controller {
     selectedBtn.classList.add('selected-notification')
   }
 
-  // toggle() {
-  //   if (this.buttonTarget.getAttribute('aria-expanded') === 'false') {
-  //     return this.buttonTarget.setAttribute('aria-expanded', 'true');
-  //   }
-  // }
-
   select(event) {
     if (this.tabTarget.id === 'no_notifications') return;
 

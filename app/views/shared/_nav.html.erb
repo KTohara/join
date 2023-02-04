@@ -53,12 +53,12 @@
 
     <%# mobile %>
     <div class="md:hidden flex items-center justify-center gap-3" data-controller="dropdown">
-      <button id="burger_btn" data-action="dropdown#toggle" data-dropdown-target="button">
+      <button id="burger_btn" data-action="dropdown#burgerToggle" data-dropdown-target="button">
         <i class="fa-solid fa-bars w-5 h-5"></i>
       </button>
 
       <div class="relative">
-        <div class="hidden absolute top-[30px] sm:right-[-32px] right-[-8px] p-4 rounded-b-md w-[140px] bg-amber-700 border-b-4 border-slate-600/25" data-dropdown-target="popup">
+        <div class="absolute top-[34px] sm:right-[-32px] right-[-8px] p-4 rounded-b-md w-[140px] bg-amber-700 border-b-4 border-slate-600/25 opacity-0" data-dropdown-target="popup" aria-expanded='false'>
           <div class="flex flex-col gap-2 items-end">
             <%= link_to posts_path, class: 'flex justify-between w-full' do %>
               <i class="fa-solid fa-pen-to-square w-4 h-4"></i>

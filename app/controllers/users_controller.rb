@@ -2,8 +2,6 @@ class UsersController < ApplicationController
   before_action :turbo_frame_request_variant, only: :index
 
   def index
-    redirect_to root_path unless turbo_frame_request?
-    
     @users = User.search_by_user(params, current_user)
   end
 
@@ -25,7 +23,7 @@ class UsersController < ApplicationController
           'search_users', partial: 'shared/search', locals: { animate: 'animate-slideRight' }
         )
       end
-      format.html
+      format.html { redirect_back fallback_location: posts_path }
     end
   end
 
