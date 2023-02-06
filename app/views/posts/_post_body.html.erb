@@ -8,11 +8,11 @@
 
     <div class="font-medium">
       <% if post.author == post.user %>
-        <%= link_to post.author.name, post.author, data: { turbo_frame: '_top' } %>
+        <%= link_to post.author.name, post.author, data: { turbo_frame: '_top' }, class: 'link' %>
       <% else %>
-        <%= link_to post.author.name, post.author, data: { turbo_frame: '_top' } %>
+        <%= link_to post.author.name, post.author, data: { turbo_frame: '_top' }, class: 'link' %>
         <i class="fa-solid fa-play h-[11px] text-stone-400"></i>
-        <%= link_to post.user.name, post.user, data: { turbo_frame: '_top' } %>
+        <%= link_to post.user.name, post.user, data: { turbo_frame: '_top' }, class: 'link' %>
       <% end %>
 
       <p class="text-xs font-light"><%= formatted_date(post) %></p>

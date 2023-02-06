@@ -31,6 +31,10 @@ class UsersController < ApplicationController
 
   # auto look for turbo frame for user search in #index
   def turbo_frame_request_variant
-    request.variant = :turbo_frame if turbo_frame_request?
+    if turbo_frame_request?
+      request.variant = :turbo_frame
+    else
+      redirect_to root_path
+    end
   end
 end

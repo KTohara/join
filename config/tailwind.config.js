@@ -15,7 +15,8 @@ module.exports = {
       },
 
       fontFamily: {
-        'robo0%': ['Robo0%', 'sans-serif'],
+        'roboto': ['Roboto', 'sans-serif'],
+        'source': ['Source Code Pro', 'sans-serif'],
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },
 

@@ -1,7 +1,7 @@
 <%= turbo_frame_tag :search_people do %>
   <div class="relative" data-controller="dropdown" id="search_users">
-    <div class="absolute top-[-26px] sm:-left-8 -left-2 sm:w-96 w-[275px] pt-3 z-[1] rounded-md" id="search" data-dropdown-target="popup">
-      <div class="flex flex-col text-slate-600 normal-case tracking-normal gap-4 animate-slideDown">
+    <div class="absolute top-[-26px] sm:-left-8 -left-2 sm:w-96 w-[275px] pt-3 z-[1] text-slate-600 rounded-md" id="search" data-dropdown-target="popup">
+      <div class="flex flex-col normal-case tracking-normal gap-4 animate-slideDown">
         <%= form_with url: users_path, method: :get,
           data: { controller: 'search', turbo_frame: :users, search_target: 'form' },
           class: 'flex gap-2 items-center sm:ml-4 ml-2' do |f| %>
@@ -19,7 +19,7 @@
                 <%= render 'friendships/friend_request', user: user %>
               <% end %>
             <% else %>
-              <p class="mx-auto">No matches</p>
+              <p>No matches</p>
             <% end %>
           <% end %>
         </div>

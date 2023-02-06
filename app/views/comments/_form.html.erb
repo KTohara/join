@@ -28,7 +28,7 @@
 
     <div class="flex justify-between px-2">
       <% if f.object.persisted? %>
-        <%= link_to comment_path(comment), id: 'turbo_btn', data: { dropdown_target: 'button' }, class: 'w-fit' do %>
+        <%= link_to comment_path(comment), id: 'turbo_btn', data: { dropdown_target: 'button' }, class: 'w-fit link' do %>
           <i class="fas fa-rotate-left icon"></i>
           <span>Cancel</span>
         <% end %>

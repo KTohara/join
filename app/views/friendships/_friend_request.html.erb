@@ -1,7 +1,7 @@
 <% status = current_user.friendship_status(user) %>
 
 <div id="<%= dom_id(user) %>" class="flex items-center justify-between gap-2 mb-2">
-  <%= link_to user_path(user), class: 'font-medium' do %>
+  <%= link_to user_path(user), class: 'font-medium text-slate-600 link' do %>
     <div class="flex items-center gap-2">
       <div class="avatar w-7 h-7">
         <%= image_tag avatar_image(user, :thumb) %>

@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&family=Source+Code+Pro:wght@400;500;600;700&display=swap');
 
 @layer components {
   body {
@@ -37,6 +37,10 @@
     hover:before:w-full hover:before:left-0 hover:before:bg-orange-500
   }
 
+  .page-content-card {
+    @apply flex flex-col w-full mt-2 py-8 sm:px-24 px-6 border-2 rounded-md bg-white shadow-md
+  }
+
   .showpage-font { 
     font-size: clamp(.8rem, 1vw + 1rem, 1.6rem);
     line-height: 1.75rem;
@@ -59,7 +63,7 @@
     color: #e06706;
   }
 
-  a:hover {
+  .link:hover {
     color: #e06706;
     transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
     transition-duration: 100ms;
