@@ -7,7 +7,7 @@ class FriendshipsController < ApplicationController
 
   def index
     @friends = current_user.friends
-    @friend_requests = current_user.pending_requests
+    @friend_requests = current_user.pending_requests.includes([friend: [profile: [:avatar_attachment]]])
   end
 
   def create
