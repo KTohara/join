@@ -8,9 +8,12 @@
 <hr>
 <div class="flex flex-col">
   <% @friends.each do |friend| %>
-    <div class="flex gap-2">
+    <div class="flex gap-2 justify-between">
       <%= link_to friend.name, friend %>
-      <%= button_to 'Remove Friend', friendship_path(friend), method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'btn-sm' %>
+      <%= button_to friendship_path(friend), method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'sm:btn sm:btn-sm btn-icon ' do %>
+        <p class="normal-case sm:block hidden">Remove</p>
+        <i class="fa-solid fa-handshake-simple-slash text-orange-500 text-lg px-1 sm:hidden block"></i>
+      <% end %>
     </div>
   <% end %>
 </div>

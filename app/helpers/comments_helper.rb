@@ -16,10 +16,10 @@ module CommentsHelper
 
   def nesting_padding(nesting)
     return if nesting == 1
-    'pl-8'
+    'sm:pl-10 pl-6'
   end
 
   def load_comments_button_margin(parent)
-    'ml-8' if parent.present?
+    'sm:ml-10 ml-6' if parent.present?
   end
 end

@@ -26,7 +26,7 @@ module.exports = {
         slideDown: 'slide-down .3s ease-in-out',
         slideUp: 'slide-up .3s ease-in-out',
         spin: 'spin 1s ease-in-out infinite',
-        shimmer: 'shimmer 1s ease-in-out'
+        shimmer: 'shimmer .7s ease-in-out'
       },
 
       keyframes: {
@@ -61,7 +61,6 @@ module.exports = {
         },
 
         'shimmer': {
-          // '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(100%)' }
         },
       },

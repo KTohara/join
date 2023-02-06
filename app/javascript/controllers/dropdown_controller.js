@@ -9,7 +9,6 @@ export default class extends Controller {
   connect() {
     this.close = this.close.bind(this);
     this.clickCancel = this.clickCancel.bind(this);
-    this.burgerClose = this.burgerClose.bind(this);
 
     if (this.buttonTarget.id == 'turbo_btn') window.addEventListener('mouseup', this.clickCancel);
   }
@@ -57,31 +56,32 @@ export default class extends Controller {
   }
 
   burgerOpen() {
+    this.burgerClose = this.burgerClose.bind(this);
     const menu = this.popupTarget
-    window.addEventListener('mouseup', this.burgerClose);
-    menu.setAttribute('aria-expanded', 'true')
+
+    menu.classList.toggle('hidden')
     menu.classList.add('animate-slideDown')
     menu.addEventListener('animationend', () => {
       menu.classList.remove('animate-slideDown')
-      menu.classList.add('opacity-95')
-      menu.classList.remove('opacity-0')
+      menu.classList.remove('hidden')
+      window.addEventListener('mouseup', this.burgerClose);
+      menu.setAttribute('aria-expanded', 'true')
     });
   }
 
   burgerClose(event) {
     const menu = this.popupTarget
-
-    if (event && (menu.contains(event.target) || this.buttonTarget.contains(event.target))) {
+    if (event && menu.contains(event.target)) {
       return
     }
 
     menu.classList.add('animate-slideOut')
     menu.addEventListener('animationend', () => {
       menu.classList.remove('animate-slideOut')
-      menu.classList.add('opacity-0')
+      menu.classList.add('hidden')
+      window.removeEventListener('mouseup', this.burgerClose);
+      menu.setAttribute('aria-expanded', 'false')
     });
 
-    menu.setAttribute('aria-expanded', 'false')
-    window.removeEventListener('mouseup', this.burgerClose);
   }
 }

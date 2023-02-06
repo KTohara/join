@@ -6,7 +6,7 @@
     aria: { expanded: 'false' },
     params: { notifications: :unread } do %>
 
-    <i class="fa-solid fa-bell text-white lg:w-4 lg:h-4 w-6 h-6 "></i>
+    <i class="fa-solid fa-bell text-white lg:w-4 lg:h-4 w-6 h-6 hover:text-orange-500 ease-in-out duration-200"></i>
     <%= turbo_stream_from current_user.id, :notification_count %>
     <%= render 'notifications/counter', notification_count: current_user.unread_notifications.count %>
   <% end %>

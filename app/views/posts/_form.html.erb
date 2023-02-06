@@ -5,9 +5,9 @@
   <div class="p-5 border rounded-b-xl bg-white shadow-md <%= rounded_top(controller) %>" data-controller="form">
     <div class="flex flex-col w-full mb-2">
       <%= f.text_area :body,
-        placeholder: form_placeholder_message, autofocus: true,
+        placeholder: form_placeholder_message(@user), autofocus: true,
         data: { action: 'form#resize keyup->form#isEmpty', form_target: 'input' },
-        class: "w-full h-9 border-none bg-stone-100 rounded-2xl" %>
+        class: "w-full h-9 border-none bg-stone-100 rounded-2xl sm:text-base text-sm " %>
       <div class="flex justify-between items-baseline">
         <div>
           <%= render 'shared/form_errors', form: f, value_type: :body %>

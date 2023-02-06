@@ -42,11 +42,15 @@ class FriendshipsController < ApplicationController
 
   def destroy
     @friendship = Friendship.find_by(friend_id: params[:id])
-    @user = User.find_by(id: params[:friendship][:friend_id])
+    @user = User.find_by(id: params[:friendship][:friend_id]) if params[:friendship]
 
     respond_to do |format|
       @friendship.destroy unless @friendship.nil? # guard clause due to removing friends while two users are trying to delete the friendship
-      flash.now[:alert] = params[:request] == 'cancel' ? 'Request cancelled' : "#{@user.username} removed as friend"
+      flash.now[:alert] = case params[:request]
+        when 'cancel' then 'Request cancelled'
+        when 'declined' then 'Friend request declined'
+        else "#{@user.username} removed as friend"
+      end
 
       format.turbo_stream { turbo_stream_replace_friend_request }
     end

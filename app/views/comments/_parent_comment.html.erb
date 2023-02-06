@@ -6,7 +6,7 @@
       commentable: comment,
       comment: Comment.new(user: user),
       data: { dropdown_target: 'popup' },
-      class: 'hidden pl-10' %>
+      class: 'hidden sm:pl-10 pl-0' %>
     <%= render partial: 'comments/parent_comment',
       collection: comment.preloaded_comments, as: :comment,
       locals: { user: user } %>

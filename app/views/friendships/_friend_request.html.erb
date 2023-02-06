@@ -11,6 +11,6 @@
   <% end %>
 
   <div class="flex justify-between items-center gap-2">
-    <%= button_for_friendship_type(status, user) %>
+    <%= render 'friendships/button_type', status: status, user: user %>
   </div>
 </div>
