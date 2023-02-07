@@ -15,8 +15,8 @@
   <body class="font-roboto bg-stone-100 text-sm font-light">
     <%= render 'shared/nav' unless devise_controller? %>
     <%= turbo_frame_tag :alert %>
-    <main class="container mx-auto sm:mt-10 mt-2 max-w-2xl">
+    <%= content_tag :main, class: main_layout do %>
       <%= yield %>
-    </main>
+    <% end %>
   </body>
 </html>

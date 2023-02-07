@@ -9,6 +9,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'join-splash': "url('../assets/join-bg.png')"
+      },
+
       screens: {
         'lg': '1080px',
         'md': '720px'

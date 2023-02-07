@@ -5,9 +5,11 @@
 #  id                     :bigint           not null, primary key
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
+#  provider               :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  uid                    :string
 #  username               :string           default(""), not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
@@ -22,7 +24,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [:google_oauth2, :github, :facebook]
 
   has_many :friendships, dependent: :destroy
   has_many :pending_requests, -> { Friendship.pending }, class_name: 'Friendship'
@@ -46,6 +49,15 @@ class User < ApplicationRecord
   def self.search_by_user(params, current_user)
     users = User.includes(profile: [:avatar_attachment]).where.not(id: current_user.id)
     params[:q].blank? ? users : users.where('username ILIKE ?', "%#{sanitize_sql_like(params[:q])}%")
+  end
+
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.username = auth.info.name.gsub(/\s+/, '').downcase
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0, 20]
+      user.uid = auth.uid
+    end
   end
 
   def feed

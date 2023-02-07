@@ -84,3 +84,8 @@ gem 'figaro'
 gem 'pagy', '~> 6.0.0'
 gem "active_storage_validations", "~> 1.0"
 gem "aws-sdk-s3", "~> 1.118", require: false
+gem 'omniauth'
+gem "omniauth-rails_csrf_protection", "~> 1.0"
+gem 'omniauth-google-oauth2'
+gem 'omniauth-facebook'
+gem 'omniauth-github'
