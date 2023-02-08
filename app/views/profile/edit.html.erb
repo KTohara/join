@@ -22,7 +22,7 @@
     <%= render 'shared/form_errors', form: f, value_type: :bio %>
     
     <div class="flex justify-between">
-      <div data-action="click->form#uploadImage" class="btn space-x-1">
+      <div data-action="click->form#uploadImage touchend->form#uploadImage" class="btn space-x-1">
         <i class="fa-regular fa-image text-white"></i>
         <span>Profile image</span>
       </div>

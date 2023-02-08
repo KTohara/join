@@ -15,7 +15,7 @@
       <%= render 'shared/form_errors', form: f, value_type: :body %>
       <%= render 'shared/form_errors', form: f, value_type: :image %>
       <div class="flex gap-2 pb-2 pr-3">
-        <div data-action="click->form#uploadImage" class="hover:cursor-pointer">
+        <div data-action="click->form#uploadImage touchend->form#uploadImage" class="hover:cursor-pointer">
           <i class="fa-regular fa-image icon"></i> <%# updload image button %>
         </div>
         <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
