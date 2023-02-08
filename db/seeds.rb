@@ -20,6 +20,6 @@
 
 # users = [jesus, rhubarb, muenster, aleks]
 
-100.times do
-  Post.create(body: Faker::Movies::StarWars.quote, user: user = User.all.sample, author: user)
-end
+# 100.times do
+#   Post.create(body: Faker::Movies::StarWars.quote, user: user = User.all.sample, author: user)
+# end
