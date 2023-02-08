@@ -13,7 +13,7 @@
   </head>
 
   <body class="font-roboto bg-stone-100 text-sm font-light">
-    <%= render 'shared/nav' unless devise_controller? %>
+    <%= render 'shared/nav' %>
     <%= turbo_frame_tag :alert %>
     <%= content_tag :main, class: main_layout do %>
       <%= yield %>

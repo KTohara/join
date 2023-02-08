@@ -1,3 +1,4 @@
+<% if user_signed_in? %>
 <nav class="flex justify-between items-center sticky top-0 h-16 sm:px-8 px-2 bg-amber-700 z-10 text-slate-100 font-normal uppercase tracking-widest text-xs border-b-4 border-slate-600/25">
   <%= turbo_frame_tag :search_people do %>
     <%= render 'shared/search' %>
@@ -17,17 +18,17 @@
           <p class="lg:block hidden">Friends</p>
         <% end %>
 
-        <%= link_to edit_profile_path(current_user.profile), class: 'flex gap-1 items-center link'  do %>
-          <i class="fa-solid fa-circle-user lg:w-[15px] lg:h-[15px] w-6 h-6"></i>
-          <p class="lg:block hidden">Profile</p>
-        <% end %>
-
         <%= link_to '#', class: 'flex gap-1 items-center link'  do %>
           <i class="fa-solid fa-message lg:w-[14px] lg:h-[14px] w-6 h-6"></i>
           <p class="lg:block hidden">Messages</p>
         <% end %>
 
-        <%= link_to edit_user_registration_path, class: 'flex gap-1 items-center link'  do %>
+        <%= link_to edit_profile_path(current_user.profile), class: 'flex gap-1 items-center link'  do %>
+          <i class="fa-solid fa-circle-user lg:w-[15px] lg:h-[15px] w-6 h-6"></i>
+          <p class="lg:block hidden">Profile</p>
+        <% end %>
+
+        <%= link_to edit_registration_path(current_user), class: 'flex gap-1 items-center link'  do %>
           <i class="fa-solid fa-gear lg:w-4 lg:h-4 w-6 h-6"></i>
           <p class="lg:block hidden">Settings</p>
         <% end%>
@@ -72,17 +73,17 @@
               <p>Friends</p>
             <% end %>
 
-            <%= link_to edit_profile_path(current_user.profile), class: 'flex justify-between items-center link w-full hover:text-slate-500' do %>
-              <i class="fa-solid fa-circle-user lg:w-[15px] lg:h-[15px] w-4 h-4"></i>
-              <p>Profile</p>
-            <% end %>
-
             <%= link_to '#', class: 'flex justify-between items-center link w-full hover:text-slate-500' do %>
               <i class="fa-solid fa-message lg:w-[14px] lg:h-[14px] w-4 h-4"></i>
               <p>Messages</p>
             <% end %>
 
-            <%= link_to '#', class: 'flex justify-between items-center link w-full hover:text-slate-500' do %>
+            <%= link_to edit_profile_path(current_user.profile), class: 'flex justify-between items-center link w-full hover:text-slate-500' do %>
+              <i class="fa-solid fa-circle-user lg:w-[15px] lg:h-[15px] w-4 h-4"></i>
+              <p>Profile</p>
+            <% end %>
+
+            <%= link_to edit_registration_path(current_user), class: 'flex justify-between items-center link w-full hover:text-slate-500' do %>
               <i class="fa-solid fa-gear w-4 h-4"></i>
               <p>Settings</p>
             <% end%>
@@ -97,3 +98,4 @@
     </div>
   </div>
 </nav>
+<% end %>

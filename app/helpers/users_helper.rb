@@ -2,7 +2,7 @@ module UsersHelper
   def avatar_image(user, variant)
     if user.profile.avatar.attached?
       url_for(user.profile.avatar.variant(variant))
-    elsebrand
+    else
       gravatar_url(user)
     end
   end
@@ -32,6 +32,17 @@ module UsersHelper
       'Facebook'
     when :github
       'GitHub'
+    end
+  end
+
+  def oauth_btn_class(provider)
+    case provider
+    when :google_oauth2
+      'bg-white text-slate-700 hover:bg-slate-200'
+    when :facebook
+      'bg-blue-400 hover:bg-blue-500'
+    when :github
+      'bg-gray-600 hover:bg-gray-700'
     end
   end
 end

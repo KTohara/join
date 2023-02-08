@@ -3,11 +3,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user = User.from_omniauth(auth)
 
     if user.persisted?
-      sign_in_and_redirect user, event: :authentication # this will throw if user is not activated
+      sign_in_and_redirect user, event: :authentication
       set_flash_message(:notice, :success, kind: 'Google') if is_navigational_format?
     else
       set_flash_message(:notice, :failure, { kind: 'Google', reason: "#{auth.info.email} is not authorized" })
-      session['devise.google_data'] = auth.except(:extra) # Removing extra as it can overflow some session stores
+      session['devise.google_data'] = auth.except(:extra)
       redirect_to new_user_registration_url
     end
   end
@@ -16,11 +16,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user = User.from_omniauth(auth)
 
     if user.persisted?
-      sign_in_and_redirect user, event: :authentication # this will throw if user is not activated
+      sign_in_and_redirect user, event: :authentication
       set_flash_message(:notice, :success, kind: 'Facebook') if is_navigational_format?
     else
       set_flash_message(:notice, :failure, { kind: 'Facebook', reason: "#{auth.info.email} is not authorized" })
-      session['devise.facebook_data'] = auth.except(:extra) # Removing extra as it can overflow some session stores
+      session['devise.facebook_data'] = auth.except(:extra)
       redirect_to new_user_registration_url
     end
   end
@@ -29,11 +29,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user = User.from_omniauth(auth)
 
     if user.persisted?
-      sign_in_and_redirect user, event: :authentication # this will throw if user is not activated
+      sign_in_and_redirect user, event: :authentication
       set_flash_message(:notice, :success, kind: 'Github') if is_navigational_format?
     else
       set_flash_message(:notice, :failure, { kind: 'Github', reason: "#{auth.info.email} is not authorized" })
-      session['devise.github_data'] = auth.except(:extra) # Removing extra as it can overflow some session stores
+      session['devise.github_data'] = auth.except(:extra)
       redirect_to new_user_registration_url
     end
   end
