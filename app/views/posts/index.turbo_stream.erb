@@ -1,6 +1,16 @@
 <%= turbo_stream.append :posts do %>
   <%= render @posts, user: current_user %>
+<% end %>
+
+<%= turbo_stream.append :posts do %>
   <% if @pagy.next.present? %>
+  <%= turbo_frame_tag :loading, loading: :lazy do %>
+    <div id="skeleton" class="flex justify-center">
+      <p class="text-slate-600 font-normal">Loading Posts...</p>
+    </div>
+  <% end %>
     <%= turbo_frame_tag :infinite_scroll, loading: :lazy, src: posts_path(format: :turbo_stream, page: @pagy.next) %>
   <% end %>
 <% end %>
+
+<%= turbo_stream.remove :skeleton %>

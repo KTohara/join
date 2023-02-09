@@ -21,16 +21,16 @@
       class: 'form-field' %>
     <%= render 'shared/form_errors', form: f, value_type: :bio %>
     
+    <%= f.file_field :avatar, data: { form_target: 'image', action: 'change->form#preview' }, class: 'btn-choose-file', accept: 'image/png, image/jpeg, image/jpg', class: 'hidden' %>
     <div class="flex justify-between">
-      <%= f.file_field :avatar, data: { form_target: 'image', action: 'change->form#preview' }, class: 'btn-choose-file', accept: 'image/png, image/jpeg, image/jpg', class: 'hidden' %>
-      <%= f.label :avatar, 'Profile Image', class: 'block btn' %>
+      <%= f.label :avatar, 'Profile Image', class: 'btn' %>
 
       <%= f.submit 'Save Profile', data: { turbo: false }, class: 'btn' %>
     </div>
 
-    <p class="text-xs" data-form-target="preview">
-      <%= "Image: #{f.object.avatar.filename}" if f.object.avatar.attached? %>
+    <div class="text-xs whitespace-nowrap flex flex-col" data-form-target="preview">
+      <p><%= "Image: #{f.object.avatar.filename}" if f.object.avatar.attached? %></p>
       <%= render 'shared/form_errors', form: f, value_type: :avatar %>
-    </p>
+    </div>
   </div>
 <% end %>

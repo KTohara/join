@@ -9,7 +9,7 @@ export default class extends Controller {
   connect() {
     this.close = this.close.bind(this);
     this.clickCancel = this.clickCancel.bind(this);
-
+    
     if (this.buttonTarget.id == 'turbo_btn') window.addEventListener('mouseup', this.clickCancel);
   }
   

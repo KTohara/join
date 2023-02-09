@@ -1,5 +1,0 @@
-<%= turbo_frame_tag "posts_page_#{@pagy.next}", src: pagy_url_for(@pagy, @pagy.next), loading: :lazy do %>
-  <div class="flex justify-center">
-    <p class="text-blue-300">Loading ...</p>
-  </div>
-<% end %>

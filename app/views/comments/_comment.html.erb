@@ -9,7 +9,7 @@
     </div>
     <div class="flex flex-col w-fit py-2 px-4 bg-stone-100 rounded-2xl">
       <%= link_to comment.user.name, user_path(comment.user), class: 'font-medium w-fit text-xs link', data: { turbo_frame: '_top'} %>
-      <p class="whitespace-pre-wrap"><%= comment.body %></p>
+      <p class="whitespace-normal break-words"><%= comment.body %></p>
     </div>
   </div>
 

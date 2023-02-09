@@ -1,8 +1,8 @@
 <div class="flex items-center gap-4 px-4 sm:px-6 py-4 rounded-t-xl bg-amber-700">
   <%= image_tag avatar_image(@user, :display), class: 'rounded-full bg-white p-1 min-w-[80px] sm:max-w-[200px] max-w-[50px]' %>
-  <div class="flex flex-col sm:ml-5 ml-0 gap-2 text-slate-200 tracking-wide">
+  <div class="flex flex-col w-1/2 sm:ml-5 ml-0 gap-2 text-slate-200 tracking-wide">
     <h1 class="showpage-font font-extrabold"><%= @user.name %></h1>
-    <div class="flex flex-col sm:flex-row justify-between text-xs sm:text-base">
+    <div class="flex flex-col justify-between sm:flex-row text-xs sm:text-base">
       <p>
         <i class="fa-solid fa-user-group"></i>
         <span> <%= pluralize(@user.friends.count, 'friend') %></span>
@@ -24,5 +24,10 @@
 </div>
 
 <% if @pagy.next.present? %>
-  <%= turbo_frame_tag :infinite_scroll, loading: :lazy, src: posts_path(format: :turbo_stream), class: 'absolute' %>
+  <%= turbo_frame_tag :loading, loading: :lazy do %>
+    <div id="skeleton" class="flex justify-center">
+      <p class="text-slate-600 font-normal">Loading Posts...</p>
+    </div>
+  <% end %>
+  <%= turbo_frame_tag :infinite_scroll, loading: :lazy, src: posts_path(format: :turbo_stream) %>
 <% end %>
