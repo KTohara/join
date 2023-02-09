@@ -21,11 +21,11 @@
 
     <div class="flex justify-around items-center gap-2 h-8">
       <div class="relative w-full rounded hover:bg-slate-100 ease-in duration-100">
-        <div data-action="click->form#uploadImage touchend->form#uploadImage" class="flex justify-center items-center gap-1 w-full hover:cursor-pointer">
+        <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg image/gif' %>
+        <%= f.label :image, class: 'flex justify-center items-center gap-1 w-full hover:cursor-pointer' do %>
           <i class="fa-regular fa-image icon"></i>
           <span class="text-slate-600">Photo</span>
-        </div>
-        <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
+        <% end %>
       </div>
 
       <% if f.object.persisted? %>

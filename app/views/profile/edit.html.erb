@@ -22,11 +22,9 @@
     <%= render 'shared/form_errors', form: f, value_type: :bio %>
     
     <div class="flex justify-between">
-      <div data-action="click->form#uploadImage touchend->form#uploadImage" class="btn space-x-1">
-        <i class="fa-regular fa-image text-white"></i>
-        <span>Profile image</span>
-      </div>
-      <%= f.file_field :avatar, data: { form_target: 'image', action: 'change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
+      <%= f.file_field :avatar, data: { form_target: 'image', action: 'change->form#preview' }, class: 'btn-choose-file', accept: 'image/png, image/jpeg, image/jpg', class: 'hidden' %>
+      <%= f.label :avatar, 'Profile Image', class: 'block btn' %>
+
       <%= f.submit 'Save Profile', data: { turbo: false }, class: 'btn' %>
     </div>
 

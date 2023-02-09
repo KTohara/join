@@ -48,7 +48,7 @@ class Comment < ApplicationRecord
   validates :body, presence: true, unless: proc { |comment| comment.image.attached? }
   validates :body, length: { maximum: 8_000 }
   validates :nesting, presence: true
-  validates :image, content_type: { in: %w[image/png image/jpg image/jpeg], message: 'image must be a valid format' },
+  validates :image, content_type: { in: %w[image/png image/jpg image/jpeg image/gif], message: 'image must be a valid format' },
                     size: { less_than: 5.megabytes, message: 'image must be less than 5MB' }
 
   after_create_commit do

@@ -40,10 +40,6 @@ export default class extends Controller {
     this.submitTarget.classList.remove('disabled:opacity-50');
   }
 
-  uploadImage() {
-    this.imageTarget.click();
-  }
-
   preview() {
     const imageFile = this.imageTarget.files;
 

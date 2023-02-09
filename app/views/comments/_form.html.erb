@@ -15,11 +15,10 @@
       <%= render 'shared/form_errors', form: f, value_type: :body %>
       <%= render 'shared/form_errors', form: f, value_type: :image %>
       <div class="flex gap-2 pb-2 pr-3">
-        <div data-action="click->form#uploadImage touchend->form#uploadImage" class="hover:cursor-pointer">
-          <i class="fa-regular fa-image icon"></i> <%# updload image button %>
-        </div>
-        <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg' %>
-    
+        <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg image/gif' %>
+        <%= f.label :image do %>
+          <i class="fa-regular fa-image icon"></i>
+        <% end %>
         <%= f.button nil, data: { form_target: 'submit', dropdown_target: 'submit' }, class: 'rounded-r-2xl' do %>
           <i class="fa-regular fa-comments icon"></i> <%# submit button %>
         <% end %>
