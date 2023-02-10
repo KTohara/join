@@ -1,22 +1,34 @@
-<div class="flex items-center gap-4 px-4 sm:px-6 py-4 rounded-t-xl bg-amber-700">
-  <%= image_tag avatar_image(@user, :display), class: 'rounded-full bg-white p-1 min-w-[80px] sm:max-w-[200px] max-w-[50px]' %>
-  <div class="flex flex-col w-1/2 sm:ml-5 ml-0 gap-2 text-slate-200 tracking-wide">
-    <h1 class="showpage-font font-extrabold"><%= @user.name %></h1>
-    <div class="flex flex-col justify-between sm:flex-row text-xs sm:text-base">
-      <p>
-        <i class="fa-solid fa-user-group"></i>
-        <span> <%= pluralize(@user.friends.count, 'friend') %></span>
-      </p>
-      <% if @user.profile.location.present? %>
+<div class="px-4 sm:px-6 py-4 rounded-t-xl bg-amber-700">
+  <div class="flex items-center gap-4 ">
+    <%= image_tag avatar_image(@user, :display), class: 'rounded-full bg-white p-1 min-w-[100px] sm:max-w-[200px] max-w-[100px]' %>
+    <div class="flex flex-col min-w-[60%] max-w-[65%] sm:ml-5 ml-0 gap-2 text-slate-200 tracking-wide">
+      <h1 class="showpage-font font-extrabold"><%= @user.name %></h1>
+      <div class="text-xs sm:text-base">
         <p>
-          <i class="fa-solid fa-house-chimney"></i>
-          <span> <%= @user.profile.location %></span>
+          <i class="fa-solid fa-user-group"></i>
+          <span> <%= pluralize(@user.friends.count, 'friend') %></span>
         </p>
-      <% end %>
+        <% if @user.profile.location.present? %>
+          <p class="mr-12">
+            <i class="fa-solid fa-house-chimney"></i>
+            <span> <%= @user.profile.location %></span>
+          </p>
+        <% end %>
+      </div>
+      <p class="sm:text-base text-xs whitespace-normal break-words"><%= @user.profile.bio %></p>
     </div>
-    <p class="sm:text-base text-xs"><%= @user.profile.bio %></p>
+  </div>
+
+    <div class="flex justify-end items-center w-full mt-2 gap-2 px-5">
+      <% if @user == current_user %>
+        <%= link_to 'Edit Profile', edit_profile_path(@user), class: 'btn btn-sm whitespace-nowrap normal-case' %>
+      <% else %>
+        <%= render 'friendships/button_type', status: current_user.friendship_status(@user), user: @user %>
+      <% end %>
   </div>
 </div>
+
+
 <%= render 'posts/form', post: @new_post, user: @user %>
 
 <div id="posts" class="mb-10">
