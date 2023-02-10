@@ -25,13 +25,14 @@ module.exports = {
       },
 
       animation: {
-        slideRight: 'slide-right .3s ease-in-out',
-        slideLeft: 'slide-left .3s ease-in-out',
-        slideOut: 'slide-out .3s ease-in-out',
-        slideDown: 'slide-down .3s ease-in-out',
-        slideUp: 'slide-up .3s ease-in-out',
+        slideRight: 'slide-right .3s ease-in-out forwards',
+        slideLeft: 'slide-left .3s ease-in-out forwards',
+        slideOut: 'slide-out .3s ease-in-out forwards',
+        slideDown: 'slide-down .3s ease-in-out forwards',
+        slideUp: 'slide-up .3s ease-in-out forwards',
         spin: 'spin 1s ease-in-out infinite',
-        shimmer: 'shimmer .7s ease-in-out'
+        shimmer: 'shimmer .7s ease-in-out',
+        fadeOut: 'fade-out 2s ease-in 2s forwards',
       },
 
       keyframes: {
@@ -68,6 +69,10 @@ module.exports = {
         'shimmer': {
           '100%': { transform: 'translateX(100%)' }
         },
+
+        'fade-out': {
+          '100%': { opacity: 0, visibility: 'hidden' }
+        }
       },
     },
   },

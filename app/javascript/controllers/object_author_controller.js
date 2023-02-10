@@ -13,7 +13,7 @@ export default class extends Controller {
   }
 
   connect() {
-    this.currentUserId = document.querySelector("[name='current-user-id']").content
+    this.currentUserId = document.querySelector("[name='current-user-id']").content;
 
     this.showEditButton();
     this.showDeleteButton();
@@ -26,9 +26,9 @@ export default class extends Controller {
   }
 
   showDeleteButton() {
-    const userIds = [this.commenterIdValue, this.posterIdValue]
+    const userIds = [this.commenterIdValue, this.posterIdValue];
     userIds.forEach(id => {
-      if (id === this.currentUserId) return this.deleteButtonTarget.classList.remove('hidden')
+      if (id === this.currentUserId) return this.deleteButtonTarget.classList.remove('hidden');
     });
   }
 }

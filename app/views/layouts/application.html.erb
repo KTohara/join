@@ -13,9 +13,9 @@
     <%= favicon_link_tag asset_path('join-icon.svg') %>
   </head>
 
-  <body class="font-roboto bg-stone-100 text-sm font-light">
+  <body class="font-roboto bg-stone-100 text-sm font-light overflow-x-hidden">
     <%= render 'shared/nav' %>
-    <%= turbo_frame_tag :alert %>
+    <%= turbo_frame_tag :alert, class: 'sticky top-16' %>
     <%= content_tag :main, class: main_layout do %>
       <%= yield %>
     <% end %>

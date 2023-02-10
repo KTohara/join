@@ -11,9 +11,9 @@ export default class extends Controller {
   // }
 
   debounce() {
-    clearTimeout(this.timeout)
+    clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
-      this.formTarget.requestSubmit()
-    }, 300)
+      this.formTarget.requestSubmit();
+    }, 300);
   }
 }

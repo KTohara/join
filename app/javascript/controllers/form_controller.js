@@ -40,12 +40,8 @@ export default class extends Controller {
     this.submitTarget.classList.remove('disabled:opacity-50');
   }
 
-  uploadImage(event) {
-    if (event.type == 'touchend') {
-      this.imageTarget.click();
-    } else {
-      this.imageTarget.click();;
-    }
+  uploadImage() {
+    this.imageTarget.click();
   }
 
   preview() {

@@ -1,12 +1,12 @@
 <div id="alert">
   <% if notice %>
-    <div class="text-xs sm:text-base flex items-center justify-center h-8 bg-teal-500 text-white">
+    <div class="w-96 mx-auto sm:-mb-8 -mb-2 h-8 flex items-center justify-center animate-slideDown animate-fadeOut text-xs sm:text-base bg-teal-500 text-white rounded-md">
       <%= notice %>
     </div>
   <% end %>
   
   <% if alert %>
-    <div class="text-xs sm:text-base flex items-center justify-center h-8 bg-red-500 text-white">
+    <div class="w-96 mx-auto sm:-mb-8 -mb-2 h-8 flex items-center justify-center animate-slideDown animate-fadeOut text-xs sm:text-base bg-red-500 text-white rounded-md">
       <%= alert %>
     </div>
   <% end %>

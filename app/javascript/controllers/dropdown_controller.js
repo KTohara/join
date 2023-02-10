@@ -27,7 +27,7 @@ export default class extends Controller {
 
   close(event) {
     if (event && (this.popupTarget.contains(event.target) || this.buttonTarget.contains(event.target))) {
-      return
+      return;
     }
     window.removeEventListener('mouseup', this.close);
     this.popupTarget.classList.add('hidden');
@@ -35,7 +35,7 @@ export default class extends Controller {
 
   clickCancel(event) {
     if (event && this.popupTarget.contains(event.target)) {
-      return this.isButtonClicked(event)
+      return this.isButtonClicked(event);
     }
     window.removeEventListener('mouseup', this.clickCancel);
     this.buttonTarget.click();
@@ -57,30 +57,26 @@ export default class extends Controller {
 
   burgerOpen() {
     this.burgerClose = this.burgerClose.bind(this);
-    const menu = this.popupTarget
+    const menu = this.popupTarget;
 
-    menu.classList.toggle('hidden')
-    menu.classList.add('animate-slideDown')
+    menu.classList.remove('animate-slideOut');
+    menu.classList.remove('hidden');
+    menu.classList.add('animate-slideDown');
     menu.addEventListener('animationend', () => {
-      menu.classList.remove('animate-slideDown')
-      menu.classList.remove('hidden')
       window.addEventListener('mouseup', this.burgerClose);
-      menu.setAttribute('aria-expanded', 'true')
+      menu.setAttribute('aria-expanded', 'true');
     });
   }
 
   burgerClose(event) {
     const menu = this.popupTarget
-    if (event && menu.contains(event.target)) {
-      return
-    }
+    if (event && menu.contains(event.target)) return;
 
-    menu.classList.add('animate-slideOut')
+    menu.classList.remove('animate-slideDown');
+    menu.classList.add('animate-slideOut');
     menu.addEventListener('animationend', () => {
-      menu.classList.remove('animate-slideOut')
-      menu.classList.add('hidden')
       window.removeEventListener('mouseup', this.burgerClose);
-      menu.setAttribute('aria-expanded', 'false')
+      menu.setAttribute('aria-expanded', 'false');
     });
 
   }
