@@ -2,13 +2,17 @@
   <%= f.hidden_field :author_id, value: current_user.id %>
   <%= f.hidden_field :user_id, value: user.id if local_assigns[:user] %>
 
-  <div class="p-5 border rounded-b-xl bg-white shadow-md <%= rounded_top(controller) %>" data-controller="form">
+  <div class="p-5 border rounded-b-xl bg-white shadow-md <%= rounded_top(controller) %>" data-controller="form gif">
     <div class="flex flex-col w-full mb-2">
       <%= f.text_area :body,
         placeholder: form_placeholder_message(@user), autofocus: true,
         data: { action: 'form#resize keyup->form#isEmpty', form_target: 'input' },
         class: "w-full h-9 border-none bg-stone-100 rounded-2xl sm:text-base text-sm " %>
       <div class="flex justify-between items-baseline">
+        <div>
+          <%= image_tag '', width: '50px', class: 'border rounded-lg m-2 hidden', data: { gif_target: 'preview' } %>
+          <%= f.text_field :gif_url, data: { gif_target: 'field' }, class: 'hidden' %>
+        </div>
         <div>
           <%= render 'shared/form_errors', form: f, value_type: :body %>
           <%= render 'shared/form_errors', form: f, value_type: :image %>
@@ -30,10 +34,11 @@
       </div>
 
       <div>
-        <%= turbo_frame_tag :gif_search do %>
-          <%= render 'gifs/search' %>
+        <%= link_to gifs_path(form_id: 'post_form'), class: 'flex gap-2', data: { turbo_frame: :gif_search } do %>
+          <i class="fa-solid fa-explosion"></i>
+          GIF
         <% end %>
-
+        <%= turbo_frame_tag :gif_search %>
       </div>
 
       <% if f.object.persisted? %>
