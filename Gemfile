@@ -78,14 +78,15 @@ group :development do
   # gem "spring"
 end
 
-gem 'devise'
-gem 'faker'
+gem "devise", "~> 4.8"
+gem "faker", "~> 3.0"
 gem 'figaro'
 gem 'pagy', '~> 6.0.0'
 gem "active_storage_validations", "~> 1.0"
 gem "aws-sdk-s3", "~> 1.118", require: false
-gem 'omniauth'
+gem "omniauth", "~> 2.1"
 gem "omniauth-rails_csrf_protection", "~> 1.0"
-gem 'omniauth-google-oauth2'
-gem 'omniauth-facebook'
-gem 'omniauth-github'
+gem "omniauth-google-oauth2", "~> 1.1"
+gem "omniauth-facebook", "~> 9.0"
+gem "omniauth-github", "~> 2.0"
+gem "rest-client", "~> 2.1"

@@ -1,0 +1,2 @@
+module GifSearchHelper
+end

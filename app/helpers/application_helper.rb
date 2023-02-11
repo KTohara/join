@@ -6,6 +6,6 @@ module ApplicationHelper
   end
 
   def main_layout
-    'container mx-auto sm:mt-10 mt-2 max-w-2xl' if user_signed_in?
+    'container mx-auto sm:mt-12 mt-2 max-w-2xl' if user_signed_in?
   end
 end

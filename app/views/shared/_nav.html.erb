@@ -1,7 +1,7 @@
 <% if user_signed_in? %>
   <nav class="flex justify-between items-center sticky top-0 h-16 sm:px-8 px-2 bg-amber-700 z-10 text-slate-100 font-normal uppercase tracking-widest text-xs border-b-4 border-slate-600/25">
     <%= turbo_frame_tag :search_people do %>
-      <%= render 'shared/search' %>
+      <%= render 'shared/user_search' %>
     <% end %>
 
     <div class="flex md:flex-col flex-row justify-end items-center sm:gap-4 gap-0">

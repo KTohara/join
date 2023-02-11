@@ -22,7 +22,11 @@
   <% if post.image.attached? %>
     <div class="flex justify-center bg-slate-50 w-full">
       <%= link_to url_for(post.image), target: '_blank' do %>
-        <%= image_tag post.image.variant(:display) %>
+        <% if post.image.content_type.eql?('image/gif') %>
+          <%= image_tag post.image %>  
+        <% else %>
+          <%= image_tag post.image.variant(:display) %>
+        <% end %>
       <% end %>
     </div>
   <% end %>

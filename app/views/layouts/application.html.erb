@@ -15,7 +15,7 @@
 
   <body class="font-roboto bg-stone-100 text-sm font-light overflow-x-hidden">
     <%= render 'shared/nav' %>
-    <%= turbo_frame_tag :alert, class: 'sticky top-16' %>
+    <%= turbo_frame_tag :alert, class: 'sticky top-[72px]' %>
     <%= content_tag :main, class: main_layout do %>
       <%= yield %>
     <% end %>

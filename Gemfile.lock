@@ -121,6 +121,8 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.5.0)
+    domain_name (0.5.20190701)
+      unf (>= 0.0.5, < 1.0.0)
     erubi (1.11.0)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
@@ -139,6 +141,9 @@ GEM
     globalid (1.0.0)
       activesupport (>= 5.0)
     hashie (5.0.0)
+    http-accept (1.7.0)
+    http-cookie (1.0.5)
+      domain_name (~> 0.5)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.2)
@@ -169,6 +174,9 @@ GEM
       net-smtp
     marcel (1.0.2)
     method_source (1.0.0)
+    mime-types (3.4.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2022.0105)
     mini_magick (4.12.0)
     mini_mime (1.1.2)
     minitest (5.16.3)
@@ -183,6 +191,7 @@ GEM
       timeout
     net-smtp (0.3.3)
       net-protocol
+    netrc (0.11.0)
     nio4r (2.5.8)
     nokogiri (1.13.10-x86_64-linux)
       racc (~> 1.4)
@@ -260,9 +269,14 @@ GEM
     redis (4.8.0)
     reline (0.3.2)
       io-console (~> 0.5)
-    responders (3.0.1)
-      actionpack (>= 5.0)
-      railties (>= 5.0)
+    responders (3.1.0)
+      actionpack (>= 5.2)
+      railties (>= 5.2)
+    rest-client (2.1.0)
+      http-accept (>= 1.7.0, < 2.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     rspec-core (3.12.0)
       rspec-support (~> 3.12.0)
     rspec-expectations (3.12.1)
@@ -307,6 +321,9 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.8.2)
     uniform_notifier (1.16.0)
     version_gem (1.1.1)
     warden (1.2.9)
@@ -333,18 +350,18 @@ DEPENDENCIES
   bootsnap
   bullet
   debug
-  devise
+  devise (~> 4.8)
   factory_bot_rails
-  faker
+  faker (~> 3.0)
   figaro
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
   letter_opener
-  omniauth
-  omniauth-facebook
-  omniauth-github
-  omniauth-google-oauth2
+  omniauth (~> 2.1)
+  omniauth-facebook (~> 9.0)
+  omniauth-github (~> 2.0)
+  omniauth-google-oauth2 (~> 1.1)
   omniauth-rails_csrf_protection (~> 1.0)
   pagy (~> 6.0.0)
   pg (~> 1.1)
@@ -352,6 +369,7 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 7.0.4)
   redis (~> 4.0)
+  rest-client (~> 2.1)
   rspec-rails
   shoulda-matchers
   sprockets-rails

@@ -15,7 +15,11 @@
 
   <% if comment.image.attached? %>
     <%= link_to url_for(comment.image), target: '_blank', class: 'block w-fit' do %>
-      <%= image_tag comment.image.variant(:thumb), class: 'rounded-2xl ml-10 border' %>
+      <% if comment.image.content_type.eql?('image/gif') %>
+        <%= image_tag comment.image, class: 'rounded-2xl ml-10 border', width: '128px' %>
+      <% else %>
+        <%= image_tag comment.image.variant(:thumb), class: 'rounded-2xl ml-10 border' %>
+      <% end %>
     <% end %>
   <% end %>
 

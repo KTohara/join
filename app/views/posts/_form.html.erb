@@ -25,7 +25,15 @@
           <i class="fa-regular fa-image icon"></i>
           <span class="text-slate-600">Photo</span>
         </button>
-        <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg image/gif' %>
+
+        <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg, image/gif' %>
+      </div>
+
+      <div>
+        <%= turbo_frame_tag :gif_search do %>
+          <%= render 'gifs/search' %>
+        <% end %>
+
       </div>
 
       <% if f.object.persisted? %>
