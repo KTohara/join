@@ -4,6 +4,7 @@ class GifsController < ApplicationController
   before_action :turbo_frame_request_variant, only: :index
 
   def index
+    @form_id = params[:form_id]
     if params[:q].present?
       tenor_response = RestClient.get(tenor_url)
       gifs = JSON.parse(tenor_response)
@@ -32,7 +33,7 @@ class GifsController < ApplicationController
     content_filter = 'medium'
     media_filter = 'minimal'
     ar_range = 'standard'
-    limit = '10'
+    limit = 6
     
     "#{base_url}&key=#{key}&content_filter=#{content_filter}&media_filter=#{media_filter}&ar_range=#{ar_range}&q=#{query}&limit=#{limit}"
   end

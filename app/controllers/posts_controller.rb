@@ -30,6 +30,10 @@ class PostsController < ApplicationController
   end
 
   def create
+    if post_params[:gif_url].present?
+      @new_post.gif_url = post_params[:gif_url]
+    end
+    
     respond_to do |format|
       if @new_post.save
         flash[:alert] = 'Post successful'
@@ -69,7 +73,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:body, :author_id, :user_id, :image)
+    params.require(:post).permit(:body, :author_id, :user_id, :image, :gif_url)
   end
 
   def set_post
