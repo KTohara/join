@@ -24,7 +24,7 @@
     </div>
 
     <div class="flex justify-around items-center gap-2 h-8">
-      <div class="relative w-full rounded hover:bg-slate-100 ease-in duration-100">
+      <div class="w-full rounded hover:bg-slate-100 ease-in duration-100">
         <button type="button" data-action="click->form#uploadImage" class="flex justify-center items-center gap-1 w-full hover:cursor-pointer">
           <i class="fa-regular fa-image icon"></i>
           <span class="text-slate-600">Photo</span>
@@ -33,9 +33,9 @@
         <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg, image/gif' %>
       </div>
 
-      <div>
-        <%= link_to gifs_path(form_id: 'post_form'), class: 'flex gap-2', data: { turbo_frame: :gif_search } do %>
-          <i class="fa-solid fa-explosion"></i>
+      <div class="w-full rounded hover:bg-slate-100 ease-in duration-100">
+        <%= link_to gifs_path(form_id: 'post_form'), class: 'flex gap-2', data: { turbo_frame: :gif_search }, class: 'flex justify-center items-center gap-1 w-full' do %>
+          <%= image_tag 'gif', class: 'w-5 h-5' %>
           GIF
         <% end %>
         <%= turbo_frame_tag :gif_search %>
