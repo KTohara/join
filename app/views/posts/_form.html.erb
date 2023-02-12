@@ -34,7 +34,7 @@
       </div>
 
       <div class="w-full rounded hover:bg-slate-100 ease-in duration-100">
-        <%= link_to gifs_path(form_id: 'post_form'), class: 'flex gap-2', data: { turbo_frame: :gif_search }, class: 'flex justify-center items-center gap-1 w-full' do %>
+        <%= link_to gifs_path(form_id: 'post_form'), id: "gif_button", class: 'flex gap-2', data: { turbo_frame: :gif_search, action: 'click->gif#setGifToggler' }, class: 'flex justify-center items-center gap-1 w-full' do %>
           <%= image_tag 'gif', class: 'w-5 h-5' %>
           GIF
         <% end %>

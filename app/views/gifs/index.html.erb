@@ -1,6 +1,6 @@
 <%= turbo_frame_tag :gif_search do %>
-  <div class="relative" data-gif-target="gifMenu">
-    <div class="fixed bottom-0 left-0 z-10 w-80 h-96 bg-neutral-100 p-2 border-2 rounded-md">
+  <div class="relative">
+    <div class="fixed bottom-0 left-0 z-10 w-80 h-96 bg-neutral-100 p-2 border-2 rounded-md animate-slideDown" data-gif-target="popup">
       <p class="text-slate-600 font-medium mb-1">Add GIF</p>
       <div class="flex justify-center items-center">
         <%= form_with url: gifs_path, method: :get, data: { controller: 'search', search_target: 'form', turbo_frame: :gif_results } do |f| %>
