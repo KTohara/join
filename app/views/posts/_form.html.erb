@@ -8,16 +8,17 @@
         placeholder: form_placeholder_message(@user), autofocus: true,
         data: { action: 'form#resize keyup->form#isEmpty', form_target: 'input' },
         class: "w-full h-9 border-none bg-stone-100 rounded-2xl sm:text-base text-sm " %>
-      <div class="flex justify-between items-baseline">
-        <div>
-          <%= image_tag '', width: '50px', class: 'border rounded-lg m-2 hidden', data: { gif_target: 'preview' } %>
-          <%= f.text_field :gif_url, data: { gif_target: 'field' }, class: 'hidden' %>
-        </div>
+
+      <div class="flex justify-between items-top">
+        <%= image_tag '', width: '100px', class: 'pt-1 rounded-lg hidden', data: { gif_target: 'preview' } %>
+        <%= f.text_field :gif_url, data: { gif_target: 'field' }, class: 'hidden' %>
+
         <div>
           <%= render 'shared/form_errors', form: f, value_type: :body %>
           <%= render 'shared/form_errors', form: f, value_type: :image %>
         </div>
-        <div class=" text-xs" data-form-target="preview">
+
+        <div class="text-xs" data-form-target="preview">
           <p><%= "Image: #{f.object.image.filename}" if f.object.image.attached? %></p>
         </div>
       </div>
@@ -33,9 +34,9 @@
         <%= f.file_field :image, data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' }, class: 'hidden', accept: 'image/png, image/jpeg, image/jpg, image/gif' %>
       </div>
 
-      <div class="w-full rounded hover:bg-slate-100 ease-in duration-100">
-        <%= link_to gifs_path(form_id: 'post_form'), id: "gif_button", class: 'flex gap-2', data: { turbo_frame: :gif_search, action: 'click->gif#setGifToggler' }, class: 'flex justify-center items-center gap-1 w-full' do %>
-          <%= image_tag 'gif', class: 'w-5 h-5' %>
+      <div class="w-full rounded">
+        <%= link_to gifs_path(form_id: 'post_form'), id: "gif_button", class: 'flex gap-2', data: { turbo_frame: :gif_search, action: 'gif#setGifToggler' }, aria: { expanded: 'false' } , class: 'flex justify-center items-center gap-1 w-full hover:bg-slate-100 ease-in duration-100' do %>
+          <%= image_tag 'gif.svg', class: 'w-5 h-5' %>
           GIF
         <% end %>
         <%= turbo_frame_tag :gif_search %>

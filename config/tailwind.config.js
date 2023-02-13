@@ -30,6 +30,7 @@ module.exports = {
         slideOut: 'slide-out .3s ease-in-out forwards',
         slideDown: 'slide-down .3s ease-in-out forwards',
         slideUp: 'slide-up .3s ease-in-out forwards',
+        'slide-in-up': 'slide-in-up .3s ease-in-out forwards',
         spin: 'spin 1s ease-in-out infinite',
         shimmer: 'shimmer .7s ease-in-out',
         fadeOut: 'fade-out 2s ease-in 2s forwards',
@@ -48,7 +49,7 @@ module.exports = {
 
         'slide-out': {
           '0%': { opacity: 95, transform: 'translateX(0%)' },
-          '100%': { opacity: 0, transform: 'translateX(100%)' }
+          '100%': { opacity: 0, transform: 'translateX(100%)', visibility: 'hidden' }
         },
 
         'slide-down': {
@@ -59,6 +60,11 @@ module.exports = {
         'slide-up': {
           '0%': { opacity: 95, transform: 'translateY(0%)' },
           '100%': { opacity: 0, transform: 'translateY(-100%)' }
+        },
+
+        'slide-in-up': {
+          '0%': { opacity: 0, transform: 'translateY(100%)' },
+          '100%': { opacity: 95, transform: 'translateY(0%)' }
         },
         
         'spin': {
