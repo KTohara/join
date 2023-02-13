@@ -5,7 +5,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="form"
 export default class extends Controller {
-  static targets = ['input', 'submit', 'image', 'preview'];
+  static targets = ['input', 'submit', 'image', 'preview', 'gifField'];
 
   connect() {
     this.inputTarget.style.resize = 'none';
@@ -25,8 +25,7 @@ export default class extends Controller {
 
   isEmpty() {
     let disableStatus = true;
-
-    if (this.imageTarget.files.length > 0) {
+    if (this.imageTarget.files.length > 0 || this.gifFieldTarget.value !== '') {
       this.submitTarget.disabled = !disableStatus;
       return this.submitTarget.classList.remove('disabled:opacity-50');
     }

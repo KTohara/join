@@ -60,9 +60,9 @@ export default class extends Controller {
     const menu = this.popupTarget
 
     menu.classList.toggle('hidden')
-    menu.classList.add('animate-slideDown')
+    menu.classList.add('animate-slide-in-down')
     menu.addEventListener('animationend', () => {
-      menu.classList.remove('animate-slideDown')
+      menu.classList.remove('animate-slide-in-down')
       menu.classList.remove('hidden')
       window.addEventListener('mouseup', this.burgerClose);
       menu.setAttribute('aria-expanded', 'true')
@@ -75,9 +75,9 @@ export default class extends Controller {
       return
     }
 
-    menu.classList.add('animate-slideOut')
+    menu.classList.add('animate-slide-out-right')
     menu.addEventListener('animationend', () => {
-      menu.classList.remove('animate-slideOut')
+      menu.classList.remove('animate-slide-out-right')
       menu.classList.add('hidden')
       window.removeEventListener('mouseup', this.burgerClose);
       menu.setAttribute('aria-expanded', 'false')

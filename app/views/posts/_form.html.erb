@@ -11,7 +11,7 @@
 
       <div class="flex justify-between items-top">
         <%= image_tag '', width: '100px', class: 'pt-1 rounded-lg hidden', data: { gif_target: 'preview' } %>
-        <%= f.text_field :gif_url, data: { gif_target: 'field' }, class: 'hidden' %>
+        <%= f.text_field :gif_url, data: { gif_target: 'field', form_target: 'gifField' }, class: 'hidden' %>
 
         <div>
           <%= render 'shared/form_errors', form: f, value_type: :body %>

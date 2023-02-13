@@ -50,8 +50,8 @@ export default class extends Controller {
   closeGifs() {
     const gifs = this.popupTarget;
 
-    gifs.classList.remove('animate-slideRight');
-    gifs.classList.add('animate-slideOut');
+    gifs.classList.remove('animate-slide-in-up');
+    gifs.classList.add('animate-slide-out-left');
     window.removeEventListener('mouseup', this.closeGifs); 
   }
 }

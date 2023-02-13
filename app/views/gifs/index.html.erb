@@ -1,6 +1,6 @@
 <%= turbo_frame_tag :gif_search do %>
-  <div class="relative">
-    <div class="fixed bottom-0 left-0 z-10 w-80 h-96 bg-white p-2 border-2 rounded-md animate-slideRight" data-gif-target="popup">
+  <div class="relative opacity-95 z-10">
+    <div class="fixed bottom-0 left-0 w-80 h-96 bg-white p-2 border-2 rounded-md animate-slide-in-up" data-gif-target="popup">
       <p class="text-slate-600 font-medium mb-1">Add GIF</p>
       <div class="flex justify-center items-center">
         <%= form_with url: gifs_path, method: :get, data: { controller: 'search', search_target: 'form', turbo_frame: :gif_results } do |f| %>
@@ -15,7 +15,7 @@
             <div class="columns-2 p-1">
               <% @results.each do |gif_url| %>
                 <div>
-                  <button type="button" data-action="gif#insertGif">
+                  <button type="button" data-action="gif#insertGif form#isEmpty">
                     <%= image_tag gif_url, width: '150px', data: { gif_target: 'image' }, class: 'rounded-md hover:ring-2 ring-orange-500 ease-in duration-75' %>
                   </button>
                 </div>
