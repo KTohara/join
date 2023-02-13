@@ -25,40 +25,40 @@ module.exports = {
       },
 
       animation: {
-        slideRight: 'slide-right .3s ease-in-out forwards',
-        slideLeft: 'slide-left .3s ease-in-out forwards',
-        slideOut: 'slide-out .3s ease-in-out forwards',
-        slideDown: 'slide-down .3s ease-in-out forwards',
-        slideUp: 'slide-up .3s ease-in-out forwards',
-        spin: 'spin 1s ease-in-out infinite',
-        shimmer: 'shimmer .7s ease-in-out',
-        fadeOut: 'fade-out 2s ease-in 2s forwards',
+        'slide-in-right': 'slide-in-right .3s ease-in-out forwards',
+        'slide-out-right': 'slide-out-right .3s ease-in-out forwards',
+        'slide-out-left': 'slide-out-left .3s ease-in-out forwards',
+        'slide-in-down': 'slide-in-down .3s ease-in-out forwards',
+        'slide-in-up': 'slide-in-up .3s ease-in-out forwards',
+        'spin': 'spin 1s ease-in-out infinite',
+        'shimmer': 'shimmer .7s ease-in-out',
+        'fade-out': 'fade-out 2s ease-in 2s forwards',
       },
 
       keyframes: {
-        'slide-right': {
+        'slide-in-right': {
           '0%': { opacity: 0, transform: 'translateX(-100%)' },
           '100%': { opacity: 95, transform: 'translateX(0%)' }
         },
 
-        'slide-left': {
-          '0%': { transform: 'translateX(100%)' },
-          '100%': { transform: 'translateX(0%)' }
-        },
-
-        'slide-out': {
+        'slide-out-right': {
           '0%': { opacity: 95, transform: 'translateX(0%)' },
-          '100%': { opacity: 0, transform: 'translateX(100%)' }
+          '100%': { opacity: 0, transform: 'translateX(100%)', visibility: 'hidden' }
         },
 
-        'slide-down': {
+        'slide-out-left': {
+          '0%': { opacity: 95, transform: 'translateX(0%)' },
+          '100%': { opacity: 0, transform: 'translateX(-100%)', visibility: 'hidden' }
+        },
+
+        'slide-in-down': {
           '0%': { opacity: 0, transform: 'translateY(-100%)' },
           '100%': { opacity: 95, transform: 'translateY(0%)' }
         },
 
-        'slide-up': {
-          '0%': { opacity: 95, transform: 'translateY(0%)' },
-          '100%': { opacity: 0, transform: 'translateY(-100%)' }
+        'slide-in-up': {
+          '0%': { opacity: 0, transform: 'translateY(100%)' },
+          '100%': { opacity: 95, transform: 'translateY(0%)' }
         },
         
         'spin': {

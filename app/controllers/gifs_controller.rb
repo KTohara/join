@@ -5,8 +5,6 @@ class GifsController < ApplicationController
 
   def index
     @form_id = params[:form_id]
-    url = params[:q] ? tenor_url(:search, params[:q]) : tenor_url(:featured)
-
     tenor_response = RestClient.get(url)
     gifs = JSON.parse(tenor_response)
     @results = gifs['results'].map { |gif| gif['media_formats']['tinygif']['url'] }
@@ -22,8 +20,19 @@ class GifsController < ApplicationController
     end
   end
 
+  def url
+    query = params[:q]
+
+    if query.present? && query.ascii_only?
+      tenor_url(:search, query)
+    else
+      tenor_url(:featured)
+    end
+  end
+
   def tenor_url(type, query = nil)
     # https://developers.google.com/tenor/guides/endpoints
+    
     key = Rails.application.credentials.dig(:tenor, :key)
     base_url = tenor_base_url(type)
     content_filter = 'medium'

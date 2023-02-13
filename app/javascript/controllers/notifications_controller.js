@@ -48,8 +48,8 @@ export default class extends Controller {
     
     if (event && notifications.contains(event.target)) return;
     
-    notifications.classList.remove('animate-slideDown');
-    notifications.classList.add('animate-slideOut');
+    notifications.classList.remove('animate-slide-in-down');
+    notifications.classList.add('animate-slide-out-right');
 
     button.setAttribute('aria-expanded', 'false');
     window.removeEventListener('click', this.closeNotifications);

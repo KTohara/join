@@ -1,18 +1,24 @@
 import { Controller } from "@hotwired/stimulus"
 
+const button = document.getElementById('gif_button');
+
 // Connects to data-controller="gif"
 export default class extends Controller {
-  static targets = ['field', 'image', 'preview', 'popup', 'button']
+  static targets = ['field', 'image', 'preview', 'popup']
 
   // connect() {
   // }
 
-  setGifToggler() {
-    // debugger
-    // this.closeGifs = this.closeGifs.bind(this);
-    // const button = document.getElementById('gif_button');
-    // button.setAttribute('aria-expanded', 'true');
-    // window.addEventListener('click', this.closeGifs);
+  setGifToggler(event) {
+    if (button.contains(event.target) && button.getAttribute('aria-expanded') === 'true') {
+      event.preventDefault();
+      button.setAttribute('aria-expanded', 'false');
+      return window.removeEventListener('mouseup', this.checkOpen); 
+    }
+
+    this.checkOpen = this.checkOpen.bind(this);
+    button.setAttribute('aria-expanded', 'true');
+    window.addEventListener('mouseup', this.checkOpen);
   }
 
   insertGif(event) {
@@ -22,25 +28,30 @@ export default class extends Controller {
       this.fieldTarget.value = url
       this.previewTarget.src = url
       this.previewTarget.classList.remove('hidden')
+
       this.closeGifs();
     }
   }
 
-  closeGifs(event) {
-    // debugger
-    // const gifs = this.popupTarget;
-    // const button = document.getElementById('gif_button');
+  checkOpen(event) {
+    const gifs = this.popupTarget;
 
-    // if (button.contains(event.target) && button.getAttribute('aria-expanded') === 'true') {
-    //   event.preventDefault();
-    // }
+    if (button.contains(event.target) && button.getAttribute('aria-expanded') === 'true') {
+      event.preventDefault();
+    } else {
+      button.setAttribute('aria-expanded', 'false');
+    }
 
-    // if (event && gifs.contains(event.target)) return;
+    if (gifs.contains(event.target)) return;
 
-    // gifs.classList.remove('animate-slideDown');
-    gifs.classList.add('hidden');
+    this.closeGifs();
+  }
 
-    // button.setAttribute('aria-expanded', 'false');
-    // window.removeEventListener('click', this.closeGifs);
+  closeGifs() {
+    const gifs = this.popupTarget;
+
+    gifs.classList.remove('animate-slide-in-up');
+    gifs.classList.add('animate-slide-out-left');
+    window.removeEventListener('mouseup', this.closeGifs); 
   }
 }

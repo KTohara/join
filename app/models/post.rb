@@ -36,7 +36,7 @@ class Post < ApplicationRecord
   
   has_many :likes, as: :likeable, dependent: :destroy
 
-  validates :body, presence: true, unless: proc { |post| post.image.attached? }
+  validates :body, presence: true, unless: proc { |post| post.image.attached? || post.gif_url.present? }
   validates :body, length: { maximum: 15_000 }
                    
   validates :image, content_type: { in: %w[image/png image/jpg image/jpeg image/gif], message: 'image must be a valid format' },
