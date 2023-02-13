@@ -41,5 +41,5 @@
       <p class="text-slate-600 font-normal">Loading Posts...</p>
     </div>
   <% end %>
-  <%= turbo_frame_tag :infinite_scroll, loading: :lazy, src: posts_path(format: :turbo_stream) %>
+  <%= turbo_frame_tag :infinite_scroll, loading: :lazy, src: user_path(@user, format: :turbo_stream) %>
 <% end %>

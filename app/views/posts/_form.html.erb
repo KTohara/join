@@ -10,12 +10,12 @@
         class: "w-full h-9 border-none bg-stone-100 rounded-2xl sm:text-base text-sm " %>
 
       <div class="flex justify-between items-top">
-          <div class="relative">
-            <button type="button" class="absolute top-2 right-1 text hidden" data-gif-target="removeGif" data-action="gif#remove form#isEmpty">
-              <i class="fa-regular fa-circle-xmark bg-orange-500/80 text-white rounded-full h-5 w-5"></i>
-            </button>
-            <%= image_tag '', width: '100px', class: 'pt-1 rounded-lg hidden', data: { gif_target: 'preview' } %>
-          </div>
+        <div class="relative">
+          <button type="button" class="absolute top-2 right-1 text hidden" data-gif-target="removeGif" data-action="gif#remove form#isEmpty">
+            <i class="fa-regular fa-circle-xmark bg-orange-500/80 text-white rounded-full h-5 w-5"></i>
+          </button>
+          <%= image_tag '', width: '100px', class: 'pt-1 rounded-lg hidden', data: { gif_target: 'preview' } %>
+        </div>
         <%= f.text_field :gif_url, data: { gif_target: 'field', form_target: 'gifField' }, class: 'hidden' %>
 
         <div>
