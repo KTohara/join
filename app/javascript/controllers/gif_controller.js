@@ -4,7 +4,7 @@ const button = document.getElementById('gif_button');
 
 // Connects to data-controller="gif"
 export default class extends Controller {
-  static targets = ['field', 'image', 'preview', 'popup']
+  static targets = ['field', 'image', 'preview', 'popup', 'removeGif']
 
   // connect() {
   // }
@@ -28,6 +28,7 @@ export default class extends Controller {
       this.fieldTarget.value = url
       this.previewTarget.src = url
       this.previewTarget.classList.remove('hidden')
+      this.removeGifTarget.classList.remove('hidden')
 
       this.closeGifs();
     }
@@ -53,5 +54,12 @@ export default class extends Controller {
     gifs.classList.remove('animate-slide-in-up');
     gifs.classList.add('animate-slide-out-left');
     window.removeEventListener('mouseup', this.closeGifs); 
+  }
+
+  remove() {
+    this.fieldTarget.value = ''
+    this.previewTarget.src = ''
+    this.previewTarget.classList.add('hidden')
+    this.removeGifTarget.classList.add('hidden')
   }
 }
