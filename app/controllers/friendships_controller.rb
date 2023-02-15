@@ -78,6 +78,8 @@ class FriendshipsController < ApplicationController
     # destroys original friend request notification that the original user recieved
     # ie: 'other_user sent you a friend request'
     notification = Notification.find_by(recipient: current_user, sender: friendship.friend)
+    return if notification.nil?
+    
     notification.destroy
   end
 end

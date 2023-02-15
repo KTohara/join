@@ -1,10 +1,10 @@
-<%= turbo_frame_tag :gif_search do %>
+<%= turbo_frame_tag "#{@form_id}_gif_search" do %>
   <div class="relative opacity-95 z-10">
     <div class="fixed bottom-0 left-0 w-80 h-96 bg-white p-2 border-2 rounded-md animate-slide-in-up" data-gif-target="popup">
       <p class="text-slate-600 font-medium mb-1">Add GIF</p>
+      
       <div class="flex justify-center items-center">
-        <%= form_with url: gifs_path, method: :get, data: { controller: 'search', search_target: 'form', turbo_frame: :gif_results } do |f| %>
-          <%= f.hidden_field :form_id, value: @form_id %>
+        <%= form_with url: gifs_path(form_id: @form_id), method: :get, data: { controller: 'search', search_target: 'form', turbo_frame: :gif_results } do |f| %>
           <%= f.text_field :q, placeholder: 'Search Tenor...', autofocus: true, data: { action: 'search#debounce' }, class: 'form-field w-[300px] rounded-md h-8' %>
         <% end %>
       </div>
@@ -14,11 +14,9 @@
           <% if @results.present? %>
             <div class="columns-2 p-1">
               <% @results.each do |gif_url| %>
-                <div>
-                  <button type="button" data-action="gif#insertGif form#isEmpty">
-                    <%= image_tag gif_url, width: '150px', data: { gif_target: 'image' }, class: 'rounded-md hover:ring-2 ring-orange-500 ease-in duration-75' %>
-                  </button>
-                </div>
+                <button type="button" data-action="gif#insertGif form#isEmpty">
+                  <%= image_tag gif_url, width: '150px', data: { gif_target: 'image' }, class: 'rounded-md hover:ring-2 ring-orange-500 ease-in duration-75' %>
+                </button>
               <% end %>
             </div>
           <% end %>

@@ -38,7 +38,7 @@ class GifsController < ApplicationController
     content_filter = 'medium'
     media_filter = 'minimal'
     ar_range = 'standard'
-    limit = 12
+    limit = 25
 
     "#{base_url}&key=#{key}&content_filter=#{content_filter}&media_filter=#{media_filter}&ar_range=#{ar_range}&q=#{query}&limit=#{limit}"
   end

@@ -1,6 +1,8 @@
 <div class="px-4 sm:px-6 py-4 rounded-t-xl bg-amber-700">
-  <div class="flex items-center gap-4 ">
-    <%= image_tag avatar_image(@user, :display), class: 'rounded-full bg-white p-1 min-w-[100px] sm:max-w-[200px] max-w-[100px]' %>
+  <div class="flex items-center gap-4">
+    <div class="flex items-start">
+      <%= image_tag avatar_image(@user, :display), class: 'rounded-full bg-white p-1 object-cover h-40 w-40' %>
+    </div>
     <div class="flex flex-col min-w-[60%] max-w-[65%] sm:ml-5 ml-0 gap-2 text-slate-200 tracking-wide">
       <h1 class="showpage-font font-extrabold"><%= @user.name %></h1>
       <div class="text-xs sm:text-base">
@@ -41,5 +43,5 @@
       <p class="text-slate-600 font-normal">Loading Posts...</p>
     </div>
   <% end %>
-  <%= turbo_frame_tag :infinite_scroll, loading: :lazy, src: posts_path(format: :turbo_stream) %>
+  <%= turbo_frame_tag :infinite_scroll, loading: :lazy, src: user_path(@user, format: :turbo_stream) %>
 <% end %>
