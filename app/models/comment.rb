@@ -46,7 +46,7 @@ class Comment < ApplicationRecord
   has_many :likes, as: :likeable, dependent: :destroy
   has_many :notifications, as: :notifiable, dependent: :destroy
 
-  validates :body, presence: true, unless: proc { |comment| comment.image.attached? }
+  validates :body, presence: true, unless: proc { |comment| comment.image.attached? || comment.gif_url.present? }
   validates :body, length: { maximum: 8_000 }
   validates :nesting, presence: true
   validates :image, content_type: { in: %w[image/png image/jpg image/jpeg image/gif], message: 'image must be a valid format' },

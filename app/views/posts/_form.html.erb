@@ -1,29 +1,38 @@
-<%= form_with model: post, id: 'post_form', data: local_assigns[:data] do |f| %>
-  <%= f.hidden_field :author_id, value: current_user.id %>
-  <%= f.hidden_field :user_id, value: user.id if local_assigns[:user] %>
+<% form_id = 'post_form' %>
 
-  <div class="p-5 border rounded-b-xl bg-white shadow-md <%= rounded_top(controller) %>" data-controller="form gif">
+<%= form_with model: post, id: form_id, data: local_assigns[:data] do |f| %>
+  <div class="p-5 border rounded-b-xl bg-white shadow-md <%= rounded_top(controller) %>" data-controller="form gif" data-gif-id-value="post_form">
+    <%= f.hidden_field :author_id, value: current_user.id %>
+    <%= f.hidden_field :user_id, value: user.id if local_assigns[:user] %>
+    <%= f.hidden_field :gif_url, data: { gif_target: 'gifField', form_target: 'gifField' } %>
+
     <div class="flex flex-col w-full mb-2">
+
+    <div class="flex flex-col w-full rounded-2xl focus-within:ring-1 focus-within:ring-blue-500 bg-stone-100"">
+      <%# remove gif button %>
+      <div class="relative">
+        <button type="button" class="absolute top-2 left-2 <%= gif_preview_class(post) %>" data-gif-target="removeGifBtn" data-action="gif#remove form#isEmpty">
+          <i class="fa-regular fa-circle-xmark bg-orange-500/80 text-white rounded-full h-4 w-4"></i>
+        </button>
+
+        <%= image_tag gif_preview_url(post), width: '100px', class: "p-1 rounded-2xl #{gif_preview_class(post)}", data: { gif_target: 'preview' } %>
+      </div>
+      
       <%= f.text_area :body,
         placeholder: form_placeholder_message(@user), autofocus: true,
         data: { action: 'form#resize keyup->form#isEmpty', form_target: 'input' },
-        class: "w-full h-9 border-none bg-stone-100 rounded-2xl sm:text-base text-sm " %>
+        class: 'w-full h-9 bg-stone-100 border-transparent focus:border-transparent focus:ring-0 rounded-2xl text-sm' %>
+    </div>
 
+      
       <div class="flex justify-between items-top">
-        <div class="relative">
-          <button type="button" class="absolute top-2 right-1 text hidden" data-gif-target="removeGif" data-action="gif#remove form#isEmpty">
-            <i class="fa-regular fa-circle-xmark bg-orange-500/80 text-white rounded-full h-5 w-5"></i>
-          </button>
-          <%= image_tag '', width: '100px', class: 'pt-1 rounded-lg hidden', data: { gif_target: 'preview' } %>
-        </div>
-        <%= f.text_field :gif_url, data: { gif_target: 'field', form_target: 'gifField' }, class: 'hidden' %>
-
         <div>
           <%= render 'shared/form_errors', form: f, value_type: :body %>
           <%= render 'shared/form_errors', form: f, value_type: :image %>
         </div>
 
         <div class="text-xs" data-form-target="preview">
+          <%# custom "label" for active storage comment image %>
           <p><%= "Image: #{f.object.image.filename}" if f.object.image.attached? %></p>
         </div>
       </div>
@@ -31,6 +40,7 @@
 
     <div class="flex justify-around items-center gap-2 h-8">
       <div class="w-full rounded hover:bg-slate-100 ease-in duration-100">
+        <%# updload image button %>
         <button type="button" data-action="click->form#uploadImage" class="flex justify-center items-center gap-1 w-full hover:cursor-pointer">
           <i class="fa-regular fa-image icon"></i>
           <span class="text-slate-600">Photo</span>
@@ -40,15 +50,24 @@
       </div>
 
       <div class="w-full rounded">
-        <%= link_to gifs_path(form_id: 'post_form'), id: "gif_button", class: 'flex gap-2', data: { turbo_frame: :gif_search, action: 'gif#setGifToggler' }, aria: { expanded: 'false' } , class: 'flex justify-center items-center gap-1 w-full hover:bg-slate-100 ease-in duration-100' do %>
+        <%# open gif menu button %>
+        <%= link_to gifs_path(form_id: form_id),
+          class: 'flex gap-2',
+          data: { turbo_frame: "#{form_id}_gif_search", gif_target: 'openGifMenuBtn', action: 'gif#setGifToggler' },
+          aria: { expanded: 'false' },
+          class: 'flex justify-center items-center gap-1 w-full hover:bg-slate-100 ease-in duration-100' do %>
+
           <%= image_tag 'gif.svg', class: 'w-5 h-5' %>
           GIF
         <% end %>
-        <%= turbo_frame_tag :gif_search %>
+
+        <%# turbo gif menu modal %>
+        <%= turbo_frame_tag "#{form_id}_gif_search" %>
       </div>
 
       <% if f.object.persisted? %>
         <div class="w-full rounded hover:bg-slate-100 ease-in duration-100">
+          <%# cancel button for edits %>
           <%= link_to post_path(post), id: 'turbo_btn', class: 'w-full flex justify-center items-center gap-1', data: { dropdown_target: 'button', turbo_stream: 'true' } do %>
             <i class="fas fa-rotate-left icon"></i>
             <span class="text-slate-600">Cancel</span>
@@ -57,6 +76,7 @@
       <% end %>
       
       <div class='w-full rounded hover:bg-slate-100 ease-in duration-100'>
+        <%# submit button %>
         <%= f.button nil, class: 'w-full flex justify-center items-center gap-1', data: { dropdown_target: 'submit', form_target: 'submit' } do %>
           <i class="fa-regular fa-comments icon"></i>
           <span class="text-slate-600"><%= submit_button_text %></span>

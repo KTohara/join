@@ -21,12 +21,13 @@
 
 
   <% if post.image.attached? || post.gif_url.present? %>
-    <div class="flex justify-center items-center gap-2 bg-slate-50 w-full">
+    <div class="flex flex-col justify-center items-center gap-2 bg-slate-50 w-full">
       <% if post.gif_url.present? %>
         <%= link_to post.gif_url, target: '_blank' do %>
           <%= image_tag post.gif_url %>
         <% end %>
       <% end %>
+
       <% if post.image.attached? %>
           <%= link_to url_for(post.image), target: '_blank' do %>
             <% if post.image.content_type.eql?('image/gif') %>
