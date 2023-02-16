@@ -49,6 +49,9 @@ export default class extends Controller {
   closeGifs() {
     this.popupTarget.classList.remove('animate-slide-in-up');
     this.popupTarget.classList.add('animate-slide-out-left');
+    this.popupTarget.addEventListener('animationend', () => {
+      this.popupTarget.classList.add('hidden');
+    });
     window.removeEventListener('mouseup', this.closeGifs); 
   }
 
