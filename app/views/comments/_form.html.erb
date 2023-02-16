@@ -1,81 +1,79 @@
 <% model = [local_assigns[:commentable], comment].compact %>
 <% dom_id = dom_id_for_comment(*model) %>
 
-<div data-controller="gif">
-  <%# turbo gif menu modal %>
-  <%= turbo_frame_tag "#{dom_id}_gif_search" %>
+<%= form_with model: model,
+  id: dom_id,
+  data: local_assigns[:data],
+  class: local_assigns[:class] do |f| %>
 
-  <%= form_with model: model,
-    id: dom_id,
-    data: local_assigns[:data],
-    class: local_assigns[:class] do |f| %>
-  
-    <div class="flex flex-col gap-2" data-controller="form">
-      <%= f.hidden_field :gif_url, data: { gif_target: 'gifField', form_target: 'gifField' } %>
-  
-      <div class="flex flex-col w-full rounded-2xl focus-within:ring-1 focus-within:ring-blue-500 bg-stone-100">
-        <div class="relative">
-          <%# remove gif button %>
-          <button type="button" class="absolute top-2 left-2 <%= gif_preview_class(comment) %>" data-gif-target="removeGifBtn" data-action="gif#remove form#isEmpty">
-            <i class="fa-regular fa-circle-xmark bg-orange-500/70 text-white rounded-full h-4 w-4"></i>
-          </button>
-  
-          <%= image_tag gif_preview_url(comment), width: '100px', class: "p-1 rounded-2xl #{gif_preview_class(comment)}", data: { gif_target: 'preview' } %>
-        </div>
-  
-        <div class="flex justify-center items-end">
-          <%= f.text_area :body,
-            placeholder: 'Write a comment...', autofocus: true,
-            data: { action: 'input->form#resize input->form#isEmpty', form_target: 'input', dropdown_target: 'input' },
-            class: 'w-full h-9 bg-stone-100 border-transparent focus:border-transparent focus:ring-0 rounded-l-2xl text-sm' %>
-  
-          <%= render 'shared/form_errors', form: f, value_type: :body %>
-          <%= render 'shared/form_errors', form: f, value_type: :image %>
-  
-          <div class="flex items-center gap-2 pb-1 pr-3">
-            <%# updload image button %>
-            <button type="button" data-action="click->form#uploadImage" class="hover:cursor-pointer">
-              <i class="fa-regular fa-image icon"></i>
-            </button>
-  
-            <div class="w-full rounded">
-              <%# open gif menu button %>
-              <%= link_to gifs_path(form_id: dom_id),
-                data: { turbo_frame: "#{dom_id}_gif_search", action: 'gif#setGifToggler', gif_target: 'openGifMenuBtn' },
-                aria: { expanded: 'false' },
-                class: 'flex justify-center items-center gap-1 w-full hover:bg-slate-100 ease-in duration-100' do %>
-  
-                <%= image_tag 'gif.svg', class: 'w-7 h-7' %>
-              <% end %>
-            </div>
-  
-            <%= f.file_field :image,
-              data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' },
-              class: 'hidden', accept: 'image/png, image/jpeg, image/jpg, image/gif' %>
-  
-            <%# submit button %>
-            <%= f.button nil, data: { form_target: 'submit', dropdown_target: 'submit' }, class: 'rounded-r-2xl' do %>
-              <i class="fa-regular fa-comments icon"></i>
-            <% end %>
-          </div>
-        </div>
-  
+  <div class="flex flex-col gap-2" data-controller="form gif" data-gif-id-value="<%= dom_id %>">
+    <%= f.hidden_field :gif_url, data: { gif_target: 'gifField', form_target: 'gifField' } %>
+
+    <div class="flex flex-col w-full rounded-2xl focus-within:ring-1 focus-within:ring-blue-500 bg-stone-100">
+      <div class="relative">
+        <%# remove gif button %>
+        <button type="button" class="absolute top-2 left-2 <%= gif_preview_class(comment) %>" data-gif-target="removeGifBtn" data-action="gif#remove form#isEmpty">
+          <i class="fa-regular fa-circle-xmark bg-orange-500/70 text-white rounded-full h-4 w-4"></i>
+        </button>
+
+        <%= image_tag gif_preview_url(comment), width: '100px', class: "p-2 #{gif_preview_class(comment)}", data: { gif_target: 'preview' } %>
       </div>
-  
-      <div class="flex justify-between px-2">
-        <%# cancel button for edits %>
-        <% if f.object.persisted? %>
-          <%= link_to comment_path(comment), id: 'turbo_btn', data: { dropdown_target: 'button' }, class: 'w-fit link' do %>
-            <i class="fas fa-rotate-left icon"></i>
-            <span>Cancel</span>
+
+      <div class="flex justify-center items-end">
+        <%= f.text_area :body,
+          placeholder: 'Write a comment...', autofocus: true,
+          data: { action: 'input->form#resize input->form#isEmpty', form_target: 'input', dropdown_target: 'input' },
+          class: 'w-full h-9 bg-stone-100 border-transparent focus:border-transparent focus:ring-0 rounded-l-2xl text-sm' %>
+
+        <%= render 'shared/form_errors', form: f, value_type: :body %>
+        <%= render 'shared/form_errors', form: f, value_type: :image %>
+
+        <div class="flex items-center gap-2 pb-1 pr-3">
+          <%# updload image button %>
+          <button type="button" data-action="click->form#uploadImage" class="hover:cursor-pointer">
+            <i class="fa-regular fa-image icon"></i>
+          </button>
+
+          <div class="w-full rounded">
+            <%# open gif menu button %>
+            <%= link_to gifs_path(form_id: dom_id),
+              data: { turbo_frame: "#{dom_id}_gif_search", action: 'gif#setGifToggler', gif_target: 'openGifMenuBtn' },
+              aria: { expanded: 'false' },
+              class: 'flex justify-center items-center gap-1 w-full hover:bg-slate-100 ease-in duration-100' do %>
+
+              <%= image_tag 'gif.svg', class: 'w-7 h-7' %>
+            <% end %>
+
+            <%# turbo gif menu modal %>
+            <%= turbo_frame_tag "#{dom_id}_gif_search" %>
+          </div>
+
+          <%= f.file_field :image,
+            data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' },
+            class: 'hidden', accept: 'image/png, image/jpeg, image/jpg, image/gif' %>
+
+          <%# submit button %>
+          <%= f.button nil, data: { form_target: 'submit', dropdown_target: 'submit' }, class: 'rounded-r-2xl' do %>
+            <i class="fa-regular fa-comments icon"></i>
           <% end %>
-        <% end %>
-  
-        <div class="ml-auto text-xs" data-form-target="preview">
-          <%# custom "label" for active storage comment image %>
-          <%= "Image: #{f.object.image.filename}" if f.object.image.attached? %>
         </div>
+      </div>
+
+    </div>
+
+    <div class="flex justify-between px-2">
+      <%# cancel button for edits %>
+      <% if f.object.persisted? %>
+        <%= link_to comment_path(comment), id: 'turbo_btn', data: { dropdown_target: 'button' }, class: 'w-fit link' do %>
+          <i class="fas fa-rotate-left icon"></i>
+          <span>Cancel</span>
+        <% end %>
+      <% end %>
+
+      <div class="ml-auto text-xs" data-form-target="preview">
+        <%# custom "label" for active storage comment image %>
+        <%= "Image: #{f.object.image.filename}" if f.object.image.attached? %>
       </div>
     </div>
-  <% end %>
-</div>
+  </div>
+<% end %>

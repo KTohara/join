@@ -5,7 +5,8 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="gif"
 export default class extends Controller {
   static targets = ['image', 'popup', 'openGifMenuBtn', 'removeGifBtn', 'gifField', 'preview', ]
-
+  static values = { id: String }
+  
   // connect() {
   // }
 
@@ -47,12 +48,15 @@ export default class extends Controller {
   }
 
   closeGifs() {
+    window.removeEventListener('mouseup', this.closeGifs); 
+
+    this.form = document.getElementById(this.idValue)
+    if (this.form.classList.contains('hidden')) {
+      return this.popupTarget.classList.add('hidden');
+    }
+
     this.popupTarget.classList.remove('animate-slide-in-up');
     this.popupTarget.classList.add('animate-slide-out-left');
-    this.popupTarget.addEventListener('animationend', () => {
-      this.popupTarget.classList.add('hidden');
-    });
-    window.removeEventListener('mouseup', this.closeGifs); 
   }
 
   remove() {
