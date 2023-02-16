@@ -27,7 +27,7 @@ class NotificationsController < ApplicationController
   private
 
   def set_notifications
-    @notifications = current_user.notifications.includes([:notifiable, :sender]).order(created_at: :desc)
+    @notifications = current_user.notifications.includes([:sender, notifiable: [:commentable]]).order(created_at: :desc)
     @unread = @notifications.unread.limit(10)
     @read = @notifications.read.limit(10)
   end
