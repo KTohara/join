@@ -4,13 +4,17 @@ class GifsController < ApplicationController
   before_action :turbo_frame_request_variant, only: :index
 
   def index
-    @form_id = params[:form_id]
+    @form_id = gif_params[:form_id]
     tenor_response = RestClient.get(url)
     gifs = JSON.parse(tenor_response)
     @results = gifs['results'].map { |gif| gif['media_formats']['tinygif']['url'] }
   end
 
   private
+
+  def gif_params
+    params.permit(:q, :form_id)
+  end
 
   def turbo_frame_request_variant
     if turbo_frame_request?
@@ -21,7 +25,7 @@ class GifsController < ApplicationController
   end
 
   def url
-    query = params[:q]
+    query = gif_params[:q]
 
     if query.present? && query.ascii_only?
       tenor_url(:search, query)
@@ -38,7 +42,7 @@ class GifsController < ApplicationController
     content_filter = 'medium'
     media_filter = 'minimal'
     ar_range = 'standard'
-    limit = 25
+    limit = 30
 
     "#{base_url}&key=#{key}&content_filter=#{content_filter}&media_filter=#{media_filter}&ar_range=#{ar_range}&q=#{query}&limit=#{limit}"
   end
