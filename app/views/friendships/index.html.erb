@@ -23,10 +23,7 @@
     <% @friends.each do |friend| %>
       <div class="flex gap-2 justify-between">
         <%= link_to friend, class: 'flex items-center gap-2 link' do %>
-          <div class="avatar w-7 h-7">
-            <%= image_tag avatar_image(friend, :thumb) %>
-          </div>
-
+          <%= image_tag avatar_image(friend, :thumb), class: 'avatar w-8 h-8' %>
           <p class="font-medium text-slate-600"><%= friend.name %></p>
         <% end %>
 

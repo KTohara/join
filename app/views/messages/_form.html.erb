@@ -1,0 +1,55 @@
+<%= form_with model: [chat, message], id: dom_id(chat, :form), data: { controller: 'gif form', gif_id_value: dom_id(chat, :form) } do |f| %>
+  <%= f.hidden_field :gif_url, data: { gif_target: 'gifField', form_target: 'gifField' } %>
+  <%# turbo gif menu modal %>
+  <%= turbo_frame_tag "#{dom_id(chat)}_gif_search" %>
+
+  <div class="relative">
+    <button type="button" class="absolute top-3 left-3 <%= gif_preview_class(message) %>" data-gif-target="removeGifBtn" data-action="gif#remove form#isEmpty">
+      <i class="fa-regular fa-circle-xmark bg-orange-500/70 text-white rounded-full h-4 w-4"></i>
+    </button>
+  </div>
+
+  <%= image_tag gif_preview_url(message), width: '100px', class: "p-2 #{gif_preview_class(message)}", data: { gif_target: 'preview' } %>
+
+  <div class="flex w-full items-center h-7 rounded-2xl focus-within:ring-1 focus-within:ring-blue-500 bg-stone-100">
+    <%= f.text_field :body,
+      placeholder: "Message @#{chat.other_user(current_user).short_name}",
+      autofocus: true,
+      data: { action: 'input->form#resize input->form#isEmpty', form_target: 'input', dropdown_target: 'input' },
+      class: 'w-full h-full bg-stone-100 border-transparent focus:border-transparent focus:ring-0 rounded-l-2xl text-[12px]' %>
+    
+    <%= render 'shared/form_errors', form: f, value_type: :body %>
+    <%= render 'shared/form_errors', form: f, value_type: :image %>  
+    
+    <div class="flex justify-center items-center gap-1 pr-3">
+      <%# upload image button %>
+      <button type="button" data-action="click->form#uploadImage" class="hover:cursor-pointer">
+        <i class="fa-regular fa-image icon"></i>
+      </button>
+
+      <%# open gif menu button %>
+      <%= link_to gifs_path(form_id: dom_id(chat)),
+        data: { turbo_frame: "#{dom_id(chat)}_gif_search", action: 'gif#setGifToggler', gif_target: 'openGifMenuBtn' },
+        aria: { expanded: 'false' },
+        class: 'flex justify-center items-center gap-1 w-5' do %>
+
+        <%= image_tag 'gif.svg', class: 'w-full h-[19px] pb-[2px]' %>
+      <% end %>
+
+      <%= f.file_field :image,
+        data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' },
+        class: 'hidden', accept: 'image/png, image/jpeg, image/jpg, image/gif' %>
+
+      <%# submit button %>
+      <%= f.button nil, data: { form_target: 'submit', dropdown_target: 'submit' }, class: 'rounded-r-2xl' do %>
+        <i class="fa-regular fa-comments icon"></i>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="ml-auto text-xs" data-form-target="preview">
+    <%# custom "label" for active storage comment image %>
+    <%= "Image: #{f.object.image.filename}" if f.object.image.attached? %>
+  </div>
+
+<% end %>

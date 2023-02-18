@@ -12,6 +12,7 @@
 
           <%= f.search_field :q, placeholder: 'Search Users...', autofocus: true, data: { action: 'search#debounce' }, class: 'w-full h-8 rounded-3xl border-transparent focus:border-transparent focus:ring-0' %>
         <% end %>
+        
         <div class="p-3 rounded-b-md bg-white shadow-md opacity-95">
           <%= turbo_frame_tag :users do %>
             <% if @users.length.positive? %>

@@ -1,0 +1,29 @@
+<div class="flex gap-1 px-2 py-1">
+  <%= image_tag avatar_image(message.user, :thumb), class: 'avatar w-8 h-8' %>
+
+  <div class="flex flex-col py-1 px-2 bg-orange-200 text-xs rounded-lg">
+    <div class="flex gap-1">
+      <p class="font-medium"><%= message.user.short_name %></p>
+      <p class="text-[10px]"><%= message_date(message) %></p>
+    </div>
+
+    <div>
+      <% if message.gif_url.present? %>
+        <%= link_to message.gif_url, target: '_blank' do %>
+          <%= image_tag message.gif_url, class: 'my-1 rounded-md', width: '128px' %>
+        <% end %>
+      <% end %>
+
+      <% if message.image.attached? %>
+        <%= link_to url_for(message.image), target: '_blank', class: 'w-fit' do %>
+          <% if message.image.content_type.eql?('image/gif') %>
+            <%= image_tag message.image, class: 'my-1 rounded-md', width: '128px' %>
+          <% else %>
+            <%= image_tag message.image.variant(:thumb), class: 'my-1 rounded-md' %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <p><%= message.body %></p>
+    </div>
+  </div>
+</div>

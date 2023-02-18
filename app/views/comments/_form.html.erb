@@ -9,6 +9,9 @@
   <div class="flex flex-col gap-2" data-controller="form gif" data-gif-id-value="<%= dom_id %>">
     <%= f.hidden_field :gif_url, data: { gif_target: 'gifField', form_target: 'gifField' } %>
 
+    <%# turbo gif menu modal %>
+    <%= turbo_frame_tag "#{dom_id}_gif_search" %>
+    
     <div class="flex flex-col w-full rounded-2xl focus-within:ring-1 focus-within:ring-blue-500 bg-stone-100">
       <div class="relative">
         <%# remove gif button %>
@@ -28,25 +31,20 @@
         <%= render 'shared/form_errors', form: f, value_type: :body %>
         <%= render 'shared/form_errors', form: f, value_type: :image %>
 
-        <div class="flex items-center gap-2 pb-1 pr-3">
+        <div class="flex items-center gap-2 pb-2 pr-3">
           <%# updload image button %>
           <button type="button" data-action="click->form#uploadImage" class="hover:cursor-pointer">
             <i class="fa-regular fa-image icon"></i>
           </button>
 
-          <div class="w-full rounded">
-            <%# open gif menu button %>
-            <%= link_to gifs_path(form_id: dom_id),
-              data: { turbo_frame: "#{dom_id}_gif_search", action: 'gif#setGifToggler', gif_target: 'openGifMenuBtn' },
-              aria: { expanded: 'false' },
-              class: 'flex justify-center items-center gap-1 w-full hover:bg-slate-100 ease-in duration-100' do %>
+          <%# open gif menu button %>
+          <%= link_to gifs_path(form_id: dom_id),
+            data: { turbo_frame: "#{dom_id}_gif_search", action: 'gif#setGifToggler', gif_target: 'openGifMenuBtn' },
+            aria: { expanded: 'false' },
+            class: 'flex justify-center items-center gap-1 w-5' do %>
 
-              <%= image_tag 'gif.svg', class: 'w-7 h-7' %>
-            <% end %>
-
-            <%# turbo gif menu modal %>
-            <%= turbo_frame_tag "#{dom_id}_gif_search" %>
-          </div>
+            <%= image_tag 'gif.svg', class: 'w-full h-[19px] pb-[2px]' %>
+          <% end %>
 
           <%= f.file_field :image,
             data: { form_target: 'image', action: 'change->form#isEmpty change->form#preview' },

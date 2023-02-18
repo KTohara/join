@@ -24,7 +24,6 @@
     <%= f.file_field :avatar, data: { form_target: 'image', action: 'change->form#preview' }, class: 'btn-choose-file', accept: 'image/png, image/jpeg, image/jpg', class: 'hidden' %>
     <div class="flex justify-between">
       <%= f.label :avatar, 'Profile Image', class: 'btn' %>
-
       <%= f.submit 'Save Profile', data: { turbo: false }, class: 'btn' %>
     </div>
 

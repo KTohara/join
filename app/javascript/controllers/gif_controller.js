@@ -49,8 +49,8 @@ export default class extends Controller {
 
   closeGifs() {
     window.removeEventListener('mouseup', this.closeGifs); 
-
     this.form = document.getElementById(this.idValue)
+
     if (this.form.classList.contains('hidden')) {
       return this.popupTarget.classList.add('hidden');
     }

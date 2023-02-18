@@ -19,8 +19,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :notifications, only: [:index, :destroy] do
+  resources :notifications, only: %i[index destroy] do
     delete :clear_all, on: :collection
+  end
+
+  resources :chats, only: %i[index show create destroy] do
+    resources :messages, only: %i[create destroy]
   end
 
   resources :gifs, only: :index

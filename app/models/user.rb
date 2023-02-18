@@ -40,6 +40,8 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
   has_many :sent_notifications, class_name: 'Notification', foreign_key: 'sender_id', dependent: :destroy
+  has_many :chats
+  has_many :messages
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..20 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
@@ -89,6 +91,10 @@ class User < ApplicationRecord
 
   def name
     profile_name_blank? ? self.username : "#{profile.first_name} #{profile.last_name}"
+  end
+
+  def short_name
+    profile_name_blank? ? self.username : profile.first_name
   end
 
   def profile_name_blank?

@@ -71,27 +71,11 @@
   }
 
   .avatar {
-    min-width: 20px;
-    min-height: 20px;
+    object-fit: cover;
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
     border-color: #e06706;
     border-width: 2px;
-    border-radius: 50%;
-    position: relative;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-
-  .avatar img {
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
   }
 }
