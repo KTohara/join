@@ -1,8 +1,11 @@
 <%= turbo_frame_tag :chats do %>
   <%= turbo_stream_from dom_id(@chat, :container) %>
 
-  <div class="relative" data-controller="chat">
-    <div class="fixed bottom-0 right-0 w-80 h-[500px] flex flex-col bg-white border-2 border-slate-200 rounded-md z-[1] animate-slide-in-up" data-chat-target="popup">
+  <div data-controller="chat gif form" id="<%= dom_id(@chat) %>" data-gif-id-value="<%= dom_id(@chat) %>">
+    <%# turbo gif menu modal %>
+    <%= turbo_frame_tag "#{dom_id(@chat)}_gif_search" %>
+
+    <div class="fixed bottom-0 right-0 sm:w-80 w-full h-[500px] flex flex-col bg-white border-2 border-slate-200 rounded-md z-[1] animate-slide-in-up" data-chat-target="popup">
       <div class="flex justify-end flex-initial w-full bg-orange-200">
         <button data-action="chat#closeChat">
           <i class="fa-regular fa-circle-xmark text-red-400 text-lg p-1"></i>
@@ -22,7 +25,7 @@
             <p class="text-xs">This is the beginning of your awesome chat adventure with <%= friend.short_name %>!</p>
           </div>
 
-          <%= render @chat.messages.includes(:user) %>
+          <%= render @chat.messages.includes(:user, image_attachment: [:blob]) %>
         </div>
       </div>
 

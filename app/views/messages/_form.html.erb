@@ -1,7 +1,5 @@
-<%= form_with model: [chat, message], id: dom_id(chat, :form), data: { controller: 'gif form', gif_id_value: dom_id(chat, :form) } do |f| %>
+<%= form_with model: [chat, message], id: dom_id(chat, :form), data: { controller: '' } do |f| %>
   <%= f.hidden_field :gif_url, data: { gif_target: 'gifField', form_target: 'gifField' } %>
-  <%# turbo gif menu modal %>
-  <%= turbo_frame_tag "#{dom_id(chat)}_gif_search" %>
 
   <div class="relative">
     <button type="button" class="absolute top-3 left-3 <%= gif_preview_class(message) %>" data-gif-target="removeGifBtn" data-action="gif#remove form#isEmpty">
