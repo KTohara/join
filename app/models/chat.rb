@@ -25,7 +25,7 @@ class Chat < ApplicationRecord
 
   has_many :messages, dependent: :destroy
 
-  scope :chatrooms, -> (user) { where('user_id = :user_id OR friend_id = :user_id', user_id: user) }
+  scope :chatrooms, -> (users) { where('user_id = :user_id OR friend_id = :user_id', user_id: users) }
 
   def other_user(current_user)
     current_user == friend ? user : friend

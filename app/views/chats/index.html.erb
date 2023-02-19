@@ -1,15 +1,59 @@
-<h1>CHATS</h1>
+<div class="flex justify-between items-center">
+  <h1 class="pr-5 font-source text-center font-semibold text-xl tracking-wide text-orange-500 whitespace-nowrap">
+    .messages
+  </h1>
+  <hr class="border-t-2 border-orange-200 w-full">
+</div>
+
 <% @chats.each do |chat_preview| %>
-  <div class="flex flex-col gap-2 bg-white p-1 rounded-2xl">
-    <%= link_to chat_path(chat_preview),
-      data: { turbo_frame: :chats },
-      class: 'flex items-center gap-2 p-1 w-full border rounded-2xl bg-slate-200' do %>
-      <%= image_tag avatar_image(chat_preview.other_user(current_user), :thumb), class: 'avatar h-8 w-8' %>
-      
-      <div class="flex flex-col">
-        <p class="font-normal"><%= chat_preview.other_user(current_user).name %></p>
-        <p class="text-xs"><%= chat_preview_last_message(chat_preview) %></p>
-      </div>
+  <div class="flex flex-col w-full my-2 p-1 gap-2 bg-white rounded-2xl">
+    <% friend = chat_preview.other_user(current_user) %>
+
+    <% if chat_preview.messages.present? %>
+      <%= link_to chat_path(current_user.chat(friend)),
+        data: { turbo_frame: :chats },
+        class: 'flex items-center p-1 px-3 gap-3 rounded-2xl bg-slate-200' do %>
+        <%= image_tag avatar_image(friend, :thumb), class: 'avatar h-8 w-8' %>
+        
+        <div class="flex flex-col w-[60%]">
+          <div class="flex justify-between items-center font-normal">
+            <p><%= friend.name %></p>
+          </div>
+          
+          <p class="text-xs truncate"><%= chat_preview_last_message(chat_preview) %></p>
+        </div>
+
+        <div class="flex justify-end items-start w-72 gap-2">
+          <div class="flex gap-1">
+            <% last_message = chat_preview.messages.last %>
+
+            <% if last_message.image.present? || last_message.gif_url.present? %>
+              <%= image_tag last_message.image.variant(:thumb), class: 'rounded-md w-9' %>
+              <%= image_tag url_for(last_message.gif_url), class: 'rounded-md w-9' %>
+            <% end %>
+          </div>
+
+          <div>
+            <p class="font-light text-xs">
+              <%= time_ago_in_words(chat_preview.messages.last.created_at) %>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <%= link_to chat_path(current_user.chat(friend)),
+        data: { turbo_frame: :chats },
+        class: 'flex items-center p-1 px-3 gap-3 rounded-2xl bg-slate-200' do %>
+        <%= image_tag avatar_image(friend, :thumb), class: 'avatar h-8 w-8' %>
+
+        <div class="flex flex-col">
+          <div class="flex justify-between items-center font-normal">
+            <p><%= friend.name %></p>
+          </div>
+
+          <p class="text-xs rounded-2xl bg-slate-200">No messages yet!</p>
+        </div>
+      <% end %>
     <% end %>
   </div>
 <% end %>

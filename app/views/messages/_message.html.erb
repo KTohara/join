@@ -1,7 +1,7 @@
-<div class="flex gap-1 px-2 py-1">
+<div class="flex gap-1 px-2 py-1 w-full">
   <%= image_tag avatar_image(message.user, :thumb), class: 'avatar w-8 h-8' %>
 
-  <div class="flex flex-col py-1 px-2 bg-orange-200 text-xs rounded-lg">
+  <div class="flex flex-col max-w-[80%] py-1 px-2 bg-orange-200 text-xs rounded-lg">
     <div class="flex gap-1">
       <p class="font-medium"><%= message.user.short_name %></p>
       <p class="text-[10px]"><%= message_date(message) %></p>
@@ -23,7 +23,7 @@
           <% end %>
         <% end %>
       <% end %>
-      <p><%= message.body %></p>
+      <p class="whitespace-normal break-words"><%= message.body %></p>
     </div>
   </div>
 </div>

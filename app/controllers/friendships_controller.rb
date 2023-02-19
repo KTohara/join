@@ -6,8 +6,8 @@ class FriendshipsController < ApplicationController
   after_action -> { destroy_original_friend_request_notification(@friendship) }, only: :update, if: -> { @friendship.accepted? }
 
   def index
-    @friends = current_user.friends
-    @friend_requests = current_user.pending_requests.includes([friend: [profile: [:avatar_attachment]]])
+    @friends = current_user.friends.includes(profile: [:avatar_attachment])
+    @friend_requests = current_user.pending_requests.includes(friend: [profile: [:avatar_attachment]])
   end
 
   def create

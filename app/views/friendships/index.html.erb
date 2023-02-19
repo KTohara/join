@@ -21,19 +21,19 @@
 <div class="page-content-card">
   <div class="flex flex-col">
     <% @friends.each do |friend| %>
-      <div class="flex gap-2 justify-between">
+      <div class="flex gap-2 justify-between items-center mb-2">
         <%= link_to friend, class: 'flex items-center gap-2 link' do %>
           <%= image_tag avatar_image(friend, :thumb), class: 'avatar w-8 h-8' %>
           <p class="font-medium text-slate-600"><%= friend.name %></p>
         <% end %>
 
         <div class="flex gap-2">
-          <%= button_to(friend, params: { friendship: { friend_id: friend.id} }, method: :get, class: 'sm:btn sm:btn-sm') do %>
+          <%= button_to chat_path(current_user.chat(friend)), method: :get, data: { turbo_frame: :chats }, class: 'sm:btn sm:btn-sm' do %>
             <i title="Message" class="fa-solid fa-message text-orange-500 text-lg btn-icon sm:hidden"></i>
             <p class="sm:block hidden normal-case">Message</p>
           <% end %>
 
-          <%= button_to friendship_path(friend), method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'sm:btn sm:btn-sm btn-icon ' do %>
+          <%= button_to friendship_path(friend), method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'sm:btn sm:btn-sm' do %>
             <p class="normal-case sm:block hidden">Remove</p>
             <i class="fa-solid fa-handshake-simple-slash text-orange-500 text-lg px-1 sm:hidden block"></i>
           <% end %>

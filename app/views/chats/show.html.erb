@@ -1,12 +1,30 @@
 <%= turbo_frame_tag :chats do %>
   <%= turbo_stream_from dom_id(@chat, :container) %>
 
-  <div class="relative">
-    <div class="fixed bottom-0 right-0 p-2 w-80 h-[500px] bg-white border-2 border-slate-200 rounded-md">
+  <div class="relative" data-controller="chat">
+    <div class="fixed bottom-0 right-0 w-80 h-[500px] bg-white border-2 border-slate-200 rounded-md z-[1] animate-slide-in-up" data-chat-target="popup">
+      <div class="flex justify-end w-full bg-orange-200">
+        <button data-action="chat#closeChat">
+          <i class="fa-regular fa-circle-xmark text-red-400 text-lg p-1"></i>
+        </button>
+      </div>
+
       <div class="flex flex-col h-full">
-        <div id="<%= dom_id(@chat, :messages) %>" class="flex flex-col h-auto overflow-y-scroll">
+        <div id="<%= dom_id(@chat, :messages) %>" class="flex flex-col basis-[84%] overflow-y-auto" data-chat-target="scrollWindow">
+          <div class="flex flex-col my-5 mx-2 gap-2">
+            <% friend = @chat.other_user(current_user) %>
+
+            <div class="flex items-center gap-2">
+              <%= image_tag avatar_image(friend, :thumb), class: 'avatar w-8 h-8' %>
+              <h3 class="text-lg font-medium"><%= friend.name %></h3>
+            </div>
+            
+            <p class="text-xs">This is the beginning of your awesome chat adventure with <%= friend.short_name %>!</p>
+          </div>
+
           <%= render @chat.messages.includes(:user) %>
         </div>
+
         <div class="p-1">
           <%= render 'messages/form', chat: @chat, message: @chat.messages.build(user: current_user) %>
         </div>

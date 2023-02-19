@@ -37,6 +37,10 @@ export default class extends Controller {
     if (event && this.popupTarget.contains(event.target)) {
       return this.isButtonClicked(event)
     }
+    this.closeViaClick();
+  }
+
+  closeViaClick() {
     window.removeEventListener('mouseup', this.clickCancel);
     this.buttonTarget.click();
   }
@@ -82,6 +86,5 @@ export default class extends Controller {
       window.removeEventListener('mouseup', this.burgerClose);
       menu.setAttribute('aria-expanded', 'false')
     });
-
   }
 }

@@ -28,5 +28,4 @@ module FriendshipsHelper
     end
     false
   end
-
 end

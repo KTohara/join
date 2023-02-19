@@ -100,4 +100,9 @@ class User < ApplicationRecord
   def profile_name_blank?
     profile.first_name.blank? || profile.last_name.blank?
   end
+
+  def chat(other_user)
+    ids = [self.id, other_user.id].sort
+    Chat.find_or_create_by(user_id: ids.first, friend_id: ids.last)
+  end
 end
