@@ -6,7 +6,7 @@
   data: local_assigns[:data],
   class: local_assigns[:class] do |f| %>
 
-  <div class="flex flex-col gap-2" data-controller="form gif" data-gif-id-value="<%= dom_id %>">
+  <div class="flex flex-col mb-2" data-controller="form gif" data-gif-id-value="<%= dom_id %>">
     <%= f.hidden_field :gif_url, data: { gif_target: 'gifField', form_target: 'gifField' } %>
 
     <%# turbo gif menu modal %>

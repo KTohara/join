@@ -2,15 +2,15 @@
   <%= turbo_stream_from dom_id(@chat, :container) %>
 
   <div class="relative" data-controller="chat">
-    <div class="fixed bottom-0 right-0 w-80 h-[500px] bg-white border-2 border-slate-200 rounded-md z-[1] animate-slide-in-up" data-chat-target="popup">
-      <div class="flex justify-end w-full bg-orange-200">
+    <div class="fixed bottom-0 right-0 w-80 h-[500px] flex flex-col bg-white border-2 border-slate-200 rounded-md z-[1] animate-slide-in-up" data-chat-target="popup">
+      <div class="flex justify-end flex-initial w-full bg-orange-200">
         <button data-action="chat#closeChat">
           <i class="fa-regular fa-circle-xmark text-red-400 text-lg p-1"></i>
         </button>
       </div>
 
-      <div class="flex flex-col h-full">
-        <div id="<%= dom_id(@chat, :messages) %>" class="flex flex-col basis-[84%] overflow-y-auto" data-chat-target="scrollWindow">
+      <div class="flex flex-col flex-1 h-auto overflow-y-auto">
+        <div id="<%= dom_id(@chat, :messages) %>" class="flex flex-col" data-chat-target="scrollWindow">
           <div class="flex flex-col my-5 mx-2 gap-2">
             <% friend = @chat.other_user(current_user) %>
 
@@ -24,10 +24,10 @@
 
           <%= render @chat.messages.includes(:user) %>
         </div>
+      </div>
 
-        <div class="p-1">
-          <%= render 'messages/form', chat: @chat, message: @chat.messages.build(user: current_user) %>
-        </div>
+      <div class="py-1 px-2 h-auto">
+        <%= render 'messages/form', chat: @chat, message: @chat.messages.build(user: current_user) %>
       </div>
     </div>
   </div>

@@ -5,7 +5,6 @@ export default class extends Controller {
   static targets = ['popup', 'scrollWindow']
 
   connect() {
-    debugger
     this.scrollWindowTarget.scrollIntoView()
   }
 
