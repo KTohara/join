@@ -4,23 +4,24 @@ import { Controller } from "@hotwired/stimulus"
 // a workaround for accessing current user for turbo stream broadcasts
 // shows edit/delete buttons based on if a current user is the same as the post.author or comment.user
 
+const currentUserId = document.querySelector("[name='current-user-id']").content;
+
 // Connects to data-controller="object-author"
 export default class extends Controller {
-  static targets = ['editButton', 'deleteButton']
+  static targets = ['editButton', 'deleteButton', 'comment', 'message']
   static values = {
     commenterId: String,
-    posterId: String
+    posterId: String,
+    userMessageId: String
   }
 
-  connect() {
-    this.currentUserId = document.querySelector("[name='current-user-id']").content;
-
+  commentTargetConnected() {
     this.showEditButton();
     this.showDeleteButton();
   }
 
   showEditButton() {
-    if (this.currentUserId === this.commenterIdValue) {
+    if (currentUserId === this.commenterIdValue) {
       this.editButtonTarget.classList.remove('hidden')
     }
   }
@@ -28,7 +29,13 @@ export default class extends Controller {
   showDeleteButton() {
     const userIds = [this.commenterIdValue, this.posterIdValue];
     userIds.forEach(id => {
-      if (id === this.currentUserId) return this.deleteButtonTarget.classList.remove('hidden');
+      if (id === currentUserId) return this.deleteButtonTarget.classList.remove('hidden');
     });
+  }
+
+  messageTargetConnected() {
+    if (currentUserId === this.userMessageIdValue) {
+      this.messageTarget.classList.add('current-user-message')
+    }
   }
 }

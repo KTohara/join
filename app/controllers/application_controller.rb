@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :persist_open_chat
 
   protected
 
@@ -17,5 +18,14 @@ class ApplicationController < ActionController::Base
 
   def turbo_prepend_alert
     turbo_stream.prepend('alert', partial: 'shared/alert')
+  end
+
+  def persist_open_chat
+    return if controller_name == 'chats' && action_name == 'close'
+
+    if session[:chat_id].present?
+      chat = Chat.find(session[:chat_id])
+      @chat = chat if [chat.user, chat.friend].include?(current_user)
+    end
   end
 end

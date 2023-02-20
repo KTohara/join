@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   resources :profile, only: %i[edit update]
   resources :friendships, only: %i[index create update destroy]
 
+  get 'close_chat/:id', to: 'chats#close', as: 'chat_close'
   get 'post_notification/:id', to: 'posts#post_via_notification', as: 'via_notification'
   get 'cancel_search', to: 'users#cancel_search'
 end

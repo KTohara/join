@@ -34,7 +34,8 @@
   <div class="flex gap-3 ml-12 my-2 items-baseline text-sm"
     data-controller="object-author"
     data-object-author-commenter-id-value="<%= comment.user_id %>"
-    data-object-author-poster-id-value="<%= comment.commentable.user_id %>">
+    data-object-author-poster-id-value="<%= comment.commentable.user_id %>"
+    data-object-author-target="comment">
 
     <div class="flex gap-1">
       <%= render 'likes/like_button', likeable: comment, user: user %>

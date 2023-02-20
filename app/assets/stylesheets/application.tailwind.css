@@ -78,4 +78,18 @@
     border-color: #e06706;
     border-width: 2px;
   }
+
+  .current-user-message {
+    flex-direction: row-reverse;
+  }
+
+  .current-user-message > .message-box {
+    background-color: #cbd5e1;
+  }
+
+  .current-user-message .message-image,
+  .current-user-message .message-date {
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
 }

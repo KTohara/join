@@ -5,6 +5,12 @@ class ChatsController < ApplicationController
 
   def show
     @chat = Chat.find_or_create_by(id: params[:id])
+    session[:chat_id] = @chat.id
+  end
+
+  def close
+    session.delete(:chat_id)
+    redirect_back fallback_location: root_path
   end
 
   def create

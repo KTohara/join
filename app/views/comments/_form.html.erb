@@ -6,7 +6,7 @@
   data: local_assigns[:data],
   class: local_assigns[:class] do |f| %>
 
-  <div class="flex flex-col mb-2" data-controller="form gif" data-gif-id-value="<%= dom_id %>">
+  <div class="flex flex-col mb-1" data-controller="form gif" data-gif-id-value="<%= dom_id %>">
     <%= f.hidden_field :gif_url, data: { gif_target: 'gifField', form_target: 'gifField' } %>
 
     <%# turbo gif menu modal %>
@@ -59,7 +59,7 @@
 
     </div>
 
-    <div class="flex justify-between px-2">
+    <div class="flex justify-between px-2 mt-2">
       <%# cancel button for edits %>
       <% if f.object.persisted? %>
         <%= link_to comment_path(comment), id: 'turbo_btn', data: { dropdown_target: 'button' }, class: 'w-fit link' do %>

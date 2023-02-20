@@ -5,7 +5,7 @@ export default class extends Controller {
   static targets = ['popup', 'scrollWindow']
 
   connect() {
-    this.scrollWindowTarget.scrollIntoView()
+    this.popupTarget.classList.add('animate-slide-in-up')
   }
 
   closeChat() {
