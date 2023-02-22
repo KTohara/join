@@ -4,7 +4,7 @@
       <%= render 'shared/user_search' %>
     <% end %>
 
-    <div class="flex md:flex-col flex-row justify-end items-center sm:gap-4 gap-0">
+    <div class="flex md:flex-col flex-row justify-end items-center md:gap-4 gap-0">
       <%# desktop %>
       <div class="flex gap-5 lg:self-end">
         <div class="md:flex hidden items-center md:gap-5 gap-3">
@@ -41,7 +41,7 @@
 
         <div class="flex gap-3 justify-end items-center">
           <%= link_to user_path(current_user), class: 'flex gap-1 items-center group' do %>
-            <div class="border-white z-0 lg:w-6 lg:h-6 group-hover:border-orange-500 ease-in-out duration-200">
+            <div class="border-white z-0 group-hover:border-orange-500 ease-in-out duration-200">
               <%= image_tag avatar_image(current_user, :thumb), class: 'avatar w-8 h-8' %>
             </div>
             <p class="lg:block hidden group-hover:text-orange-500 ease-in-out duration-200">

@@ -10,13 +10,19 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <%= javascript_include_tag "https://kit.fontawesome.com/6191f9c23a.js", crossorigin: 'anonymous' %>
-    <%= favicon_link_tag asset_path('join-icon.svg') %>
+    <%= favicon_link_tag 'join-icon.svg' %>
   </head>
 
   <body class="font-roboto bg-stone-100 text-sm font-light overflow-x-hidden">
-    <%= render template: 'chats/show' if @chat.present? %>
     <%= render 'shared/nav' %>
-    <%= turbo_frame_tag :chats %>
+    <% if @chat.present? %>
+      <%= render 'chats/chat', chat: @chat, friend: @friend, open: true %>
+    <% else %>
+      <%= turbo_frame_tag :chat %>
+      <%#= content_tag :div, id: dom_id(@chat, :persisted) do %>
+        <%#= turbo_frame_tag :chat, src: chat_path(@chat, format: :turbo_stream) %>
+      <%# end %>
+    <% end %>
     <%= turbo_frame_tag :alert, class: 'sticky top-[72px]' %>
     <%= content_tag :main, class: main_layout do %>
       <%= yield %>

@@ -1,5 +1,7 @@
 <%= turbo_frame_tag @comment do %>
-  <%= render 'comments/form', comment: @comment,
+  <%= render 'comments/form',
+    comment: @comment,
+    autofocus: true,
     data: { controller: 'dropdown', dropdown_target: 'popup' },
     class: 'rounded-xl p-2 border shadow-md mb-2' %>
 <% end %>

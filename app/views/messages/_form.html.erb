@@ -12,7 +12,6 @@
   <div class="flex w-full items-center h-7 rounded-2xl focus-within:ring-1 focus-within:ring-blue-500 bg-stone-100">
     <%= f.text_field :body,
       placeholder: "Message @#{chat.other_user(current_user).short_name}",
-      autofocus: true,
       data: { action: 'input->form#resize input->form#isEmpty', form_target: 'input', dropdown_target: 'input' },
       class: 'w-full h-full bg-stone-100 border-transparent focus:border-transparent focus:ring-0 rounded-l-2xl text-[12px]' %>
     

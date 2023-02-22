@@ -9,7 +9,7 @@
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), method: :put, data: { turbo: false }) do |f| %>
     <div class="space-y-3">
       <div class="field">
-        <%= f.email_field :email, placeholder: 'Email', autofocus: true, autocomplete: "email", class: 'form-field' %>
+        <%= f.email_field :email, placeholder: 'Email', autocomplete: "email", class: 'form-field' %>
         <%= render 'shared/form_errors', form: f, value_type: :email %>
       </div>
       

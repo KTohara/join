@@ -4,7 +4,7 @@
     
     <div class="flex justify-center items-center mb-1 rounded-sm">
       <%= form_with url: gifs_path(form_id: @form_id), method: :get, data: { controller: 'search', search_target: 'form', turbo_frame: :gif_results } do |f| %>
-        <%= f.text_field :q, placeholder: 'Search Tenor...', autofocus: true, data: { action: 'search#debounce' }, class: 'form-field w-[300px] rounded-md h-8' %>
+        <%= f.text_field :q, placeholder: 'Search Tenor...', data: { action: 'search#debounce' }, class: 'form-field w-[300px] rounded-md h-8' %>
       <% end %>
     </div>
 

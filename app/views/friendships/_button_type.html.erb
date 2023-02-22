@@ -2,7 +2,7 @@
   <% case status %>
     <% when 'accepted' %>
       <div class="flex gap-2">
-        <%= button_to chat_path(current_user.chat(user)), data: { turbo_frame: :chats, action: 'dropdown#closeViaClick' }, method: :get, class: 'sm:btn sm:btn-sm' do %>
+        <%= button_to chat_path(current_user.chat(user)), data: { turbo_frame: :chat }, method: :get, class: 'sm:btn sm:btn-sm' do %>
           <i title="Message" class="fa-solid fa-message text-slate-400 text-lg btn-icon sm:hidden"></i>
           <%= content_tag :p, 'Message', class: 'sm:block hidden normal-case' %>
         <% end %>

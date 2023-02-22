@@ -6,11 +6,11 @@
           data: { controller: 'search', turbo_frame: :users, search_target: 'form' },
           class: 'flex gap-2 items-center sm:ml-4 ml-2' do |f| %>
 
-          <%= link_to cancel_search_path, id: 'turbo_btn', data: { dropdown_target: 'button submit', turbo_stream: 'true' } do %>
+          <%= link_to cancel_search_path, id: 'turbo_btn', data: { dropdown_target: 'button submit', turbo_stream: true } do %>
             <i class="fa-solid fa-arrow-left w-5 h-5 text-white"></i>
           <% end %>
 
-          <%= f.search_field :q, placeholder: 'Search Users...', autofocus: true, data: { action: 'search#debounce' }, class: 'w-full h-8 rounded-3xl border-transparent focus:border-transparent focus:ring-0' %>
+          <%= f.search_field :q, placeholder: 'Search Users...', data: { action: 'search#debounce' }, class: 'w-full h-8 rounded-3xl border-transparent focus:border-transparent focus:ring-0' %>
         <% end %>
         
         <div class="p-3 rounded-b-md bg-white shadow-md opacity-95">
