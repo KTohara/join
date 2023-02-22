@@ -1,5 +1,5 @@
 <%= turbo_frame_tag :chat do %>
-  <div data-controller="chat gif form" id="<%= dom_id(@chat) %>" data-gif-id-value="<% dom_id(@chat) %>">
+  <div data-controller="chat gif form" id="<%= dom_id(@chat) %>" data-gif-id-value="<% dom_id(@chat) %>" data-turbo-cache="false">
     <%= turbo_stream_from dom_id(@chat, :container) %>
 
     <%= turbo_frame_tag "#{dom_id(@chat)}_gif_search" %>
