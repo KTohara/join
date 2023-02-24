@@ -6,7 +6,7 @@ export default class extends Controller {
 
   connect() {
     const messages = document.getElementById('messages')
-    messages.addEventListener("DOMNodeInserted", this.resetScroll);
+    messages.addEventListener("DOMNodeInserted", this.resetScrollWithScrollPoint);
     this.resetScroll(messages);
     if (this.popupTarget.getAttribute('aria-open') === 'true') return
     
@@ -24,6 +24,15 @@ export default class extends Controller {
   closeChat() {
     this.popupTarget.classList.remove('animate-slide-in-up');
     this.popupTarget.classList.add('animate-slide-out-right');
+  }
+
+  resetScrollWithScrollPoint() {
+    const bottomOfChat = messages.scrollHeight - messages.clientHeight;
+    const scrollPoint = bottomOfChat - 500;
+    // will scroll only if we're at the scroll point in the chat window
+    if (messages.scrollTop > scrollPoint) {
+      this.resetScroll(messages);
+    }
   }
 
   resetScroll() {
