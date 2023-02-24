@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
     if session[:chat_id].present?
       chat = Chat.find(session[:chat_id])
       @chat = chat if [chat.user, chat.friend].include?(current_user)
+      @messages = @chat.messages.includes(:user, image_attachment: [:blob])
       @friend = @chat.other_user(current_user)
     end
   end

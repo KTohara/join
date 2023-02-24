@@ -7,39 +7,6 @@
 
 <div class="page-content-card px-6 py-3 gap-2">
   <% @chats.each do |chat_preview| %>
-    <% friend = chat_preview.other_user(current_user) %>
-
-    <%= link_to chat_path(current_user.chat(friend)),
-      data: { turbo_frame: :chat },
-      class: 'flex justify-evently items-center p-1 px-3 gap-1 w-full rounded-2xl bg-slate-200' do %>
-      <div class="w-auto min-w-fit">
-        <%= image_tag avatar_image(friend, :thumb), class: 'avatar h-8 w-8' %>
-      </div>
-
-      <div class="flex flex-col overflow-hidden flex-1">
-        <div class="flex justify-between items-center font-normal">
-          <p><%= friend.name %></p>
-        </div>
-      
-        <p class="text-xs truncate"><%= chat_preview_last_message(chat_preview) %></p>
-      </div>
-
-      <div class="flex justify-end items-center w-auto min-w-fit gap-2">
-        <% last_message = chat_preview.messages.includes(image_attachment: [:blob]).last %>
-
-        <% if last_message.present? %>
-          <div class="flex gap-1">
-            <%= image_tag last_message.image.variant(:thumb), class: 'rounded-md w-9 h-9' if last_message.image.present? %>
-            <%= image_tag url_for(last_message.gif_url), class: 'rounded-md w-9 h-9' if last_message.gif_url.present? %>
-          </div>
-        <% end %>
-
-        <div class="">
-          <p class="font-light text-xs">
-            <%= time_ago_in_words(last_message.created_at) if last_message.present? %>
-          </p>
-        </div>
-      </div>
-    <% end %>
+    <%= render 'chats/last_message_preview', chat_preview: chat_preview, friend: chat_preview.other_user(current_user) %>
   <% end %>
 </div>

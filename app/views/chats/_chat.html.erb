@@ -1,5 +1,8 @@
 <%= turbo_frame_tag :chat do %>
-  <div data-controller="chat gif form" id="<%= dom_id(@chat) %>" data-gif-id-value="<% dom_id(@chat) %>" data-turbo-cache="false">
+  <div data-controller="chat gif form"
+    id="<%= dom_id(@chat) %>"
+    data-gif-id-value="<%= dom_id(@chat) %>"
+    data-turbo-cache="false">
     <%= turbo_stream_from dom_id(@chat, :container) %>
 
     <%= turbo_frame_tag "#{dom_id(@chat)}_gif_search" %>
@@ -9,12 +12,9 @@
         <%= button_to chat_close_path(@chat), data: { action: 'chat#closeChat', turbo_stream: true }, method: :get do %>
           <i class="fa-regular fa-circle-xmark text-red-400 text-lg p-1"></i>
         <% end %>
-        <%# <button data-action="chat#closeChat">
-          <i class="fa-regular fa-circle-xmark text-red-400 text-lg p-1"></i>
-        </button> %>
       </div>
-      <div class="flex flex-col flex-1 h-auto overflow-y-auto">
-        <div id="<%= dom_id(@chat, :messages) %>" class="flex flex-col" data-chat-target="scrollWindow">
+      <div id="messages" class="flex flex-col flex-1 h-auto overflow-y-auto">
+        <div class="flex flex-col">
           <div class="flex flex-col my-5 mx-2 gap-2">
             <div class="flex items-center gap-2">
               <%= image_tag avatar_image(@friend, :thumb), class: 'avatar w-8 h-8' %>
@@ -22,9 +22,7 @@
             </div>
             <p class="text-xs">This is the beginning of your awesome chat adventure with <%= @friend.short_name %>!</p>
           </div>
-          <% @chat.messages.includes(:user, image_attachment: [:blob]).each do |message| %>
-            <%= render 'messages/message', message: message %>
-          <% end %>
+          <%= render @messages %>
         </div>
       </div>
       <div class="py-1 px-2 h-auto">

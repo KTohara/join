@@ -7,19 +7,9 @@ class ChatsController < ApplicationController
     return unless session[:chat_id].present? || params[:id].present?
 
     @chat = Chat.find_or_create_by(id: params[:id])
+    @messages = @chat.messages.includes(:user, image_attachment: [:blob])
     @friend = @chat.other_user(current_user)
     session[:chat_id] = @chat.id
-    # respond_to do |format|
-    #   format.turbo_stream do
-    #     render turbo_stream:
-    #       turbo_stream.replace(
-    #         "persisted_chat_#{@chat.id}",
-    #         partial: 'chats/chat',
-    #         locals: { chat: @chat, friend: @friend, open: true }
-    #       )
-    #   end
-    #   format.html
-    # end
   end
 
   def close

@@ -34,7 +34,7 @@ class Message < ApplicationRecord
 
   def broadcast_create_to_message
     broadcast_append_later_to "container_chat_#{chat.id}",
-      target: "messages_chat_#{chat.id}",
+      target: "messages",
       partial: 'messages/message',
       locals: { message: self }
   end

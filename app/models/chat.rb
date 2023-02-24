@@ -30,4 +30,8 @@ class Chat < ApplicationRecord
   def other_user(current_user)
     current_user == friend ? user : friend
   end
+
+  def last_message
+    messages.includes(image_attachment: [:blob]).last
+  end
 end
