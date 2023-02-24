@@ -164,6 +164,7 @@ GEM
       addressable (~> 2.7)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
+    local_time (2.1.0)
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -358,6 +359,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   letter_opener
+  local_time (~> 2.1)
   omniauth (~> 2.1)
   omniauth-facebook (~> 9.0)
   omniauth-github (~> 2.0)

@@ -6,15 +6,17 @@ export default class extends Controller {
 
   connect() {
     const messages = document.getElementById('messages')
-    messages.addEventListener("DOMNodeInserted", this.resetScrollWithScrollPoint);
+    const observer = new MutationObserver(this.resetScrollWithScrollPoint);
+    observer.observe(messages, { 
+      childList: true,
+      subtree: true,
+      attributes: false,
+      characterData: false
+    });
     this.resetScroll(messages);
     if (this.popupTarget.getAttribute('aria-open') === 'true') return
     
     this.popupTarget.classList.add('animate-slide-in-up');
-  }
-
-  disconnect() {
-    messages.removeEventListener("DOMNodeInserted", this.resetScroll);
   }
 
   openChat() {
@@ -27,11 +29,13 @@ export default class extends Controller {
   }
 
   resetScrollWithScrollPoint() {
+    const currentUserId = document.querySelector("[name='current-user-id']").content;
+    const messengerId = messages.lastElementChild.getAttribute('data-object-author-messenger-id-value')
     const bottomOfChat = messages.scrollHeight - messages.clientHeight;
-    const scrollPoint = bottomOfChat - 500;
+    const scrollPoint = bottomOfChat - 200;
     // will scroll only if we're at the scroll point in the chat window
-    if (messages.scrollTop > scrollPoint) {
-      this.resetScroll(messages);
+    if (messages.scrollTop > scrollPoint || currentUserId === messengerId) {
+      messages.scrollTop = messages.scrollHeight - messages.clientHeight;
     }
   }
 

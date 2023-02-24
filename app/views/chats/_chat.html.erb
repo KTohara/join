@@ -22,7 +22,9 @@
             </div>
             <p class="text-xs">This is the beginning of your awesome chat adventure with <%= @friend.short_name %>!</p>
           </div>
-          <%= render @messages %>
+          <% @messages.each do |message| %>
+            <%= render 'messages/message', message: message %>
+          <% end %>
         </div>
       </div>
       <div class="py-1 px-2 h-auto">

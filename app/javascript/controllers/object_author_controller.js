@@ -12,7 +12,7 @@ export default class extends Controller {
   static values = {
     commenterId: String,
     posterId: String,
-    userMessageId: String
+    messengerId: String
   }
 
   commentTargetConnected() {
@@ -34,7 +34,7 @@ export default class extends Controller {
   }
 
   messageTargetConnected() {
-    if (currentUserId === this.userMessageIdValue) {
+    if (currentUserId === this.messengerIdValue) {
       this.messageTarget.classList.add('current-user-message')
     }
   }

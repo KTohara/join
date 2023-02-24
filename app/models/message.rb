@@ -28,6 +28,9 @@ class Message < ApplicationRecord
     attachable.variant :thumb, resize_to_limit: [260, 128]
   end
 
+  validates :body, presence: true, unless: proc { |message| message.image.attached? || message.gif_url.present? }
+  validates :body, length: { maximum: 8_000 }
+
   after_create_commit do
     broadcast_create_to_message
   end

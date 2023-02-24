@@ -1,12 +1,14 @@
 <div class="flex gap-1 px-2 py-1 w-full"
   data-controller="object-author"
   data-object-author-target="message"
-  data-object-author-user-message-id-value="<%= message.user_id %>">
+  data-object-author-messenger-id-value="<%= message.user_id %>">
 
   <%= image_tag avatar_image(message.user, :thumb), class: 'avatar w-8 h-8', data: { object_author_target: 'avatar' } %>
 
   <div id="<%= dom_id(message) %>" class="message-box flex flex-col max-w-[80%] py-1 px-2 bg-orange-200 text-xs rounded-lg">
-    <p class="message-date flex w-full text-[10px]"><%= message_date(message) %></p>
+    <div class="message-date flex w-full text-[10px]">
+      <%= message_date(message) %>
+    </div>
 
     <div class="message-image flex flex-col">
       <% if message.gif_url.present? %>
