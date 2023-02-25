@@ -23,7 +23,7 @@ class Chat < ApplicationRecord
   belongs_to :user
   belongs_to :friend, class_name: 'User'
 
-  has_many :messages, dependent: :destroy
+  has_many :messages, -> { order(created_at: :asc) }, dependent: :destroy
 
   scope :chatrooms, -> (users) { where('user_id = :user_id OR friend_id = :user_id', user_id: users) }
 
@@ -32,6 +32,6 @@ class Chat < ApplicationRecord
   end
 
   def last_message
-    messages.includes(image_attachment: [:blob]).last
+    messages.includes(:user, image_attachment: [:blob]).last
   end
 end

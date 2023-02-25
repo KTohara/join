@@ -33,6 +33,8 @@ class Message < ApplicationRecord
 
   after_create_commit do
     broadcast_create_to_message
+    broadcast_update_to_preview_message
+    broadcast_update_to_preview_images
   end
 
   def broadcast_create_to_message
@@ -40,5 +42,26 @@ class Message < ApplicationRecord
       target: "messages",
       partial: 'messages/message',
       locals: { message: self }
+  end
+
+  def broadcast_update_to_preview_message
+    broadcast_update_later_to :preview,
+      target: "body_chat_#{chat.id}",
+      content: self.preview_message
+  end
+
+  def broadcast_update_to_preview_images
+    broadcast_update_later_to :preview,
+      target: "image_chat_#{chat.id}",
+      partial: 'chats/last_message_images',
+      locals: { message: self }
+  end
+
+  def preview_message
+    if body.empty? && (image.present? || gif_url.present?)
+      "#{user.short_name}: Picture"
+    else
+      "#{user.short_name}: #{body.truncate(100)}"
+    end
   end
 end

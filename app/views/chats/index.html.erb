@@ -7,6 +7,8 @@
 
 <div class="page-content-card px-6 py-3 gap-2">
   <% @chats.each do |chat_preview| %>
-    <%= render 'chats/last_message_preview', chat_preview: chat_preview, friend: chat_preview.other_user(current_user) %>
+    <% if chat_preview.messages.present? %>
+      <%= render 'chats/last_message_preview', chat_preview: chat_preview, friend: chat_preview.other_user(current_user), message: chat_preview.last_message %>
+    <% end %>
   <% end %>
 </div>

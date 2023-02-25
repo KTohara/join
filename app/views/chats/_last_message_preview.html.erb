@@ -1,4 +1,6 @@
-<%= link_to chat_path(current_user.chat(friend)),
+<%= turbo_stream_from :preview %>
+<%= link_to chat_path(chat_preview),
+ id: dom_id(chat_preview, :preview),
   data: { turbo_frame: :chat },
   class: 'flex justify-evently items-center p-1 px-3 gap-1 w-full rounded-2xl bg-slate-200' do %>
   <div class="w-auto min-w-fit">
@@ -9,20 +11,15 @@
     <div class="flex justify-between items-center font-normal">
       <p><%= friend.name %></p>
     </div>
-  
-    <p class="text-xs truncate"><%= chat_preview_last_message(chat_preview) %></p>
+    
+    <div class="text-xs truncate">
+      <%= content_tag :p, id: dom_id(chat_preview, :body) do %>
+        <%= message.preview_message %>
+      <% end %>
+    </div>
   </div>
 
-  <div class="flex justify-end items-center w-auto min-w-fit gap-2">
-    <% if chat_preview.last_message.present? %>
-      <div class="flex gap-1">
-        <%= image_tag chat_preview.last_message.image.variant(:thumb), class: 'rounded-md w-9 h-9' if chat_preview.last_message.image.present? %>
-        <%= image_tag url_for(chat_preview.last_message.gif_url), class: 'rounded-md w-9 h-9' if chat_preview.last_message.gif_url.present? %>
-      </div>
-    <% end %>
-
-    <p class="font-light text-xs">
-      <%= time_ago_in_words(chat_preview.last_message.created_at) if chat_preview.last_message.present? %>
-    </p>
-  </div>
+  <%= content_tag :div, id: dom_id(chat_preview, :image) do %>
+    <%= render 'chats/last_message_images', message: message %>
+  <% end %>
 <% end %>

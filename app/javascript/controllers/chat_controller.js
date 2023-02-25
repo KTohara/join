@@ -32,14 +32,14 @@ export default class extends Controller {
     const currentUserId = document.querySelector("[name='current-user-id']").content;
     const messengerId = messages.lastElementChild.getAttribute('data-object-author-messenger-id-value')
     const bottomOfChat = messages.scrollHeight - messages.clientHeight;
-    const scrollPoint = bottomOfChat - 200;
+    const scrollPoint = bottomOfChat - 100;
     // will scroll only if we're at the scroll point in the chat window
     if (messages.scrollTop > scrollPoint || currentUserId === messengerId) {
-      messages.scrollTop = messages.scrollHeight - messages.clientHeight;
+      messages.scrollTop = messages.scrollHeight - messages.clientHeight + 500;
     }
   }
 
   resetScroll() {
-    messages.scrollTop = messages.scrollHeight - messages.clientHeight;
+    messages.scrollTop = messages.scrollHeight - messages.clientHeight + 500;
   }
 }

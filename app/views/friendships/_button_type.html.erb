@@ -2,10 +2,6 @@
   <% case status %>
     <% when 'accepted' %>
       <div class="flex gap-2">
-        <%= button_to chat_path(current_user.chat(user)), data: { turbo_frame: :chat }, method: :get, class: 'sm:btn sm:btn-sm' do %>
-          <i title="Message" class="fa-solid fa-message text-slate-400 text-lg btn-icon sm:hidden"></i>
-          <%= content_tag :p, 'Message', class: 'sm:block hidden normal-case' %>
-        <% end %>
         <%= button_to friendship_path(user), params: { friendship: { friend_id: user.id} }, method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'sm:btn sm:btn-sm' do %>
           <i title="Remove Friend" class="fa-solid fa-handshake-simple-slash text-slate-400 text-lg btn-icon sm:hidden"></i>
           <%= content_tag :p, 'Remove Friend', class: 'sm:block hidden normal-case' %>

@@ -1,6 +1,6 @@
 class ChatsController < ApplicationController
   def index
-    @chats = Chat.chatrooms(current_user).includes(friend: [profile: [:avatar_attachment]])
+    @chats = Chat.chatrooms(current_user).includes(:user, :messages, friend: [profile: [:avatar_attachment]])
   end
 
   def show
