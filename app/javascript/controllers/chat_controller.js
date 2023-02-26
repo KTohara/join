@@ -31,16 +31,17 @@ export default class extends Controller {
 
   resetScrollWithScrollPoint() {
     const currentUserId = document.querySelector("[name='current-user-id']").content;
+    // previousElementSibling used due to broadcasted turbo_frame_tag for auto checking message notifications
     const messengerId = messages.lastElementChild.getAttribute('data-object-author-messenger-id-value')
     const bottomOfChat = messages.scrollHeight - messages.clientHeight;
     const scrollPoint = bottomOfChat - 100;
     // will scroll only if we're at the scroll point in the chat window
     if (messages.scrollTop > scrollPoint || currentUserId === messengerId) {
-      messages.scrollTop = messages.scrollHeight - messages.clientHeight + 500;
+      messages.scrollTop = bottomOfChat + 9999;
     }
   }
 
   resetScroll(messages) {
-    messages.scrollTop = messages.scrollHeight - messages.clientHeight + 500;
+    messages.scrollTop = messages.scrollHeight - messages.clientHeight + 9999;
   }
 }

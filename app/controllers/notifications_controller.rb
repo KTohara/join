@@ -1,5 +1,5 @@
 class NotificationsController < ApplicationController
-  before_action :set_notifications, only: %i[index read clear_all]
+  before_action :set_notifications, only: %i[index read destroy clear_all]
 
   def index
     @unread = @notifications.unread.limit(10).includes(notifiable: [:chat], sender: [:profile])
@@ -27,7 +27,7 @@ class NotificationsController < ApplicationController
   private
 
   def set_notifications
-    @notifications = current_user.notifications.includes([:sender, notifiable: [:commentable]]).order(created_at: :desc)
+    @notifications = current_user.notifications.order(created_at: :desc)
     @unread = @notifications.unread.limit(10)
     @read = @notifications.read.limit(10)
   end

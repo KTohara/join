@@ -42,7 +42,7 @@ class ChatsController < ApplicationController
   private
 
   def turbo_replace_notification_counter
-    notification_count = current_user.notifications.unread.count
+    notification_count = current_user.notifications.includes(:sender, :notifiable).unread.count
     render turbo_stream:
       turbo_stream.replace('notification_count',
         partial: 'notifications/counter',

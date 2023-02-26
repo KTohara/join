@@ -28,7 +28,7 @@
           <% @messages.each do |message| %>
             <%= render 'messages/message', message: message %>
           <% end %>
-          <%= turbo_frame_tag :mark_message_read, loading: :lazy, src: chat_mark_read_path(@chat, format: :turbo_stream), class: 'h-1' %>
+          <%= turbo_frame_tag :mark_message_read, loading: :lazy, src: chat_mark_read_path(@chat, format: :turbo_stream) %>
         </div>
       </div>
       <div class="py-1 px-2 h-auto">

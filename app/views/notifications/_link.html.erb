@@ -1,17 +1,15 @@
-<div class="link">
-  <% case notifiable.class.name %>
-  <% when 'Comment' %>
-    <%= link_to message, via_notification_path(notifiable.commentable, notification_id: notification.id) %>
-  <% when 'Like' %>
-    <% likeable = notifiable.likeable %>
-    <% if likeable.class == Post %>
-      <%= link_to message, post_path(likeable, notification_id: notification.id) %>
-    <% else %>
-      <%= link_to message, via_notification_path(likeable.commentable, notification_id: notification.id) %>
-    <% end %>
-  <% when 'Friendship' %>
-    <%= link_to message, friendships_path %>
-  <% when 'Chat' %>
-    <%= link_to message, chat_path(notifiable), data: { turbo_frame: :chat } %>
+<% case notifiable.class.name %>
+<% when 'Comment' %>
+  <%= link_to message, via_notification_path(notifiable.commentable, notification_id: notification.id) %>
+<% when 'Like' %>
+  <% likeable = notifiable.likeable %>
+  <% if likeable.class == Post %>
+    <%= link_to message, post_path(likeable, notification_id: notification.id) %>
+  <% else %>
+    <%= link_to message, via_notification_path(likeable.commentable, notification_id: notification.id) %>
   <% end %>
-</div>
+<% when 'Friendship' %>
+  <%= link_to message, friendships_path %>
+<% when 'Chat' %>
+  <%= link_to message, chat_path(notifiable), data: { turbo_frame: :chat } %>
+<% end %>

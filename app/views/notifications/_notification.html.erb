@@ -1,6 +1,8 @@
 <li class="mb-2">
   <div class="flex justify-between gap-2">
-    <%= render 'notifications/link', notification: notification, notifiable: notification.notifiable, message: notification.notification_message %>
+    <div id="<%= dom_id(notification) %>" class="link" data-notifications-target="link">
+      <%= render 'notifications/link', notification: notification, notifiable: notification.notifiable, message: notification.notification_message %>
+    </div>
     <%= button_to notification, method: :delete do %>
       <i class="fa-regular fa-circle-xmark text-red-400 text-xs"></i>
     <% end %>

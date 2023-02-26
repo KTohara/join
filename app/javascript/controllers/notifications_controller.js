@@ -1,8 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
+const button = document.getElementById('notification_btn');
+
 // Connects to data-controller="notifications"
 export default class extends Controller {
-  static targets = ['popup', 'notifications', 'tabBtn', 'tab']
+  static targets = ['popup', 'notifications', 'tabBtn', 'tab', 'link']
   static values = { defaultTab: String }
 
   connect() {
@@ -12,7 +14,6 @@ export default class extends Controller {
 
   setNotificationToggler() {    
     this.closeNotifications = this.closeNotifications.bind(this);
-    const button = document.getElementById('notification_btn');
     button.setAttribute('aria-expanded', 'true');
     window.addEventListener('click', this.closeNotifications);
   }
@@ -30,7 +31,7 @@ export default class extends Controller {
   select(event) {
     if (this.tabTarget.id === 'no_notifications') return;
 
-    let selectedTab = this.tabTargets.find(element => element.id === event.currentTarget.id);
+    let selectedTab = this.tabTargets.find(tab => tab.id === event.currentTarget.id);
     // close current tab
     this.tabTargets.map(tab => tab.hidden = true); // hide all tabs
     this.tabBtnTargets.map(btn => btn.classList.remove('selected-notification')); // remove all selected
@@ -40,14 +41,22 @@ export default class extends Controller {
 
   closeNotifications(event) {
     const notifications = this.popupTarget;
-    const button = document.getElementById('notification_btn');
+    const notificationLink = this.linkTargets.find(link => link.id === event.target.parentElement.id)
     
     if (button.contains(event.target) && button.getAttribute('aria-expanded') === 'true') {
       event.preventDefault();
     }
-    
+
+    if (event && notificationLink && notificationLink.contains(event.target)) {
+      return this.triggerClose(notifications);
+    }
+
     if (event && notifications.contains(event.target)) return;
-    
+
+    this.triggerClose(notifications);
+  }
+
+  triggerClose(notifications) {
     notifications.classList.remove('animate-slide-in-down');
     notifications.classList.add('animate-slide-out-right');
 
