@@ -5,10 +5,12 @@
   <hr class="border-t-2 border-orange-200 w-full">
 </div>
 
-<div class="page-content-card px-6 py-3 gap-2">
+<div class="page-content-card px-6 py-3">
   <% @chats.each do |chat_preview| %>
     <% if chat_preview.messages.present? %>
-      <%= render 'chats/last_message_preview', chat_preview: chat_preview, friend: chat_preview.other_user(current_user), message: chat_preview.last_message %>
+      <div class="last:mb-0 mb-2">
+        <%= render 'chats/last_message_preview', chat_preview: chat_preview, friend: chat_preview.other_user(current_user), message: chat_preview.last_message %>
+      </div>
     <% end %>
   <% end %>
 </div>

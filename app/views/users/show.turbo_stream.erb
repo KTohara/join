@@ -1,5 +1,5 @@
 <%= turbo_stream.append :posts do %>
-   <%= render @posts, user: current_user %>
+  <%= render @posts, user: current_user %>
 <% end %>
 
 <%= turbo_stream.append :posts do %>
@@ -10,4 +10,8 @@
       </div>
     <% end %>
   <% end %>
+<% end %>
+
+<% if @pagy.next.blank? %>
+  <%= turbo_stream.remove 'skeleton' %>
 <% end %>

@@ -1,5 +1,8 @@
 class MessagesController < ApplicationController
+  include Notifiable
+
   before_action :authenticate_chat_users
+  after_action -> { send_message_notification(@message, 'sent you a message') }, only: :create, if: -> { @message.persisted? }
 
   def create
     @chat = Chat.find(params[:chat_id])
@@ -11,10 +14,6 @@ class MessagesController < ApplicationController
       format.turbo_stream { turbo_replace_form }
       format.html { redirect_to @chat }
     end
-  end
-
-  def destroy
-
   end
 
   private
@@ -35,5 +34,9 @@ class MessagesController < ApplicationController
         partial: 'messages/form',
         locals: { chat: @chat, message: @chat.messages.build(user: current_user) }
       )
+  end
+
+  def send_message_notification(message, notification)
+    send_notification(recipient: message.chat.other_user(current_user), notifiable: message.chat, message: notification)
   end
 end

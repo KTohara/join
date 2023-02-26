@@ -28,20 +28,40 @@ class Message < ApplicationRecord
     attachable.variant :thumb, resize_to_limit: [260, 128]
   end
 
+  has_many :notifications, as: :notifiable, dependent: :destroy
+
   validates :body, presence: true, unless: proc { |message| message.image.attached? || message.gif_url.present? }
   validates :body, length: { maximum: 8_000 }
 
   after_create_commit do
     broadcast_create_to_message
+    broadcast_append_to_turbo_notification_lazy_loader
     broadcast_update_to_preview_message
     broadcast_update_to_preview_images
   end
 
+  def preview_message
+    if body.empty? && (image.present? || gif_url.present?)
+      "#{user.short_name}: Picture"
+    else
+      "#{user.short_name}: #{body.truncate(100)}"
+    end
+  end
+
+  private
+
   def broadcast_create_to_message
     broadcast_append_later_to "container_chat_#{chat.id}",
-      target: "messages",
+      target: 'turbo_messages',
       partial: 'messages/message',
       locals: { message: self }
+  end
+
+  def broadcast_append_to_turbo_notification_lazy_loader
+    broadcast_append_later_to "chat_user_#{chat.other_user(user).id}",
+      target: 'turbo_messages',
+      partial: 'messages/turbo_lazy_notification',
+      locals: { chat: chat }
   end
 
   def broadcast_update_to_preview_message
@@ -55,13 +75,5 @@ class Message < ApplicationRecord
       target: "image_chat_#{chat.id}",
       partial: 'chats/last_message_images',
       locals: { message: self }
-  end
-
-  def preview_message
-    if body.empty? && (image.present? || gif_url.present?)
-      "#{user.short_name}: Picture"
-    else
-      "#{user.short_name}: #{body.truncate(100)}"
-    end
   end
 end

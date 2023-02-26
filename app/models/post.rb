@@ -49,7 +49,7 @@ class Post < ApplicationRecord
   def parent_comments_to_load(turbo_comments = nil)
     reject_comments = parent_comments.first
     parent_comments
-      .includes(image_attachment: [:blob], user: [profile: [:avatar_attachment]])
+      .includes(image_attachment: [:blob], user: [profile: [avatar_attachment: [:blob]]])
       .where.not(id: reject_comments)
       .where.not(id: turbo_comments)
   end

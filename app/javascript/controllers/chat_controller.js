@@ -13,6 +13,7 @@ export default class extends Controller {
       attributes: false,
       characterData: false
     });
+    
     this.resetScroll(messages);
     if (this.popupTarget.getAttribute('aria-open') === 'true') return
     
@@ -39,7 +40,7 @@ export default class extends Controller {
     }
   }
 
-  resetScroll() {
+  resetScroll(messages) {
     messages.scrollTop = messages.scrollHeight - messages.clientHeight + 500;
   }
 }

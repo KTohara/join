@@ -49,7 +49,7 @@ class User < ApplicationRecord
   after_create :create_profile
 
   def self.search_by_user(params, current_user)
-    users = User.includes(profile: [:avatar_attachment]).where.not(id: current_user.id)
+    users = User.includes(profile: [avatar_attachment: [:blob]]).where.not(id: current_user.id)
     params[:q].blank? ? users : users.where('username ILIKE ?', "%#{sanitize_sql_like(params[:q])}%")
   end
 
@@ -65,7 +65,7 @@ class User < ApplicationRecord
   def feed
     friend_ids = "SELECT friend_id FROM friendships WHERE (user_id = :user_id AND status = '2')"
     Post.with_attached_image
-        .includes([:image_attachment, :comments, :author, user: [:profile]])
+        .includes([:comments, :image_attachment, author: [profile: [avatar_attachment: [:blob]]], user: [profile: [avatar_attachment: [:blob]]]])
         .where("user_id IN (#{friend_ids}) OR user_id = :user_id", user_id: id)
         .order(created_at: :desc)
   end

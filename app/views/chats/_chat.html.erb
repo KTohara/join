@@ -4,6 +4,7 @@
     data-gif-id-value="<%= dom_id(@chat) %>"
     data-turbo-cache="false">
     <%= turbo_stream_from dom_id(@chat, :container) %>
+    <%= turbo_stream_from dom_id(@user, :chat) %>
 
     <%= turbo_frame_tag "#{dom_id(@chat)}_gif_search" %>
     <div class="fixed bottom-0 right-0 flex flex-col sm:w-[350px] w-full h-[500px] bg-white border-2 border-slate-200 rounded-md z-[1]" data-chat-target="popup" aria-open=<%= local_assigns[:open] %>>
@@ -14,17 +15,20 @@
         <% end %>
       </div>
       <div id="messages" class="flex flex-col flex-1 h-auto overflow-y-auto">
-        <div class="flex flex-col">
+        <div id="turbo_messages" class="flex flex-col">
           <div class="flex flex-col my-5 mx-2 gap-2">
             <div class="flex items-center gap-2">
               <%= image_tag avatar_image(@friend, :thumb), class: 'avatar w-8 h-8' %>
               <h3 class="text-lg font-medium"><%= @friend.name %></h3>
             </div>
+
             <p class="text-xs">This is the beginning of your awesome chat adventure with <%= @friend.short_name %>!</p>
           </div>
+
           <% @messages.each do |message| %>
             <%= render 'messages/message', message: message %>
           <% end %>
+          <%= turbo_frame_tag :mark_message_read, loading: :lazy, src: chat_mark_read_path(@chat, format: :turbo_stream), class: 'h-1' %>
         </div>
       </div>
       <div class="py-1 px-2 h-auto">

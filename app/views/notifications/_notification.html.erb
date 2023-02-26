@@ -1,8 +1,6 @@
 <li class="mb-2">
   <div class="flex justify-between gap-2">
-    <%= link_to notifiable_link_type(notification), class: 'link' do %>
-      <span class="text-xs"><%= notification.notification_message %></span>
-    <% end %>
+    <%= render 'notifications/link', notification: notification, notifiable: notification.notifiable, message: notification.notification_message %>
     <%= button_to notification, method: :delete do %>
       <i class="fa-regular fa-circle-xmark text-red-400 text-xs"></i>
     <% end %>

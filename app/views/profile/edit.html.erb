@@ -6,7 +6,7 @@
 </div>
 
 <%= form_with model: @profile, data: { controller: 'form' } do |f| %>
-  <div class="page-content-card gap-3">
+  <div class="page-content-card gap-2">
     <%= f.text_field :first_name, placeholder: 'First name', class: 'form-field' %>
     <%= render 'shared/form_errors', form: f, value_type: :first_name %>
 

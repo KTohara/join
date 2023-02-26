@@ -21,13 +21,12 @@ class ApplicationController < ActionController::Base
   end
 
   def persist_open_chat
-    return if controller_name == 'chats' && action_name == 'close'
+    return if (controller_name == 'chats' && action_name == 'close') || session[:chat_id].blank?
 
-    if session[:chat_id].present?
-      chat = Chat.find(session[:chat_id])
-      @chat = chat if [chat.user, chat.friend].include?(current_user)
-      @messages = @chat.messages.includes(:user, image_attachment: [:blob])
-      @friend = @chat.other_user(current_user)
-    end
+    chat = Chat.find(session[:chat_id])
+    @chat = chat if [chat.user, chat.friend].include?(current_user)
+    @messages = @chat.messages.includes(:user, image_attachment: [:blob])
+    @friend = @chat.other_user(current_user)
+    @user = current_user
   end
 end

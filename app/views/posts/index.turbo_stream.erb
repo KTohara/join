@@ -11,3 +11,7 @@
     <% end %>
   <% end %>
 <% end %>
+
+<% if @pagy.next.blank? %>
+  <%= turbo_stream.remove 'skeleton' %>
+<% end %>

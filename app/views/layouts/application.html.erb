@@ -19,9 +19,6 @@
       <%= render 'chats/chat', chat: @chat, friend: @friend, open: true %>
     <% else %>
       <%= turbo_frame_tag :chat %>
-      <%#= content_tag :div, id: dom_id(@chat, :persisted) do %>
-        <%#= turbo_frame_tag :chat, src: chat_path(@chat, format: :turbo_stream) %>
-      <%# end %>
     <% end %>
     <%= turbo_frame_tag :alert, class: 'sticky top-[72px]' %>
     <%= content_tag :main, class: main_layout do %>

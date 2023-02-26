@@ -6,7 +6,7 @@ class FriendshipsController < ApplicationController
   after_action -> { destroy_original_friend_request_notification(@friendship) }, only: :update, if: -> { @friendship.accepted? }
 
   def index
-    @friends = current_user.friends.includes(profile: [:avatar_attachment])
+    @friends = current_user.friends
     @friend_requests = current_user.pending_requests.includes(friend: [profile: [:avatar_attachment]])
   end
 
@@ -45,7 +45,8 @@ class FriendshipsController < ApplicationController
     @user = User.find_by(id: params[:friendship][:friend_id]) if params[:friendship]
 
     respond_to do |format|
-      @friendship.destroy unless @friendship.nil? # guard clause due to removing friends while two users are trying to delete the friendship
+      # guard clause due to removing friends while two users are trying to delete the friendship
+      @friendship.destroy unless @friendship.nil?
       flash.now[:alert] = case params[:request]
         when 'cancel' then 'Request cancelled'
         when 'declined' then 'Friend request declined'

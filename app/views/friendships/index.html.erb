@@ -1,15 +1,18 @@
 <div class="flex flex-col items-center max-w-[500px] mx-auto">
-    <div class="flex justify-center items-center w-full">
-      <h1 class="pr-5 font-source text-center font-semibold text-xl tracking-wide text-orange-500 whitespace-nowrap">
-        .friend requests
-      </h1>
-      <hr class="w-full border-t-2 border-orange-200">
-    </div>
-    <div class="w-full mb-6 page-content-card">
-      <% @friend_requests.each do |request| %>
-        <%= render 'friend_request', user: request.friend %>
-      <% end %>
-    </div>
+  <div class="flex justify-center items-center w-full">
+    <h1 class="pr-5 font-source text-center font-semibold text-xl tracking-wide text-orange-500 whitespace-nowrap">
+      .friend requests
+    </h1>
+    <hr class="w-full border-t-2 border-orange-200">
+  </div>
+
+  <div class="page-content-card w-full mb-6 px-5 py-3">
+    <% @friend_requests.each do |request| %>
+      <div class="last:mb-0 mb-2 py-1 px-3 bg-slate-200 rounded-2xl">
+      <%= render 'friend_request', user: request.friend %>
+      </div>
+    <% end %>
+  </div>
   
   <div class="flex justify-center items-center w-full">
     <h1 class="pr-5 font-source text-center font-semibold text-xl tracking-wide text-orange-500 whitespace-nowrap">
@@ -18,7 +21,7 @@
     <hr class="w-full border-t-2 border-orange-200">
   </div>
   
-  <div class="page-content-card px-8 py-3 mt-2">
+  <div class="page-content-card mt-2 px-5 py-3">
     <div class="flex flex-col">
       <% @friends.each do |friend| %>
         <div class="flex gap-2 justify-between items-center last:mb-0 mb-2 py-1 px-3 bg-slate-200 rounded-2xl">

@@ -1,0 +1,10 @@
+<% if time.between?(1.minute.ago, Time.zone.now) %>
+  <%= 'Just now' %>
+<% elsif time.between?(1.hour.ago, Time.zone.now) %>
+  <%= local_time_ago(time, class: 'first-letter:capitalize') %>
+<% elsif time.between?(1.week.ago, Time.zone.now) %>
+  <span><%= local_relative_time(time, type: 'weekday', class: 'capitalize')%>&nbsp;</span>
+  <%= local_time(time, 'at %l:%M%P') %></span>
+<% else %>
+  <%= local_time(time, '%-m/%-e/%y at %l:%M%P') %>
+<% end %>
