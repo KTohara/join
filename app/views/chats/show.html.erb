@@ -1,1 +1,5 @@
-<%= render 'chats/chat', chat: @chat, friend: @friend %>
+<% if @keep_chat_open == 'true' %>
+  <%= render @chat, messages: @messages, friend: @friend, user: current_user, keep_chat_open: 'true' %>
+<% else %>
+  <%= render @chat, messages: @messages, friend: @friend, user: current_user %>
+<% end %>

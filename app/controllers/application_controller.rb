@@ -3,13 +3,16 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :persist_open_chat
+
+  protect_from_forgery except: :create
 
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
-    devise_parameter_sanitizer.permit(:sign_in, keys: [:username])
+    added_attrs = [:username, :email, :password, :password_confirmation, :remember_me]
+    devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
+    devise_parameter_sanitizer.permit :sign_in, keys: [:login, :password]
+    devise_parameter_sanitizer.permit :account_update, keys: added_attrs
   end
 
   def after_sign_out_path_for(_resource_or_scope)
@@ -20,13 +23,10 @@ class ApplicationController < ActionController::Base
     turbo_stream.prepend('alert', partial: 'shared/alert')
   end
 
-  def persist_open_chat
-    return if (controller_name == 'chats' && action_name == 'close') || session[:chat_id].blank?
-
-    chat = Chat.find(session[:chat_id])
-    @chat = chat if [chat.user, chat.friend].include?(current_user)
-    @messages = @chat.messages.includes(:user, image_attachment: [:blob])
-    @friend = @chat.other_user(current_user)
-    @user = current_user
+  def authenticate_chat_users
+    chat_id = params[:id] || session[:chat_id]
+    chat = Chat.find_by(id: chat_id)
+    is_authenticated = ChatUser.where(user: current_user, chat: chat).present?
+    redirect_to posts_path unless is_authenticated
   end
 end

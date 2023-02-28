@@ -15,12 +15,12 @@
 
   <body class="font-roboto bg-stone-100 text-sm font-light overflow-x-hidden">
     <%= render 'shared/nav' %>
-    <% if @chat.present? %>
-      <%= render 'chats/chat', chat: @chat, friend: @friend, open: true %>
+    <% if session[:chat_id].present? %>
+      <%= turbo_frame_tag :chat, src: chat_path(session[:chat_id], chat_open: true) %>
     <% else %>
       <%= turbo_frame_tag :chat %>
     <% end %>
-    <%= turbo_frame_tag :alert, class: 'sticky top-[72px]' %>
+    <%= render 'shared/alert' %>
     <%= content_tag :main, class: main_layout do %>
       <%= yield %>
     <% end %>

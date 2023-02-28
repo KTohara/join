@@ -40,7 +40,7 @@ class Notification < ApplicationRecord
   end
 
   def notification_message
-    "#{sender.name.titleize} #{message}"
+    "#{sender.short_name.titleize} #{message}"
   end
 
   private

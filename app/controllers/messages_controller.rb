@@ -22,12 +22,6 @@ class MessagesController < ApplicationController
     params.require(:message).permit(:body, :image, :gif_url)
   end
 
-  def authenticate_chat_users
-    chat = Chat.find(params[:chat_id])
-    authenticated = chat.values_at(:user_id, :friend_id).include?(current_user.id)
-    redirect_to posts_path unless authenticated
-  end
-
   def turbo_replace_form
     render turbo_stream:
       turbo_stream.replace("form_chat_#{@chat.id}",

@@ -31,10 +31,7 @@
           <% end %>
   
           <div class="flex gap-2">
-            <%= button_to chat_path(current_user.chat(friend)), method: :get, data: { turbo_frame: :chat }, class: 'sm:btn sm:btn-sm' do %>
-              <i title="Message" class="fa-solid fa-message text-lg text-orange-500 btn-icon sm:hidden"></i>
-              <p class="sm:block hidden normal-case">Message</p>
-            <% end %>
+            <%= render 'friendships/chat_button', friend: friend %>
   
             <%= button_to friendship_path(friend), method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'sm:btn sm:btn-sm' do %>
               <i title="Remove" class="fa-solid fa-handshake-simple-slash text-lg text-orange-500 btn-icon sm:hidden"></i>

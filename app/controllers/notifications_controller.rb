@@ -1,10 +1,7 @@
 class NotificationsController < ApplicationController
-  before_action :set_notifications, only: %i[index read destroy clear_all]
+  before_action :set_notifications, only: %i[index destroy clear_all]
 
-  def index
-    @unread = @notifications.unread.limit(10).includes(notifiable: [:chat], sender: [:profile])
-    @read = @notifications.read.limit(10).includes(notifiable: [:chat], sender: [:profile])
-  end
+  def index; end
 
   def destroy
     @notification = Notification.find(params[:id])
@@ -28,8 +25,8 @@ class NotificationsController < ApplicationController
 
   def set_notifications
     @notifications = current_user.notifications.order(created_at: :desc)
-    @unread = @notifications.unread.limit(10)
-    @read = @notifications.read.limit(10)
+    @unread = @notifications.unread.limit(10).includes(sender: [:profile], notifiable: [:chat])
+    @read = @notifications.read.limit(10).includes(sender: [:profile], notifiable: [:chat])
   end
 
   def turbo_replace_notifications

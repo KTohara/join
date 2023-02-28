@@ -1,12 +1,8 @@
-<div class="flex justify-end items-center w-auto min-w-fit gap-2">
-  <% if message.present? %>
+<% if message.image.present? || message.gif_url.present? %>
+  <div class="flex justify-end items-center w-auto min-w-fit gap-2">
     <div class="flex gap-1">
       <%= image_tag message.image.variant(:thumb), class: 'rounded-md w-9 h-9' if message.image.present? %>
       <%= image_tag url_for(message.gif_url), class: 'rounded-md w-9 h-9' if message.gif_url.present? %>
     </div>
-
-    <p class="font-light text-xs">
-      <%= time_ago_in_words(message.created_at) %>
-    </p>
-  <% end %>
-</div>
+  </div>
+<% end %>

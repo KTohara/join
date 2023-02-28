@@ -5,17 +5,17 @@ export default class extends Controller {
   static targets = ['popup']
 
   connect() {
-    const messages = document.getElementById('messages')
+    const chatContainer = document.getElementById('message_container')
     const observer = new MutationObserver(this.resetScrollWithScrollPoint);
-    observer.observe(messages, { 
+    observer.observe(chatContainer, { 
       childList: true,
       subtree: true,
       attributes: false,
       characterData: false
     });
     
-    this.resetScroll(messages);
-    if (this.popupTarget.getAttribute('aria-open') === 'true') return
+    this.resetScroll(chatContainer);
+    if (this.popupTarget.getAttribute('keep-chat-open') === 'true') return
     
     this.popupTarget.classList.add('animate-slide-in-up');
   }
@@ -30,18 +30,23 @@ export default class extends Controller {
   }
 
   resetScrollWithScrollPoint() {
+    // will scroll only if user is at near bottom of chat, or if the message belongs to user
+    // prevents scrolling if user is checking out somewhere else in the chat
+    const chatContainer = document.getElementById('message_container')
     const currentUserId = document.querySelector("[name='current-user-id']").content;
-    // previousElementSibling used due to broadcasted turbo_frame_tag for auto checking message notifications
-    const messengerId = messages.lastElementChild.getAttribute('data-object-author-messenger-id-value')
-    const bottomOfChat = messages.scrollHeight - messages.clientHeight;
-    const scrollPoint = bottomOfChat - 100;
-    // will scroll only if we're at the scroll point in the chat window
-    if (messages.scrollTop > scrollPoint || currentUserId === messengerId) {
-      messages.scrollTop = bottomOfChat + 9999;
+    const messages = document.getElementById('messages')
+    const lastMessage = messages.lastElementChild
+    const messageUserId = lastMessage.getAttribute('data-object-author-messenger-id-value')
+    
+    const bottomOfChat = chatContainer.scrollHeight - chatContainer.clientHeight;
+    const scrollPoint = bottomOfChat - 500;
+
+    if (chatContainer.scrollTop > scrollPoint || currentUserId === messageUserId) {
+      chatContainer.scrollTop = bottomOfChat;
     }
   }
 
-  resetScroll(messages) {
-    messages.scrollTop = messages.scrollHeight - messages.clientHeight + 9999;
+  resetScroll(chatContainer) {
+    chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight;
   }
 }

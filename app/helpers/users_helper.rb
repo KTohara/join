@@ -1,7 +1,8 @@
 module UsersHelper
   def avatar_image(user, variant)
-    if user.profile.avatar.attached?
-      url_for(user.profile.avatar.variant(variant))
+    profile = user.profile_with_attached_avatar
+    if profile.avatar.attached?
+      url_for(profile.avatar.variant(variant))
     else
       gravatar_url(user)
     end

@@ -40,16 +40,22 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :notifications, foreign_key: :recipient_id, dependent: :destroy
   has_many :sent_notifications, class_name: 'Notification', foreign_key: 'sender_id', dependent: :destroy
-  has_many :chats
+  has_many :chat_users
+  has_many :chats, through: :chat_users
   has_many :messages
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { in: 3..20 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
+  validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true # only allow letter, number, underscore and punctuation
+  validate :validate_username
 
   after_create :create_profile
+  
+  # https://github.com/heartcombo/devise/wiki/How-To:-Allow-users-to-sign-in-using-their-username-or-email-address
+  attr_writer :login
 
   def self.search_by_user(params, current_user)
-    users = User.includes(profile: [avatar_attachment: [:blob]]).where.not(id: current_user.id)
+    users = User.includes(:profile).where.not(id: current_user.id)
     params[:q].blank? ? users : users.where('username ILIKE ?', "%#{sanitize_sql_like(params[:q])}%")
   end
 
@@ -62,10 +68,26 @@ class User < ApplicationRecord
     end
   end
 
+  # devise login with username/email
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    if (login = conditions.delete(:login))
+      where(conditions.to_h).where(['lower(username) = :value OR lower(email) = :value',
+        { value: login.downcase }]).first
+    elsif conditions.has_key?(:username) || conditions.has_key?(:email)
+      where(conditions.to_h).first
+    end
+  end
+  
+  # devise login with username/email
+  def login
+    @login || self.username || self.email
+  end
+
   def feed
     friend_ids = "SELECT friend_id FROM friendships WHERE (user_id = :user_id AND status = '2')"
     Post.with_attached_image
-        .includes([:comments, :image_attachment, author: [profile: [avatar_attachment: [:blob]]], user: [profile: [avatar_attachment: [:blob]]]])
+        .includes(:comments, user: [:profile], author: [:profile])
         .where("user_id IN (#{friend_ids}) OR user_id = :user_id", user_id: id)
         .order(created_at: :desc)
   end
@@ -89,6 +111,14 @@ class User < ApplicationRecord
     notifications.where(read: false)
   end
 
+  def profile_with_attached_avatar
+    Profile.where(id: self.id).with_attached_avatar.first
+  end
+
+  def profile_name_blank?
+    profile.first_name.blank? || profile.last_name.blank?
+  end
+
   def name
     profile_name_blank? ? self.username : "#{profile.first_name} #{profile.last_name}"
   end
@@ -96,13 +126,19 @@ class User < ApplicationRecord
   def short_name
     profile_name_blank? ? self.username : profile.first_name
   end
-
-  def profile_name_blank?
-    profile.first_name.blank? || profile.last_name.blank?
+  
+  def find_chat(other_user)
+    users = [self, other_user]
+    Chat.chatrooms(users).first
   end
 
-  def chat(other_user)
-    ids = [self.id, other_user.id].sort
-    Chat.find_or_create_by(user_id: ids.first, friend_id: ids.last)
+  def chat_exists?(other_user)
+    find_chat(other_user).present?
+  end
+
+  def validate_username
+    if User.where(email: username).exists?
+      errors.add(:username, :invalid)
+    end
   end
 end

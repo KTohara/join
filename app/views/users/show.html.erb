@@ -1,7 +1,7 @@
 <div class="px-4 sm:px-6 py-4 rounded-t-xl bg-amber-700">
   <div class="flex items-center gap-4">
     <div class="flex items-start">
-      <%= image_tag avatar_image(@user, :display), class: 'rounded-full bg-white p-1 object-cover h-40 w-40' %>
+      <%= image_tag avatar_image(@user, :display), class: 'rounded-full bg-white p-1 object-cover sm:h-40 sm:w-40 w-20 h-20' %>
     </div>
     <div class="flex flex-col min-w-[60%] max-w-[65%] sm:ml-5 ml-0 gap-2 text-slate-200 tracking-wide">
       <h1 class="showpage-font font-extrabold"><%= @user.name %></h1>
@@ -25,6 +25,7 @@
     <% if @user == current_user %>
       <%= link_to 'Edit Profile', edit_profile_path(@user), class: 'btn btn-sm whitespace-nowrap normal-case' %>
     <% else %>
+      <%= render 'friendships/chat_button', friend: @user %>
       <%= render 'friendships/button_type', status: current_user.friendship_status(@user), user: @user %>
     <% end %>
   </div>

@@ -22,4 +22,8 @@
   <%= content_tag :div, id: dom_id(chat_preview, :image) do %>
     <%= render 'chats/last_message_images', message: message %>
   <% end %>
+
+  <p class="font-light text-xs">
+    <%= time_ago_in_words(message.created_at) %>
+  </p>
 <% end %>

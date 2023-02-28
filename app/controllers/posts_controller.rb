@@ -36,7 +36,7 @@ class PostsController < ApplicationController
     
     respond_to do |format|
       if @new_post.save
-        flash[:alert] = 'Post successful'
+        flash[:notice] = 'Post successful'
         format.turbo_stream
         format.html { redirect_back fallback_location: posts_url }
       else
@@ -50,7 +50,7 @@ class PostsController < ApplicationController
   def update
     respond_to do |format|
       if @post.update(post_params)
-        flash[:alert] = 'Post has been updated'
+        flash[:notice] = 'Post has been updated'
         format.turbo_stream { turbo_replace_post_body }
         format.html { redirect_back fallback_location: posts_url }
       else

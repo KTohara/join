@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks'}
 
-  root 'posts#index'
+  authenticated :user do
+    root to: 'posts#index', as: :authenticated_root
+  end
+  root to: redirect('/users/sign_in')
 
   resources :posts, except: :new do  
     scope module: :posts do
@@ -23,9 +26,9 @@ Rails.application.routes.draw do
     delete :clear_all, on: :collection
   end
 
-  resources :chats, only: %i[index show] do
-
-
+  resources :chats, only: %i[index show new create] do
+    get :close, on: :collection
+    get :mark_read, on: :member
     resources :messages, only: %i[create]
   end
 
@@ -34,8 +37,6 @@ Rails.application.routes.draw do
   resources :profile, only: %i[edit update]
   resources :friendships, only: %i[index create update destroy]
 
-  get 'chat/:id/mark_read', to: 'chats#mark_read', as: 'chat_mark_read'
-  get 'chat/:id/close', to: 'chats#close', as: 'chat_close'
   get 'post_notification/:id', to: 'posts#post_via_notification', as: 'via_notification'
   get 'cancel_search', to: 'users#cancel_search'
 end

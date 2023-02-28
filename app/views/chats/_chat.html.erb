@@ -1,38 +1,43 @@
 <%= turbo_frame_tag :chat do %>
   <div data-controller="chat gif form"
-    id="<%= dom_id(@chat) %>"
-    data-gif-id-value="<%= dom_id(@chat) %>"
+    id="<%= dom_id(chat) %>"
+    data-gif-id-value="<%= dom_id(chat) %>"
     data-turbo-cache="false">
-    <%= turbo_stream_from dom_id(@chat, :container) %>
-    <%= turbo_stream_from dom_id(@user, :chat) %>
+    <%= turbo_stream_from chat %>
 
-    <%= turbo_frame_tag "#{dom_id(@chat)}_gif_search" %>
-    <div class="fixed bottom-0 right-0 flex flex-col sm:w-[350px] w-full h-[500px] bg-white border-2 border-slate-200 rounded-md z-[1]" data-chat-target="popup" aria-open=<%= local_assigns[:open] %>>
+    <%= turbo_frame_tag "#{dom_id(chat)}_gif_search" %>
+    <div class="fixed bottom-0 right-0 flex flex-col sm:w-[350px] w-full h-[500px] bg-white border-2 border-slate-200 rounded-md z-[1]"
+      data-chat-target="popup"
+      keep-chat-open="<%= local_assigns[:keep_chat_open] %>">
+
       <div class="flex items-center justify-between flex-initial w-full bg-orange-200">
-        <p class="font-normal pl-2"><%= @friend.short_name %></p>
-        <%= button_to chat_close_path(@chat), data: { action: 'chat#closeChat', turbo_stream: true }, method: :get do %>
+        <p class="font-normal pl-2"><%= friend.short_name %></p>
+        <%= button_to close_chats_path, data: { action: 'chat#closeChat', turbo_stream: true }, method: :get do %>
           <i class="fa-regular fa-circle-xmark text-red-400 text-lg p-1"></i>
         <% end %>
       </div>
-      <div id="messages" class="flex flex-col flex-1 h-auto overflow-y-auto">
+      <div id="message_container" class="flex flex-col flex-1 h-auto overflow-y-auto">
         <div id="turbo_messages" class="flex flex-col">
           <div class="flex flex-col my-5 mx-2 gap-2">
             <div class="flex items-center gap-2">
-              <%= image_tag avatar_image(@friend, :thumb), class: 'avatar w-8 h-8' %>
-              <h3 class="text-lg font-medium"><%= @friend.name %></h3>
+              <%= image_tag avatar_image(friend, :thumb), class: 'avatar w-8 h-8' %>
+              <h3 class="text-lg font-medium"><%= friend.name %></h3>
             </div>
 
-            <p class="text-xs">This is the beginning of your awesome chat adventure with <%= @friend.short_name %>!</p>
+            <p class="text-xs">This is the beginning of your awesome chat adventure with <%= friend.short_name %>!</p>
           </div>
-
-          <% @messages.each do |message| %>
-            <%= render 'messages/message', message: message %>
+          <% if messages.present? %>
+            <div id="messages">
+              <% messages.each do |message| %>
+                <%= render 'messages/message', message: message %>
+              <% end %>
+            </div>
           <% end %>
-          <%= turbo_frame_tag :mark_message_read, loading: :lazy, src: chat_mark_read_path(@chat, format: :turbo_stream) %>
         </div>
       </div>
       <div class="py-1 px-2 h-auto">
-        <%= render 'messages/form', chat: @chat, message: @chat.messages.build(user: current_user) %>
+        <%= turbo_frame_tag :mark_message_read, loading: :lazy, src: mark_read_chat_path(chat, format: :turbo_stream) %>
+        <%= render 'messages/form', chat: chat, message: chat.messages.build(user: user) %>
       </div>
     </div>
   </div>

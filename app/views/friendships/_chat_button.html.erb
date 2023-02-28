@@ -1,0 +1,11 @@
+<% if current_user.chat_exists?(friend) %>
+  <%= button_to chat_path(current_user.find_chat(friend)), method: :get, data: { turbo_frame: :chat }, class: 'sm:btn sm:btn-sm' do %>
+    <i title="Message" class="fa-solid fa-message text-lg btn-icon sm:hidden <%= button_color %>"></i>
+    <p class="sm:block hidden normal-case">Message</p>
+  <% end %>
+<% else %>
+  <%= button_to new_chat_path, params: { friend_id: friend.id }, method: :get, data: { turbo_frame: :chat }, class: 'sm:btn sm:btn-sm' do %>
+    <i title="Message" class="fa-solid fa-message text-lg btn-icon sm:hidden <%= button_color %>"></i>
+    <p class="sm:block hidden normal-case">Message</p>
+  <% end %>
+<% end %>

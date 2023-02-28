@@ -1,25 +1,30 @@
 class ChatsController < ApplicationController
+  before_action :authenticate_chat_users, only: %i[show close mark_read]
+
   def index
-    @chats = Chat.chatrooms(current_user)
-      .includes(
-        :messages,
-        user: [profile: [avatar_attachment: [:blob]]],
-        friend: [profile: [avatar_attachment: [:blob]]]
-      )
+    @chats = Chat.chatrooms([current_user]).includes(:messages)
   end
 
   def show
     return unless session[:chat_id].present? || params[:id].present?
+    
+    @chat = Chat.find(params[:id])
+    pagy_messages = @chat.messages.with_attached_image.includes(:user).order(created_at: :desc)
+    @pagy, messages = pagy_countless(pagy_messages)
+    @messages = messages.reverse
 
-    @chat = Chat.find_or_create_by(id: params[:id])
-    @messages = @chat.messages.includes(:user, image_attachment: [:blob])
     @friend = @chat.other_user(current_user)
-    @user = current_user
+    @keep_chat_open = params[:chat_open]
     session[:chat_id] = @chat.id
   end
 
+  def new
+    @chat = Chat.create
+    @friend = User.find(params[:friend_id])
+    @chat.users << [current_user, @friend]
+  end
+
   def close
-    @chat = Chat.find(params[:id])
     session.delete(:chat_id)
     respond_to do |format|
       format.turbo_stream {}
@@ -32,7 +37,7 @@ class ChatsController < ApplicationController
     unread_notifications = Notification.where(recipient: current_user, notifiable: params[:id], read: false)
     return if unread_notifications.empty?
 
-    unread_notifications.update(read: true)
+    unread_notifications.update_all(read: true)
     respond_to do |format|
       format.turbo_stream { turbo_replace_notification_counter }
       format.html

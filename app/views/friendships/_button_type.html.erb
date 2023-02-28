@@ -2,29 +2,29 @@
   <% case status %>
     <% when 'accepted' %>
       <%= button_to friendship_path(user), params: { friendship: { friend_id: user.id} }, method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'sm:btn sm:btn-sm' do %>
-        <i title="Remove Friend" class="fa-solid fa-handshake-simple-slash text-slate-400 text-lg btn-icon sm:hidden"></i>
+        <i title="Remove Friend" class="fa-solid fa-handshake-simple-slash text-lg btn-icon sm:hidden <%= button_color %>"></i>
         <%= content_tag :p, 'Remove Friend', class: 'sm:block hidden normal-case' %>
       <% end %>
     <% when 'sent' %>
       <%= button_to friendship_path(user), params: { request: :cancel, friendship: { friend_id: user.id} }, method: :delete, class: 'sm:btn sm:btn-sm' do %>
-        <i title="Cancel Friend Request" class="fa-solid fa-user-xmark text-slate-400 text-lg btn-icon sm:hidden"></i>
+        <i title="Cancel Friend Request" class="fa-solid fa-user-xmark text-lg btn-icon sm:hidden <%= button_color %>"></i>
         <%= content_tag :p, 'Cancel Request', class: 'sm:block hidden normal-case' %>
       <% end %>
     <% when 'received' %>
       <div class="flex gap-2">
         <%= button_to friendship_path(user), params: { friendship: { status: :accepted } }, method: :patch, class: 'sm:btn sm:btn-sm' do %>
-          <i title="Accept Friend Request" class="fa-solid fa-user-check text-slate-400 text-lg btn-icon sm:hidden"></i>
+          <i title="Accept Friend Request" class="fa-solid fa-user-check text-lg btn-icon sm:hidden <%= button_color %>"></i>
           <%= content_tag :p, 'Accept', class: 'sm:block hidden normal-case' %>
         <% end %>
 
         <%= button_to friendship_path(user), method: :delete, params: { request: :declined, friendship: { friend_id: user.id} }, data: { turbo_confirm: 'Are you sure?' }, class: 'sm:btn sm:btn-sm' do %>
-          <i title="Decline Friend Request" class="fa-solid fa-user-xmark text-slate-400 text-lg btn-icon sm:hidden"></i>
+          <i title="Decline Friend Request" class="fa-solid fa-user-xmark text-lg btn-icon sm:hidden <%= button_color %>"></i>
           <%= content_tag :p, 'Decline', class: 'sm:block hidden normal-case' %>
         <% end %>
       </div>
     <% else %>
       <%= button_to friendships_path, params: { friendship: { friend_id: user.id } }, method: :post, class: 'sm:btn sm:btn-sm' do %>
-        <i title="Add Friend" class="fa-solid fa-user-plus text-slate-400 text-lg btn-icon sm:hidden "></i>
+        <i title="Add Friend" class="fa-solid fa-user-plus text-lg btn-icon sm:hidden <%= button_color %>"></i>
         <%= content_tag :p, 'Add Friend', class: 'sm:block hidden normal-case' %>
       <% end %>
   <% end %>

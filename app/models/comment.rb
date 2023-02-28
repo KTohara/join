@@ -75,14 +75,14 @@ class Comment < ApplicationRecord
   end
 
   def preloaded_comments
-    comments
-      .includes(image_attachment: [:blob], user: [:profile])
+    comments.with_attached_image
+      .includes(:user)
       .where(nesting: ..2).limit(2)
   end
 
   def comments_to_load(turbo_comments = nil)
-    comments
-      .includes(:commentable, image_attachment: [:blob], user: [:profile])
+    comments.with_attached_image
+      .includes(:commentable, user: [:profile])
       .where.not(id: preloaded_comments)
       .where.not(id: turbo_comments)
   end
