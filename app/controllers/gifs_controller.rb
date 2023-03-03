@@ -16,14 +16,6 @@ class GifsController < ApplicationController
     params.permit(:q, :form_id)
   end
 
-  def turbo_frame_request_variant
-    if turbo_frame_request?
-      request.variant = :turbo_frame
-    else
-      redirect_to root_path
-    end
-  end
-
   def url
     query = gif_params[:q]
 

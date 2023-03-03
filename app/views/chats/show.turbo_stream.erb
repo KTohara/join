@@ -1,0 +1,16 @@
+<%= turbo_stream.remove :chat_infinite_scroll if @pagy.next.present? %>
+
+<%= turbo_stream.prepend :messages do %>
+  <% if @pagy.next.present? %>
+    <%= turbo_frame_tag :chat_infinite_scroll, loading: :lazy, src: chat_path(@chat, format: :turbo_stream, page: @pagy.next) do %>
+      <div id="messages_skeleton" class="flex justify-center my-10">
+        <p class="text-slate-600 font-normal">Loading Messages...</p>
+      </div>
+    <% end %>
+  <% end %>
+  <%= render @messages %>
+<% end %>
+
+<% if @pagy.next.blank? %>
+  <%= turbo_stream.remove "messages_skeleton" %>
+<% end %>

@@ -5,5 +5,9 @@
 </div>
 
 <% if @pagy.next.present? %>
-  <%= turbo_frame_tag :infinite_scroll, loading: :lazy, src: posts_path(format: :turbo_stream) %>
+  <%= turbo_frame_tag :infinite_scroll, loading: :lazy, src: posts_path(format: :turbo_stream) do %>
+    <div id="skeleton" class="flex justify-center my-10">
+      <p class="text-slate-600 font-normal">Loading Posts...</p>
+    </div>
+  <% end %>
 <% end %>

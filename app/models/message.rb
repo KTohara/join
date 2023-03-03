@@ -52,14 +52,14 @@ class Message < ApplicationRecord
 
   def broadcast_create_to_message
     broadcast_append_later_to chat,
-      target: 'turbo_messages',
+      target: :turbo_messages,
       partial: 'messages/message',
       locals: { message: self }
   end
 
   def broadcast_append_to_turbo_notification_lazy_loader
     broadcast_append_later_to chat,
-      target: 'turbo_messages',
+      target: :turbo_messages,
       partial: 'messages/turbo_lazy_notification',
       locals: { chat: chat }
   end

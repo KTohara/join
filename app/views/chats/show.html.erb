@@ -1,5 +1,5 @@
 <% if @keep_chat_open == 'true' %>
-  <%= render @chat, messages: @messages, friend: @friend, user: current_user, keep_chat_open: 'true' %>
+  <%= render @chat, messages: @messages, pagy: @pagy, friend: @friend, user: current_user, keep_chat_open: 'true' %>
 <% else %>
-  <%= render @chat, messages: @messages, friend: @friend, user: current_user %>
+  <%= render @chat, messages: @messages, pagy: @pagy, friend: @friend, user: current_user %>
 <% end %>

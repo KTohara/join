@@ -10,12 +10,17 @@ class ChatsController < ApplicationController
     
     @chat = Chat.find(params[:id])
     pagy_messages = @chat.messages.with_attached_image.includes(:user).order(created_at: :desc)
-    @pagy, messages = pagy_countless(pagy_messages)
+    @pagy, messages = pagy_countless(pagy_messages, items: 15)
     @messages = messages.reverse
 
     @friend = @chat.other_user(current_user)
     @keep_chat_open = params[:chat_open]
     session[:chat_id] = @chat.id
+
+    respond_to do |f|
+      f.turbo_stream
+      f.html
+    end
   end
 
   def new

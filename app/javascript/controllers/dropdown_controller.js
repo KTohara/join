@@ -66,8 +66,7 @@ export default class extends Controller {
     menu.classList.toggle('hidden')
     menu.classList.add('animate-slide-in-down')
     menu.addEventListener('animationend', () => {
-      menu.classList.remove('animate-slide-in-down')
-      menu.classList.remove('hidden')
+      menu.classList.remove('animate-slide-in-down', 'hidden')
       window.addEventListener('mouseup', this.burgerClose);
       menu.setAttribute('aria-expanded', 'true')
     });

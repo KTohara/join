@@ -16,23 +16,27 @@
           <i class="fa-regular fa-circle-xmark text-red-400 text-lg p-1"></i>
         <% end %>
       </div>
-      <div id="message_container" class="flex flex-col flex-1 h-auto overflow-y-auto">
+
+      <div id="message-container" class="flex flex-col flex-1 h-auto overflow-y-auto">
         <div id="turbo_messages" class="flex flex-col">
           <div class="flex flex-col my-5 mx-2 gap-2">
-            <div class="flex items-center gap-2">
+            <div class="flex justify-center items-center gap-2">
               <%= image_tag avatar_image(friend, :thumb), class: 'avatar w-8 h-8' %>
               <h3 class="text-lg font-medium"><%= friend.name %></h3>
             </div>
-
-            <p class="text-xs">This is the beginning of your awesome chat adventure with <%= friend.short_name %>!</p>
           </div>
-          <% if messages.present? %>
-            <div id="messages">
-              <% messages.each do |message| %>
-                <%= render 'messages/message', message: message %>
+
+          <div id="messages">
+            <% if pagy.next.present? %>
+              <%= turbo_frame_tag :chat_infinite_scroll, loading: :lazy, src: chat_path(chat, format: :turbo_stream, page: @pagy.next) do %>
+                <div id="messages_skeleton" class="flex justify-center my-10">
+                  <p class="text-slate-600 font-normal">Loading Messages...</p>
+                </div>
               <% end %>
-            </div>
-          <% end %>
+            <% end %>
+
+            <%= render messages %>
+          </div>
         </div>
       </div>
       <div class="py-1 px-2 h-auto">

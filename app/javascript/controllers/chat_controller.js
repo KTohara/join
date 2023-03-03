@@ -1,23 +1,47 @@
 import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="chat"
-export default class extends Controller {
+export default class Chat extends Controller {
   static targets = ['popup']
 
+  initialize() {
+    Chat.messageContainer = document.getElementById('message-container');
+    this.resetScroll(Chat.messageContainer)
+  }
+
   connect() {
-    const chatContainer = document.getElementById('message_container')
-    const observer = new MutationObserver(this.resetScrollWithScrollPoint);
-    observer.observe(chatContainer, { 
-      childList: true,
-      subtree: true,
-      attributes: false,
-      characterData: false
-    });
-    
-    this.resetScroll(chatContainer);
+    Chat.currentUserId = document.querySelector("[name='current-user-id']").content;
+    Chat.messages = document.getElementById('messages');
+    Chat.previousTop = Chat.messages.children[1];
+    Chat.turboMessages = document.getElementById('turbo_messages')
+
+    this.infiniteScrollObserver(Chat.messages);
+    this.addMessageObserver(Chat.turboMessages);
+
     if (this.popupTarget.getAttribute('keep-chat-open') === 'true') return
     
-    this.popupTarget.classList.add('animate-slide-in-up');
+    this.openChat();
+  }
+
+  infiniteScrollObserver(messages) {
+    const callback = (mutations) => {
+      for (const mutation of mutations) {
+        const chatInfiniteScroller = document.getElementById('chat_infinite_scroll');
+        const topMessage = messages.children[0];
+        if (mutation.removedNodes.length === 0 && topMessage === chatInfiniteScroller) {
+          Chat.previousTop.scrollIntoView({behavior: 'auto', block: 'end'});
+          Chat.previousTop = messages.children[1];
+          return
+        }
+      }
+    }
+    const observer = new MutationObserver(callback);
+    observer.observe(messages, { childList: true });
+  }
+
+  addMessageObserver(messages) {
+    const observer = new MutationObserver(this.resetScrollWithScrollPoint);
+    observer.observe(messages, { childList: true });
   }
 
   openChat() {
@@ -32,21 +56,17 @@ export default class extends Controller {
   resetScrollWithScrollPoint() {
     // will scroll only if user is at near bottom of chat, or if the message belongs to user
     // prevents scrolling if user is checking out somewhere else in the chat
-    const chatContainer = document.getElementById('message_container')
-    const currentUserId = document.querySelector("[name='current-user-id']").content;
-    const messages = document.getElementById('messages')
-    const lastMessage = messages.lastElementChild
-    const messageUserId = lastMessage.getAttribute('data-object-author-messenger-id-value')
+    const lastMessage = Chat.messages.lastElementChild;
+    const messageUserId = lastMessage.getAttribute('data-object-author-messenger-id-value');
     
-    const bottomOfChat = chatContainer.scrollHeight - chatContainer.clientHeight;
-    const scrollPoint = bottomOfChat - 500;
-
-    if (chatContainer.scrollTop > scrollPoint || currentUserId === messageUserId) {
-      chatContainer.scrollTop = bottomOfChat;
+    const bottomOfChat = Chat.messageContainer.scrollHeight - Chat.messageContainer.clientHeight;
+    const scrollPoint = bottomOfChat - 200;
+    if (Chat.messageContainer.scrollTop > scrollPoint || Chat.currentUserId === messageUserId) {
+      Chat.messageContainer.scrollTop = bottomOfChat;
     }
   }
 
-  resetScroll(chatContainer) {
-    chatContainer.scrollTop = chatContainer.scrollHeight - chatContainer.clientHeight;
+  resetScroll(messageContainer) {
+    messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
   }
 }

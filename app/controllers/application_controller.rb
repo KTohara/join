@@ -29,4 +29,8 @@ class ApplicationController < ActionController::Base
     is_authenticated = ChatUser.where(user: current_user, chat: chat).present?
     redirect_to posts_path unless is_authenticated
   end
+
+  def turbo_frame_request_variant
+    request.variant = :turbo_frame if turbo_frame_request?
+  end
 end
